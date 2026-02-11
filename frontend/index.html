@@ -4,10 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis (AEG) | 盾級資產管理終端 V1.0.6</title>
-    <link rel="stylesheet" href="style.css?v=1.0.6">
+    <title>Aegis (AEG) | 個人資產看板 V1.0.7</title>
+    <link rel="stylesheet" href="style.css?v=1.0.7">
     <link rel="icon" type="image/png" href="logo.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -30,150 +32,109 @@
     </nav>
 
     <main class="portfolio-container">
-        <!-- Account Info -->
-        <div class="account-selector fade-in">
-            <div class="account-icon-orb"></div>
-            <span class="account-name" data-i18n="account_label">Aegis User Console</span>
+        <!-- User Welcome Header -->
+        <header class="user-header fade-in">
+            <div class="welcome-box">
+                <h1 data-i18n="portfolio_welcome">Your Portfolio.</h1>
+                <p class="subtitle-dim" data-i18n="portfolio_subtitle">Secured by the Aegis Protocol on Base.</p>
+            </div>
+            <div id="wallet-address-short" class="wallet-display-pill">Disconnected</div>
+        </header>
+
+        <!-- Main Balance Visualizer -->
+        <section class="main-stats-section fade-in">
+            <div class="portfolio-main-card">
+                <div class="balance-labels">
+                    <label data-i18n="balance_total">ESTIMATED ASSET BALANCE</label>
+                    <div class="massive-balance">
+                        <span class="currency-symbol">AEG</span>
+                        <span id="user-balance" class="value-text">0.00</span>
+                    </div>
+                    <div class="balance-change-indicator">
+                        <span class="indicator-up">▲ 18.5% APY active</span>
+                    </div>
+                </div>
+                <!-- Mini Chart Container -->
+                <div class="chart-container-mini">
+                    <canvas id="portfolioChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Component Grid -->
+        <section class="action-services-grid fade-in">
+            <!-- Staking Service -->
+            <div class="service-card staking-service">
+                <div class="service-header">
+                    <div class="service-icon">💎</div>
+                    <div class="service-info">
+                        <h3 data-i18n="stake_title">Wealth Staking</h3>
+                        <p data-i18n="stake_benefit">Earn daily AEG rewards automatically.</p>
+                    </div>
+                </div>
+                <div class="reward-highlight">
+                    <small data-i18n="stake_earned">ACCUMULATED REWARDS</small>
+                    <div class="reward-row">
+                        <strong id="staked-amount">0.00 AEG</strong>
+                        <button id="claim-rewards-tab" class="btn-claim-micro" data-i18n="stake_claim">CLAIM</button>
+                    </div>
+                </div>
+                <div class="service-action">
+                    <input type="number" id="stake-amount" placeholder="0.00 AEG">
+                    <button id="stake-btn" class="btn-service-primary" data-i18n="stake_btn">DEPOSIT</button>
+                </div>
+            </div>
+
+            <!-- Protocol Protection (Burn) -->
+            <div class="service-card protocol-service">
+                <div class="service-header">
+                    <div class="service-icon">🔥</div>
+                    <div class="service-info">
+                        <h3 data-i18n="burn_title">Shield Support</h3>
+                        <p data-i18n="burn_benefit">Strengthen the protocol via deflation.</p>
+                    </div>
+                </div>
+                <div class="service-action">
+                    <input type="number" id="burn-amount" placeholder="0.00 AEG">
+                    <button id="burn-btn" class="btn-service-danger" data-i18n="burn_btn">CONFIRM BURN</button>
+                </div>
+                <p class="service-footer-hint" data-i18n="burn_hint">Manual burning contributes to scarcity.</p>
+            </div>
+        </section>
+
+        <!-- Footer Stats Mini -->
+        <div class="global-stats-footer fade-in">
+            <div class="mini-stat-item">
+                <label data-i18n="stat_total">TOTAL REGISTERED SUPPLY</label>
+                <div id="total-supply">1,000,000,000</div>
+            </div>
+            <div class="mini-stat-item">
+                <label data-i18n="stat_symbol">CONTRACT TICKER</label>
+                <div id="token-symbol">AEG</div>
+            </div>
         </div>
 
-        <!-- Integrated Interaction Hub -->
-        <div class="mm-main-card fade-in">
-            <div class="hub-header">
-                <h2 class="card-title" data-i18n="hero_title">Protocol Control Center</h2>
-                <p class="card-desc" data-i18n="hero_subtitle">Manage your Aegis assets with military-grade precision.
-                </p>
-            </div>
-
-            <div class="interaction-grid">
-                <!-- Burn Section -->
-                <div class="protocol-box">
-                    <label class="box-tag" data-i18n="burn_btn">BURN AEG</label>
-                    <div class="input-inline">
-                        <input type="number" id="burn-amount" placeholder="0.00">
-                        <button id="burn-btn" class="btn-action-small">🔥</button>
-                    </div>
-                    <small class="helper-text" data-i18n="burn_desc">Deflationary mechanism.</small>
-                </div>
-
-                <!-- Stake Section -->
-                <div class="protocol-box">
-                    <label class="box-tag" data-i18n="stake_btn">STAKING</label>
-                    <div class="input-inline">
-                        <input type="number" id="stake-amount" placeholder="0.00">
-                        <button id="stake-btn" class="btn-action-small">📥</button>
-                    </div>
-                    <div class="staking-stats-row">
-                        <span class="apy-text-small">APY: 18.5%</span>
-                        <span class="staked-val" id="staked-amount">0.00 AEG</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Owner Panel -->
-            <div id="owner-actions" class="protocol-box owner-box" style="display: none;">
-                <label class="box-tag" data-i18n="owner_panel">OWNER ACTIONS</label>
-                <div class="input-stack">
-                    <input type="text" id="mint-address" placeholder="Recipient Address">
-                    <div class="input-inline">
-                        <input type="number" id="mint-amount" placeholder="Amount">
-                        <button id="mint-btn" class="btn-action-small">MINT</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Asset Overview Section -->
-        <div class="assets-section fade-in">
-            <div class="tabs-bar">
-                <span class="tab active" data-i18n="balance_title">Aegis Assets</span>
-                <span class="tab" data-i18n="stake_claim" id="claim-rewards-tab">Claim Rewards</span>
-                <span class="tab" data-i18n="tx_history">History</span>
-            </div>
-
-            <div class="asset-list">
-                <div class="asset-item-row" id="asset-focus">
-                    <img src="logo.png" class="asset-logo" alt="aeg" />
-                    <div class="asset-name-info">
-                        <span class="asset-symbol">Aegis (AEG)</span>
-                        <span class="asset-network">on Base Network</span>
-                    </div>
-                    <div class="asset-value-info">
-                        <span class="value-usd">US$---</span>
-                        <span class="value-native"><span id="user-balance">0.00</span> AEG</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Protocol Stats -->
-        <div class="mm-banner fade-in stats-banner">
-            <div class="stat-mini">
-                <small data-i18n="stat_total">TOTAL SUPPLY</small>
-                <strong id="total-supply">1,000,000,000</strong>
-            </div>
-            <div class="stat-mini">
-                <small data-i18n="stat_symbol">SYMBOL</small>
-                <strong id="token-symbol">AEG</strong>
-            </div>
-            <div id="wallet-address" class="wallet-pill-mini">Disconnected</div>
-        </div>
-
-        <!-- New: Official Info Sections (Restored) -->
-        <div class="official-info-container fade-in">
-            <!-- Roadmap Area -->
-            <section class="info-block">
-                <h3 class="block-title" data-i18n="roadmap_title">DEVELOPMENT ROADMAP</h3>
-                <div class="roadmap-stack">
-                    <div class="roadmap-card">
-                        <span class="q-tag">Q1</span>
-                        <p data-i18n="roadmap_q1_text">Core contract audit and seed liquidity deployment.</p>
-                    </div>
-                    <div class="roadmap-card">
-                        <span class="q-tag">Q2</span>
-                        <p data-i18n="roadmap_q2_text">DEX listing, Staking launch, and community incentives.</p>
-                    </div>
-                    <div class="roadmap-card">
-                        <span class="q-tag">Q3</span>
-                        <p data-i18n="roadmap_q3_text">DAO Governance implementation and L2 expansion.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Tokenomics Area -->
-            <section class="info-block">
-                <h3 class="block-title" data-i18n="tokenomics_title">TOKENOMICS</h3>
-                <div class="token-viz-stack">
-                    <div class="viz-row">
-                        <span data-i18n="tokenomics_lp">Liquidity pool</span>
-                        <strong>60%</strong>
-                    </div>
-                    <div class="viz-row">
-                        <span data-i18n="tokenomics_rewards">Staking Rewards</span>
-                        <strong>20%</strong>
-                    </div>
-                    <div class="viz-row">
-                        <span data-i18n="tokenomics_team">Core Team</span>
-                        <strong>10%</strong>
-                    </div>
-                </div>
-            </section>
+        <!-- System Logic Slots (Hidden) -->
+        <div style="display: none;">
+            <input type="text" id="mint-address">
+            <input type="number" id="mint-amount">
+            <button id="mint-btn"></button>
+            <div id="owner-actions"></div>
         </div>
     </main>
 
     <footer class="footer">
         <div class="footer-links">
-            <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">GitHub</a>
-            <a href="../docs/index.html" target="_blank">Docs</a>
-            <a href="#">Telegram</a>
-            <a href="#">Twitter</a>
+            <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">AEG SOURCE</a>
+            <a href="../docs/index.html" target="_blank">PROTOCOLS</a>
+            <a href="#">COMMUNITY</a>
         </div>
-        <p class="footer-copyright" data-i18n="footer_text">© 2026 Aegis Global Security Project. Built on Base Mainnet.
-        </p>
+        <p class="footer-copyright">© 2026 Aegis Global Security Project. Base Mainnet Integration.</p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
-    <script type="module" src="app.js?v=1.0.6"></script>
+    <script type="module" src="app.js?v=1.0.7"></script>
 </body>
 
 </html>
