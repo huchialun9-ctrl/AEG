@@ -74,7 +74,22 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Referral Center (New) -->
+            <div id="referral-center" class="portfolio-main-card fade-in" style="margin-top: 20px; display: none;">
+                <div style="text-align: left; padding: 10px;">
+                    <h4 data-i18n="referral_title" style="margin-bottom: 5px;">推薦計畫</h4>
+                    <p data-i18n="referral_link" style="font-size: 11px; opacity: 0.7;">您的專屬推薦連結：</p>
+                    <div class="input-group-elite" style="margin-top: 5px;">
+                        <input type="text" id="ref-link-input" readonly style="font-size: 11px;">
+                        <button id="copy-ref-link" class="btn-elite btn-accent"
+                            style="padding: 5px 15px; min-width: auto; font-size: 11px;"
+                            data-i18n="referral_copy">複製連結</button>
+                    </div>
+                </div>
+            </div>
         </section>
+
 
         <!-- Service Component Grid -->
         <section class="action-services-grid fade-in">
@@ -219,12 +234,40 @@
                 <div class="history-placeholder" data-i18n="history_empty">尚無近期鏈上紀錄</div>
             </div>
         </section>
+
+        <!-- Leaderboard Section (New) -->
+        <section class="leaderboard-section fade-in"
+            style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                <i class="fas fa-crown" style="color: gold; font-size: 24px;"></i>
+                <div>
+                    <h4 data-i18n="leaderboard_title" style="margin: 0;">社區貢獻排行榜</h4>
+                    <p data-i18n="leaderboard_desc" style="font-size: 12px; opacity: 0.7; margin: 0;">展示持有與質押量最高的頂尖貢獻者。
+                    </p>
+                </div>
+            </div>
+            <div id="leaderboard-list">
+                <div
+                    style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <span>#1 0x74...a92</span>
+                    <span style="color: var(--accent-color);">12.5M AEG</span>
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <span>#2 0x31...f81</span>
+                    <span style="color: var(--accent-color);">8.2M AEG</span>
+                </div>
+                <!-- 更多排名 -->
+            </div>
+        </section>
+
     </main>
 
     <footer class="footer">
         <div class="footer-links">
             <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">技術源碼</a>
-            <a href="../docs/index.html" target="_blank">協議文檔</a>
+            <a href="../docs/whitepaper.html" target="_blank">技術白皮書</a>
+
 
         </div>
         <p class="footer-copyright">© 2026 Aegis 全球安全計畫。Base 主網技術開發。</p>

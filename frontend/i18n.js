@@ -30,7 +30,13 @@ const translations = {
         "presale_title": "種子輪預售",
         "presale_desc": "直接使用 ETH 兌換 AEG (固定匯率)",
         "presale_btn": "立即購買",
-        "presale_hint": "資金將全數用於開啟 Aerodrome 流動性池。"
+        "presale_hint": "資金將全數用於開啟 Aerodrome 流動性池。",
+        "referral_title": "推薦計畫",
+        "referral_link": "您的專屬推薦連結：",
+        "referral_copy": "複製連結",
+        "leaderboard_title": "社區貢獻排行榜",
+        "leaderboard_desc": "展示持有與質押量最高的頂尖貢獻者。"
+
 
     },
     "en": {
@@ -61,7 +67,13 @@ const translations = {
         "presale_title": "Seed Presale",
         "presale_desc": "Swap ETH to AEG at a fixed rate",
         "presale_btn": "Buy Now",
-        "presale_hint": "All funds will be used for Aerodrome liquidity."
+        "presale_hint": "All funds will be used for Aerodrome liquidity.",
+        "referral_title": "Referral Program",
+        "referral_link": "Your Referral Link:",
+        "referral_copy": "Copy Link",
+        "leaderboard_title": "Community Champions",
+        "leaderboard_desc": "Top holders and stakers in the ecosystem."
+
 
     }
 };

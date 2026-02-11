@@ -28,8 +28,17 @@ const saleAbi = [
 ];
 
 
+// --- Referral System Logic ---
+const urlParams = new URLSearchParams(window.location.search);
+const referral = urlParams.get('ref');
+if (referral && ethers.isAddress(referral)) {
+    localStorage.setItem('aegis-referral', referral);
+    console.log("🔗 Detected Referral:", referral);
+}
+
 let provider;
 let signer;
+
 let contract;
 
 const connectBtn = document.querySelector('#connect-wallet');
@@ -154,8 +163,18 @@ async function updateDashboard(address) {
         chartDataPoints.push(parseFloat(balance));
         if (chartDataPoints.length > 20) chartDataPoints.shift();
         portfolioChart.update();
+
+        // --- Referral Link Display (New) ---
+        const referralCenter = document.getElementById('referral-center');
+        const refInput = document.getElementById('ref-link-input');
+        if (referralCenter && refInput) {
+            const link = window.location.origin + window.location.pathname + "?ref=" + address;
+            refInput.value = link;
+            referralCenter.style.display = 'block';
+        }
     } catch (err) { }
 }
+
 
 function addTxToHistory(type, amount, hash) {
     if (!txHistoryList) return;
@@ -323,7 +342,21 @@ function initListeners() {
             }
         });
     });
+
+    // --- Referral Link Copy (New) ---
+    document.getElementById('copy-ref-link')?.addEventListener('click', () => {
+        const refInput = document.getElementById('ref-link-input');
+        if (refInput) {
+            refInput.select();
+            navigator.clipboard.writeText(refInput.value);
+            const btn = document.getElementById('copy-ref-link');
+            const originalText = btn.innerText;
+            btn.innerText = "COPIED!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        }
+    });
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     init();
