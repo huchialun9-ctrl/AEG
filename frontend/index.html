@@ -108,10 +108,30 @@
                         <input type="number" id="buy-eth-amount" placeholder="輸入 ETH 數量">
                         <span class="unit-tag">ETH</span>
                     </div>
-                    <button id="buy-tokens-btn" class="btn-elite btn-accent" data-i18n="presale_btn">立即購買</button>
                     <p class="service-footer-hint" data-i18n="presale_hint">資金將全數用於開啟 Aerodrome 流動性池。</p>
                 </div>
             </div>
+
+            <!-- Buy AEG Action (Restored) -->
+            <div class="service-card buy-service fade-in">
+                <div class="service-header">
+                    <div class="service-icon-svg">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3 data-i18n="buy_title">交易中心</h3>
+                        <p data-i18n="buy_desc">前往 Aerodrome 進行自由買賣</p>
+                    </div>
+                </div>
+                <div class="service-action">
+                    <a href="https://aerodrome.finance/swap?from=eth&to=0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
+                        target="_blank" class="btn-elite btn-primary">
+                        <span data-i18n="buy_action">啟動交易</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+
         </section>
 
         <!-- Footer Stats Mini -->
@@ -133,6 +153,23 @@
                 <div class="history-placeholder" data-i18n="history_empty">尚無近期鏈上紀錄</div>
             </div>
         </section>
+
+        <!-- Leaderboard (Restored) -->
+        <section class="leaderboard-section fade-in"
+            style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                <i class="fas fa-crown" style="color: gold; font-size: 24px;"></i>
+                <div>
+                    <h4 data-i18n="leaderboard_title" style="margin: 0;">頂尖買家排行榜</h4>
+                    <p data-i18n="leaderboard_desc" style="font-size: 12px; opacity: 0.7; margin: 0;">即時鏈上數據 (Real-time
+                        On-chain)</p>
+                </div>
+            </div>
+            <div id="leaderboard-list">
+                <div class="history-placeholder">載入鏈上數據中...</div>
+            </div>
+        </section>
+
 
     </main>
 

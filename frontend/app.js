@@ -127,8 +127,57 @@ async function updateDashboard(address) {
             refInput.value = link;
             referralCenter.style.display = 'block';
         }
+
+        updateLeaderboard();
     } catch (err) { console.error("Update Dashboard Error:", err); }
 }
+
+async function updateLeaderboard() {
+    const list = document.getElementById('leaderboard-list');
+    if (!list || !contract) return;
+
+    try {
+        // 獲取過去 5000 個區塊的轉帳事件
+        const filter = contract.filters.Transfer(null, null);
+        const events = await contract.queryFilter(filter, -5000);
+
+        // 統計每個地址的接收量 (簡單版:以此作為活躍買家依據)
+        const buyers = {};
+        events.forEach(ev => {
+            const to = ev.args[1];
+            const val = parseFloat(ethers.formatEther(ev.args[2]));
+            if (to !== ethers.ZeroAddress && to !== "0x000000000000000000000000000000000000dEaD") {
+                buyers[to] = (buyers[to] || 0) + val;
+            }
+        });
+
+        // 轉為陣列並排序
+        const sorted = Object.entries(buyers)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, 5); // 取前 5 名
+
+        if (sorted.length === 0) {
+            list.innerHTML = '<div class="history-placeholder">尚無近期買家數據</div>';
+            return;
+        }
+
+        list.innerHTML = '';
+        sorted.forEach((item, index) => {
+            const row = document.createElement('div');
+            row.style.cssText = 'display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);';
+            row.innerHTML = `
+                <span>#${index + 1} ${shortenAddress(item[0])}</span>
+                <span style="color: var(--accent-color);">${item[1].toLocaleString()} AEG</span>
+            `;
+            list.appendChild(row);
+        });
+
+    } catch (err) {
+        console.error("Leaderboard Error:", err);
+        list.innerHTML = '<div class="history-placeholder">載入失敗: 鏈上數據暫時無法存取</div>';
+    }
+}
+
 
 function addTxToHistory(type, amount, hash) {
     if (!txHistoryList) return;
