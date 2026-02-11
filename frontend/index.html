@@ -82,6 +82,30 @@
                     <div id="wallet-address" class="address-tag" data-i18n="balance_addr_none">未連接</div>
                 </div>
 
+                <!-- 質押與收益卡片 -->
+                <div class="glass-card staking-card gold-border">
+                    <div class="card-header">
+                        <img src="https://img.icons8.com/isometric/50/gold-bars.png" alt="stake" />
+                        <h3 data-i18n="stake_title">質押挖礦 (Staking)</h3>
+                    </div>
+                    <div class="apy-badge">APY: 18.5%</div>
+                    <div class="staking-info">
+                        <div class="info-row">
+                            <span data-i18n="stake_staked">已質押</span>
+                            <span id="staked-amount">0.00 AEG</span>
+                        </div>
+                        <div class="info-row highlight">
+                            <span data-i18n="stake_rewards">待領取收益</span>
+                            <span id="pending-rewards">0.00 AEG</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="stake-amount" data-i18n="stake_placeholder" placeholder="輸入質押數量">
+                        <button id="stake-btn" class="btn-gold" data-i18n="stake_btn">立即質押</button>
+                    </div>
+                    <button id="claim-btn" class="btn-outline-small" data-i18n="claim_btn">領取報酬</button>
+                </div>
+
                 <!-- 互動操作卡片 -->
                 <div class="glass-card action-card">
                     <div class="card-header">
@@ -105,6 +129,22 @@
                     </div>
                 </div>
             </div>
+            <!-- 數據大屏區塊 -->
+            <section class="data-dashboard fade-in">
+                <h2 class="section-title"><span class="gradient-text" data-i18n="data_title">鏈上實時數據大屏</span></h2>
+                <div class="chart-grid">
+                    <div class="glass-card chart-card">
+                        <h3><img src="https://img.icons8.com/isometric/30/line-chart.png" /> <span
+                                data-i18n="chart_burn">通縮銷毀趨勢</span></h3>
+                        <canvas id="burnChart"></canvas>
+                    </div>
+                    <div class="glass-card chart-card">
+                        <h3><img src="https://img.icons8.com/isometric/30/pie-chart.png" /> <span
+                                data-i18n="chart_holders">持有人分佈</span></h3>
+                        <canvas id="holdersChart"></canvas>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 

@@ -1,4 +1,5 @@
 import { setLanguage, currentLang, translations } from './i18n.js';
+import { initCharts } from './charts.js';
 
 const contractAddress = "0x0000000000000000000000000000000000000000"; // 部署後請更新此處
 const abi = [
@@ -12,6 +13,14 @@ const abi = [
     "function pause() public",
     "function unpause() public"
 ];
+
+// 導入 Chart.js (從 CDN 讀取以確保穩定)
+if (!window.Chart) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/chart.js';
+    script.onload = () => initCharts();
+    document.head.appendChild(script);
+}
 
 let provider;
 let signer;
