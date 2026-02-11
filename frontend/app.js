@@ -7,6 +7,7 @@ const abi = [
     "function name() view returns (string)",
     "function symbol() view returns (string)",
     "function totalSupply() view returns (uint256)",
+    "function totalStaked() view returns (uint256)",
     "function balanceOf(address) view returns (uint256)",
     "function owner() view returns (address)",
     "function mint(address to, uint256 amount) public",
@@ -29,20 +30,121 @@ const btnText = connectBtn?.querySelector('.btn-text');
 const userBalance = document.getElementById('user-balance');
 const userUsdBalance = document.getElementById('user-usd-balance');
 const stakedAmountDisplay = document.getElementById('staked-amount');
+const walletAddrShort = document.getElementById('wallet-address-short');
+const tokenSymbol = document.getElementById('token-symbol');
+const totalSupplyCell = document.getElementById('total-supply');
 const txHistoryList = document.getElementById('tx-history-list');
+const langSelect = document.getElementById('lang-select');
 
 let aegPrice = 0.085; // 預設初始價格為 0.085 USD (可動態更新)
+
+// 初始化語言
+if (langSelect) {
+    langSelect.value = currentLang;
+    langSelect.addEventListener('change', (e) => setLanguage(e.target.value));
+}
+
+function shortenAddress(addr) {
+    if (!addr) return "";
+    return addr.slice(0, 6) + "..." + addr.slice(-4);
+}
+
+// --- Chart JS Implementation (Real Session Monitoring) ---
+let chartDataPoints = [0];
+function initChart() {
+    const ctx = document.getElementById('portfolioChart').getContext('2d');
+    portfolioChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Start', 'Current'],
+            datasets: [{
+                label: 'Asset Growth',
+                data: chartDataPoints,
+                borderColor: '#037DD6',
+                borderWidth: 3,
+                fill: true,
+                backgroundColor: 'rgba(3, 125, 214, 0.05)',
+                tension: 0.2,
+                pointRadius: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { display: false },
+                y: {
+                    display: false,
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
 
 // --- 生態擴展：價格獲取 ---
 async function updateAegPrice() {
     try {
-        // 這裡預留對接 CoinGecko 或 Aerodrome Pool API
-        // 目前採用基於供給量與質押量的模擬經濟模型價格
-        const total = await setupTokenDisplay();
-        const staked = await contract.totalStaked();
-        const stakedRatio = Number(staked) / Number(total);
+        if (contractAddress === "0x0000000000000000000000000000000000000000") return;
+        const totalRaw = await contract.totalSupply();
+        const total = parseFloat(ethers.formatEther(totalRaw));
+        const stakedRaw = await contract.totalStaked();
+        const staked = parseFloat(ethers.formatEther(stakedRaw));
+        const stakedRatio = staked / total;
         aegPrice = 0.05 + (stakedRatio * 0.2); // 模擬隨質押率提升價格
     } catch (e) { }
+}
+
+async function init() {
+    initChart();
+    if (typeof window.ethereum !== 'undefined') {
+        try {
+            provider = new ethers.BrowserProvider(window.ethereum);
+            const accounts = await provider.listAccounts();
+            if (accounts.length > 0) handleAccountsChanged(accounts);
+
+            window.ethereum.on('accountsChanged', handleAccountsChanged);
+            setupTokenDisplay();
+        } catch (err) {
+            console.error("Connection error:", err);
+        }
+    }
+}
+
+async function setupTokenDisplay() {
+    if (contractAddress === "0x0000000000000000000000000000000000000000") {
+        if (tokenSymbol) tokenSymbol.innerText = "NOT_DEPLOYED";
+        if (totalSupplyCell) totalSupplyCell.innerText = "0";
+        return 0;
+    }
+    try {
+        contract = new ethers.Contract(contractAddress, abi, provider);
+        tokenSymbol.innerText = await contract.symbol();
+        const total = await contract.totalSupply();
+        totalSupplyCell.innerText = parseFloat(ethers.formatEther(total)).toLocaleString();
+        return total;
+    } catch (e) {
+        console.error("Contract info fetch failed:", e);
+        return 0;
+    }
+}
+
+async function handleAccountsChanged(accounts) {
+    if (accounts.length === 0) {
+        connectBtn?.classList.remove('connected');
+        if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
+        if (walletAddrShort) walletAddrShort.innerText = "Disconnected";
+        if (userBalance) userBalance.innerText = "0.00";
+    } else {
+        signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        connectBtn?.classList.add('connected');
+        if (btnText) btnText.innerText = shortenAddress(address);
+        if (walletAddrShort) walletAddrShort.innerText = address;
+
+        updateDashboard(address);
+    }
 }
 
 async function updateDashboard(address) {
@@ -129,6 +231,7 @@ function initListeners() {
         try {
             const tx = await contract.connect(signer).burn(ethers.parseEther(amount));
             alert("燒毀交易已送出...");
+            addTxToHistory('burn', amount, tx.hash);
             await tx.wait();
             alert("燒毀成功！");
             updateDashboard(await signer.getAddress());
@@ -146,6 +249,7 @@ function initListeners() {
         try {
             const tx = await contract.connect(signer).stake(ethers.parseEther(amount));
             alert("質押交易已送出...");
+            addTxToHistory('stake', amount, tx.hash);
             await tx.wait();
             alert("存入成功！開始計算收益。");
             updateDashboard(await signer.getAddress());
@@ -160,6 +264,7 @@ function initListeners() {
         try {
             const tx = await contract.connect(signer).withdrawStake();
             alert("收益領取交易送出...");
+            addTxToHistory('claim', 'Unknown', tx.hash);
             await tx.wait();
             alert("收益領取成功！");
             updateDashboard(await signer.getAddress());
