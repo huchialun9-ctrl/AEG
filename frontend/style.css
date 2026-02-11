@@ -59,8 +59,39 @@ body {
     -webkit-backdrop-filter: blur(30px);
     border-bottom: 1px solid var(--mm-border);
     z-index: 1000;
-    padding: 1.5rem 0;
+    padding: 1rem 0;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.nav-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: white;
+}
+
+.brand-logo-main {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px var(--mm-primary));
+}
+
+.brand-name-main {
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
 }
 
 .btn-connect {
