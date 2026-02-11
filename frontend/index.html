@@ -25,7 +25,11 @@
                 <span class="brand-name-main">AEGIS</span>
             </div>
             <div class="nav-actions">
-                <a href="https://aerodrome.finance/swap?from=eth&to=0x0000000000000000000000000000000000000000"
+                <button id="copy-contract" class="btn-copy-nav">
+                    <i class="far fa-copy"></i>
+                    <span data-i18n="nav_copy">複製合約</span>
+                </button>
+                <a href="https://aerodrome.finance/swap?from=eth&to=0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
                     target="_blank" class="btn-buy-nav" data-i18n="nav_buy">購買 AEG</a>
                 <select id="lang-select" class="lang-switcher">
                     <option value="zh-TW">繁體中文</option>
@@ -129,11 +133,7 @@
             <div class="service-card protocol-service">
                 <div class="service-header">
                     <div class="service-icon-svg">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path
-                                d="M12 2c1.33 2.67 1.33 4.67 0 7.33C14.67 6.67 16.67 6.67 19.33 8c-1.33 2.67-1.33 4.67 0 7.33-2.67-1.33-4.67-1.33-7.33 0 1.33-2.67 1.33-4.67 0-7.33C9.33 11.33 7.33 11.33 4.67 10c1.33-2.67 1.33-4.67 0-7.33 2.67 1.33 4.67 1.33 7.33 0z" />
-                        </svg>
+                        <i class="fas fa-fire"></i>
                     </div>
                     <div class="service-info">
                         <h3 data-i18n="burn_title">通縮維護</h3>
@@ -145,6 +145,26 @@
                     <button id="burn-btn" class="btn-service-danger" data-i18n="burn_btn">執行燒毀</button>
                 </div>
                 <p class="service-footer-hint" data-i18n="burn_hint">手動維護能加強生態價值底層。</p>
+            </div>
+
+            <!-- Elite Transfer (New) -->
+            <div class="service-card transfer-service fade-in">
+                <div class="service-header">
+                    <div class="service-icon-svg" style="background: rgba(0, 211, 149, 0.1); color: var(--mm-accent);">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3 data-i18n="transfer_title">資產分發</h3>
+                        <p data-i18n="transfer_desc">將 $AEG 安全發放至其它目標錢包。</p>
+                    </div>
+                </div>
+                <div class="service-action" style="flex-direction: column; gap: 12px;">
+                    <input type="text" id="transfer-to" placeholder="目標地址 0x...">
+                    <input type="number" id="transfer-amount" placeholder="分發數量">
+                    <button id="transfer-btn" class="btn-service-primary"
+                        style="background: var(--mm-accent); color: #000; width: 100%;"
+                        data-i18n="transfer_btn">立即發送</button>
+                </div>
             </div>
         </section>
 

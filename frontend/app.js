@@ -17,7 +17,8 @@ const abi = [
     "function stake(uint256 amount) public",
     "function withdrawStake() public",
     "function calculateReward(address user) view returns (uint256)",
-    "function stakes(address) view returns (uint256 amount, uint256 startTime)"
+    "function stakes(address) view returns (uint256 amount, uint256 startTime)",
+    "function transfer(address to, uint256 amount) public returns (bool)"
 ];
 
 let provider;
@@ -278,6 +279,36 @@ function initListeners() {
             alert("收益領取成功！");
             updateDashboard(await signer.getAddress());
         } catch (e) { alert("提取失敗。"); }
+    });
+
+    // --- Transfer (New) ---
+    document.getElementById('transfer-btn')?.addEventListener('click', async () => {
+        if (!(await checkConnection())) return;
+        const to = document.getElementById('transfer-to').value;
+        const amount = document.getElementById('transfer-amount').value;
+
+        if (!ethers.isAddress(to)) return alert("請輸入有效的目標地址。");
+        if (!amount || amount <= 0) return alert("請輸入有效數量。");
+
+        try {
+            const tx = await contract.connect(signer).transfer(to, ethers.parseEther(amount));
+            alert("轉帳交易已送出...");
+            addTxToHistory('transfer', amount, tx.hash);
+            await tx.wait();
+            alert("轉帳成功！");
+            updateDashboard(await signer.getAddress());
+        } catch (e) { alert("轉帳失敗: " + e.message); }
+    });
+
+    // --- Copy Contract Address ---
+    document.getElementById('copy-contract')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(contractAddress);
+        const span = document.querySelector('[data-i18n="nav_copy"]');
+        if (span) {
+            const originalText = span.innerText;
+            span.innerText = "COPIED!";
+            setTimeout(() => span.innerText = originalText, 2000);
+        }
     });
 }
 

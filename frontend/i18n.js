@@ -22,7 +22,11 @@ const translations = {
         "history_title": "近期協議交互紀錄",
         "history_empty": "尚無近期鏈上紀錄",
         "footer_text": "© 2026 Aegis 全球安全計畫。Base 主網技術開發。",
-        "install_metamask": "請安裝錢包擴展"
+        "install_metamask": "請安裝錢包擴展",
+        "nav_copy": "複製合約",
+        "transfer_title": "資產分發",
+        "transfer_desc": "將 $AEG 安全發放至目標錢包。",
+        "transfer_btn": "立即發送"
     },
     "en": {
         "nav_connect": "Connect Wallet",
@@ -44,7 +48,11 @@ const translations = {
         "history_title": "Recent Protocol Events",
         "history_empty": "No recent transaction logs found.",
         "footer_text": "© 2026 Aegis Global Security Project. Built on Base Mainnet.",
-        "install_metamask": "Please Install Wallet"
+        "install_metamask": "Please Install Wallet",
+        "nav_copy": "Copy Contract",
+        "transfer_title": "Asset Distribution",
+        "transfer_desc": "Securely send $AEG to other wallets.",
+        "transfer_btn": "Send Now"
     }
 };
 
