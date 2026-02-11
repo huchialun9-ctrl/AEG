@@ -86,19 +86,18 @@
             <div class="service-card buy-service fade-in">
                 <div class="service-header">
                     <div class="service-icon-svg">
-                        <i class="fas fa-shopping-cart" style="font-size: 1.2rem;"></i>
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
                     <div class="service-info">
                         <h3 data-i18n="buy_title">Trading Hub</h3>
                         <p data-i18n="buy_desc">Real-time swap on Aerodrome DEX</p>
                     </div>
                 </div>
-                <div class="service-action" style="margin-top: 2rem;">
+                <div class="service-action">
                     <a href="https://aerodrome.finance/swap?from=eth&to=0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
-                        target="_blank" class="btn-service-primary"
-                        style="width: 100%; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        target="_blank" class="btn-elite btn-primary">
                         <span data-i18n="buy_action">Launch Trade</span>
-                        <i class="fas fa-external-link-alt" style="font-size: 0.7rem;"></i>
+                        <i class="fas fa-external-link-alt"></i>
                     </a>
                 </div>
             </div>
@@ -120,12 +119,12 @@
                     <small data-i18n="stake_earned">已積累獎勵餘額</small>
                     <div class="reward-row">
                         <strong id="staked-amount">0.00 AEG</strong>
-                        <button id="claim-rewards-tab" class="btn-claim-micro" data-i18n="stake_claim">提取收益</button>
                     </div>
                 </div>
                 <div class="service-action">
+                    <button id="claim-rewards-tab" class="btn-elite btn-accent" data-i18n="stake_claim">提取收益</button>
                     <input type="number" id="stake-amount" placeholder="輸入存入數量">
-                    <button id="stake-btn" class="btn-service-primary" data-i18n="stake_btn">立即存入</button>
+                    <button id="stake-btn" class="btn-elite btn-primary" data-i18n="stake_btn">立即存入</button>
                 </div>
             </div>
 
@@ -142,7 +141,7 @@
                 </div>
                 <div class="service-action">
                     <input type="number" id="burn-amount" placeholder="輸入燒毀數量">
-                    <button id="burn-btn" class="btn-service-danger" data-i18n="burn_btn">執行燒毀</button>
+                    <button id="burn-btn" class="btn-elite btn-danger" data-i18n="burn_btn">執行燒毀</button>
                 </div>
                 <p class="service-footer-hint" data-i18n="burn_hint">手動維護能加強生態價值底層。</p>
             </div>
@@ -150,7 +149,7 @@
             <!-- Elite Transfer (New) -->
             <div class="service-card transfer-service fade-in">
                 <div class="service-header">
-                    <div class="service-icon-svg" style="background: rgba(0, 211, 149, 0.1); color: var(--mm-accent);">
+                    <div class="service-icon-svg">
                         <i class="fas fa-paper-plane"></i>
                     </div>
                     <div class="service-info">
@@ -158,12 +157,10 @@
                         <p data-i18n="transfer_desc">將 $AEG 安全發放至其它目標錢包。</p>
                     </div>
                 </div>
-                <div class="service-action" style="flex-direction: column; gap: 12px;">
+                <div class="service-action">
                     <input type="text" id="transfer-to" placeholder="目標地址 0x...">
                     <input type="number" id="transfer-amount" placeholder="分發數量">
-                    <button id="transfer-btn" class="btn-service-primary"
-                        style="background: var(--mm-accent); color: #000; width: 100%;"
-                        data-i18n="transfer_btn">立即發送</button>
+                    <button id="transfer-btn" class="btn-elite btn-accent" data-i18n="transfer_btn">立即發送</button>
                 </div>
             </div>
         </section>
