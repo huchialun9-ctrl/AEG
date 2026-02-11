@@ -44,24 +44,26 @@ function shortenAddress(addr) {
 const BASE_MAINNET_CHAIN_ID = "0x2105"; // 8453
 
 async function init() {
-    console.log("Initializing Web3...");
+    console.log("Aegis Web3 Initializing (V1.0.1)...");
     if (typeof window.ethereum !== 'undefined') {
-        provider = new ethers.BrowserProvider(window.ethereum);
+        try {
+            provider = new ethers.BrowserProvider(window.ethereum);
 
-        // 嘗試自動連接（如果用戶之前授權過）
-        const accounts = await provider.listAccounts();
-        if (accounts.length > 0) {
-            handleAccountsChanged(accounts);
+            const accounts = await provider.listAccounts();
+            if (accounts.length > 0) {
+                handleAccountsChanged(accounts);
+            }
+
+            window.ethereum.on('accountsChanged', handleAccountsChanged);
+            window.ethereum.on('chainChanged', () => window.location.reload());
+
+            setupTokenDisplay();
+        } catch (err) {
+            console.error("Web3 Provider Error:", err);
         }
-
-        // 監聽帳號與網路變化
-        window.ethereum.on('accountsChanged', handleAccountsChanged);
-        window.ethereum.on('chainChanged', () => window.location.reload());
-
-        // 顯示代幣基本資訊
-        setupTokenDisplay();
     } else {
-        btnText.innerText = translations[currentLang]?.install_metamask || "Install MetaMask";
+        console.warn("MetaMask not found, providing install link.");
+        btnText.innerText = translations[currentLang]?.install_metamask || "安裝 MetaMask";
         connectBtn.onclick = () => window.open('https://metamask.io/download/', '_blank');
         connectBtn.style.background = "var(--accent)";
     }
