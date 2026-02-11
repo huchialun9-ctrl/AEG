@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis (AEG) | MetaMask Portfolio Style</title>
-    <link rel="stylesheet" href="style.css?v=1.0.4">
+    <title>Aegis (AEG) | 盾級資產管理終端 V1.0.5</title>
+    <link rel="stylesheet" href="style.css?v=1.0.5">
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
@@ -14,7 +14,8 @@
     <nav class="navbar">
         <div class="nav-content">
             <div class="brand">
-                <span class="brand-logo-text">Meta<br>Mask</span>
+                <img src="logo.png" alt="Aegis Logo" class="brand-logo-main">
+                <span class="brand-name-main">AEGIS</span>
             </div>
             <div class="nav-actions">
                 <select id="lang-select" class="lang-switcher">
@@ -31,60 +32,58 @@
     <main class="portfolio-container">
         <!-- Account Info -->
         <div class="account-selector fade-in">
-            <span class="account-name">Account 1</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                style="margin-top:2px;">
-                <path d="M6 9l6 6 6-6" />
-            </svg>
+            <div class="account-icon-orb"></div>
+            <span class="account-name">Aegis User Console</span>
         </div>
 
-        <!-- Main Portfolio Card -->
+        <!-- Integrated Interaction Hub -->
         <div class="mm-main-card fade-in">
-            <div class="fund-illustration">
-                <img src="https://img.icons8.com/isometric/100/museum.png" alt="fund-art" />
+            <div class="hub-header">
+                <h2 class="card-title" data-i18n="hero_title">Protocol Control Center</h2>
+                <p class="card-desc" data-i18n="hero_subtitle">Manage your Aegis assets with military-grade precision.
+                </p>
             </div>
-            <h2 class="card-title" data-i18n="hero_title">Fund your wallet</h2>
-            <p class="card-desc" data-i18n="hero_subtitle">Get your wallet ready to use web3</p>
-            <button class="btn-add-funds">Add funds</button>
+
+            <div class="interaction-grid">
+                <!-- Burn Section -->
+                <div class="protocol-box">
+                    <label class="box-tag" data-i18n="burn_btn">BURN AEG</label>
+                    <div class="input-inline">
+                        <input type="number" id="burn-amount" placeholder="0.00">
+                        <button id="burn-btn" class="btn-action-small">🔥</button>
+                    </div>
+                </div>
+
+                <!-- Stake Section -->
+                <div class="protocol-box">
+                    <label class="box-tag" data-i18n="stake_btn">STAKING</label>
+                    <div class="input-inline">
+                        <input type="number" id="stake-amount" placeholder="0.00">
+                        <button id="stake-btn" class="btn-action-small">📥</button>
+                    </div>
+                    <small class="apy-text-small">APY: 18.5%</small>
+                </div>
+            </div>
+
+            <!-- Owner Panel (Hidden by default) -->
+            <div id="owner-actions" class="protocol-box owner-box" style="display: none;">
+                <label class="box-tag" data-i18n="owner_panel">OWNER ACTIONS</label>
+                <div class="input-stack">
+                    <input type="text" id="mint-address" placeholder="Recipient Address">
+                    <div class="input-inline">
+                        <input type="number" id="mint-amount" placeholder="Amount">
+                        <button id="mint-btn" class="btn-action-small">MINT</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <!-- Quick Actions Bar -->
-        <div class="quick-actions fade-in">
-            <div class="action-item" id="buy-action">
-                <div class="action-icon"><strong>$</strong></div>
-                <span data-i18n="action_buy">購買</span>
-            </div>
-            <div class="action-item" id="swap-btn-mock">
-                <div class="action-icon">⇄</div>
-                <span data-i18n="action_swap">兌換</span>
-            </div>
-            <div class="action-item" id="burn-btn">
-                <div class="action-icon">🔥</div>
-                <span data-i18n="burn_btn">銷毀</span>
-            </div>
-            <div class="action-item" id="stake-btn">
-                <div class="action-icon">📥</div>
-                <span data-i18n="stake_btn">領收</span>
-            </div>
-        </div>
-
-        <!-- Banner -->
-        <div class="mm-banner fade-in">
-            <img src="https://img.icons8.com/color/48/bitcoin.png" alt="btc" />
-            <div class="banner-text">
-                <strong data-i18n="banner_title">Say hello to Aegis</strong>
-                <p data-i18n="banner_desc">Build, manage, and secure assets on Base.</p>
-            </div>
-            <span class="close-banner">✕</span>
-        </div>
-
-        <!-- Asset Section -->
+        <!-- Asset Overview Section -->
         <div class="assets-section fade-in">
             <div class="tabs-bar">
-                <span class="tab active">Tokens</span>
-                <span class="tab">DeFi</span>
-                <span class="tab">NFTs</span>
-                <span class="tab" data-i18n="tx_history">交易紀錄</span>
+                <span class="tab active" data-i18n="balance_title">Aegis Assets</span>
+                <span class="tab">DeFi Staking</span>
+                <span class="tab" data-i18n="tx_history">History</span>
             </div>
 
             <div class="asset-list">
@@ -92,50 +91,44 @@
                     <img src="logo.png" class="asset-logo" alt="aeg" />
                     <div class="asset-name-info">
                         <span class="asset-symbol">Aegis (AEG)</span>
-                        <span class="asset-change">-4.21%</span>
+                        <span class="asset-network">on Base Network</span>
                     </div>
                     <div class="asset-value-info">
-                        <span class="value-usd">US$0.00</span>
+                        <span class="value-usd">US$---</span>
                         <span class="value-native"><span id="user-balance">0.00</span> AEG</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Hidden inputs for logic & Other UI elements for functionality -->
-        <div style="display: none;">
-            <input type="number" id="burn-amount" value="0">
-            <input type="number" id="stake-amount" value="0">
-            <input type="text" id="mint-address">
-            <input type="number" id="mint-amount">
-            <button id="mint-btn"></button>
-            <div id="total-supply"></div>
-            <div id="token-symbol"></div>
-            <div id="wallet-address"></div>
-            <div id="owner-actions"></div>
+        <!-- Protocol Stats -->
+        <div class="mm-banner fade-in stats-banner">
+            <div class="stat-mini">
+                <small data-i18n="stat_total">TOTAL SUPPLY</small>
+                <strong id="total-supply">1,000,000,000</strong>
+            </div>
+            <div class="stat-mini">
+                <small data-i18n="stat_symbol">SYMBOL</small>
+                <strong id="token-symbol">AEG</strong>
+            </div>
+            <div id="wallet-address" class="wallet-pill-mini">Disconnected</div>
         </div>
     </main>
 
     <footer class="footer">
-        <div class="social-matrix">
-            <a href="#" class="social-link"><img src="https://img.icons8.com/color/48/telegram-app.png" alt="tg" /></a>
-            <a href="#" class="social-link"><img src="https://img.icons8.com/color/48/twitter--v1.png" alt="tw" /></a>
+        <div class="footer-links">
+            <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">GitHub</a>
+            <a href="../docs/index.html" target="_blank">Docs</a>
+            <a href="#">Telegram</a>
+            <a href="#">Twitter</a>
         </div>
-        <div class="newsletter-section">
-            <h4 data-i18n="nl_title">訂閱 Aegis 最新動態</h4>
-            <div class="nl-input-group">
-                <input type="email" id="nl-email" placeholder="Email Address">
-                <button id="nl-btn" data-i18n="nl_btn">訂閱</button>
-            </div>
-        </div>
-        <div class="footer-content">
-            <p data-i18n="footer_text">© 2026 Aegis Global Security Project. Built on Base Mainnet.</p>
-        </div>
+        <p class="footer-copyright" data-i18n="footer_text">© 2026 Aegis Global Security Project. Built on Base Mainnet.
+        </p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
-    <script type="module" src="app.js?v=1.0.4"></script>
+    <script type="module" src="app.js?v=1.0.5"></script>
 </body>
 
 </html>

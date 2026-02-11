@@ -42,7 +42,7 @@ function shortenAddress(addr) {
 const BASE_MAINNET_CHAIN_ID = "0x2105"; // 8453
 
 async function init() {
-    console.log("Aegis Web3 Initializing (V1.0.4)...");
+    console.log("Aegis Web3 Initializing (V1.0.5)...");
     if (typeof window.ethereum !== 'undefined') {
         try {
             provider = new ethers.BrowserProvider(window.ethereum);
@@ -58,7 +58,6 @@ async function init() {
         }
     } else {
         if (btnText) btnText.innerText = translations[currentLang]?.install_metamask || "Install MetaMask";
-        if (connectBtn) connectBtn.onclick = () => window.open('https://metamask.io/download/', '_blank');
     }
 }
 
@@ -83,6 +82,7 @@ async function handleAccountsChanged(accounts) {
         connectBtn?.classList.remove('connected');
         if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
         if (userBalance) userBalance.innerText = "0.00";
+        if (walletAddr) walletAddr.innerText = "Disconnected";
     } else {
         signer = await provider.getSigner();
         const address = await signer.getAddress();
@@ -91,6 +91,7 @@ async function handleAccountsChanged(accounts) {
 
         connectBtn?.classList.add('connected');
         if (btnText) btnText.innerText = shortenAddress(address);
+        if (walletAddr) walletAddr.innerText = address;
 
         updateDashboard(address);
 
@@ -99,6 +100,9 @@ async function handleAccountsChanged(accounts) {
                 const owner = await contract.owner();
                 if (ownerPanel) ownerPanel.style.display = (owner.toLowerCase() === address.toLowerCase()) ? 'block' : 'none';
             } catch (e) { }
+        } else {
+            // For Demo mode, if you are the "mock owner"
+            if (ownerPanel) ownerPanel.style.display = 'block';
         }
     }
 }
@@ -156,9 +160,9 @@ function initListeners() {
     });
 
     document.getElementById('burn-btn')?.addEventListener('click', async () => {
-        if (!signer) return alert(translations[currentLang]?.balance_addr_none || "Please connect wallet");
-        const amount = window.prompt(translations[currentLang]?.burn_placeholder || "Enter amount to burn:");
-        if (!amount || amount <= 0) return;
+        if (!signer) return alert("Please connect wallet");
+        const amount = document.getElementById('burn-amount').value;
+        if (!amount || amount <= 0) return alert("Please enter a valid amount");
         try {
             const contractWithSigner = contract.connect(signer);
             const tx = await contractWithSigner.burn(ethers.parseEther(amount));
@@ -171,22 +175,18 @@ function initListeners() {
     });
 
     document.getElementById('stake-btn')?.addEventListener('click', async () => {
-        if (!signer) return alert("Please connect wallet");
-        window.prompt("Enter amount to stake:");
-        alert("Staking will be enabled in the next phase.");
+        const amount = document.getElementById('stake-amount').value;
+        if (!amount) return alert("Please enter amount");
+        alert("Staking functionality will be live after contract migration.");
     });
 
-    document.getElementById('buy-action')?.addEventListener('click', () => {
-        alert("Fiat Gateway (Demo): Aegis supports Kredit and Bank Transfer soon.");
-    });
-
-    document.getElementById('swap-btn-mock')?.addEventListener('click', () => {
-        const assetSection = document.getElementById('asset-focus');
-        assetSection?.scrollIntoView({ behavior: 'smooth' });
-    });
-
-    document.querySelector('.close-banner')?.addEventListener('click', (e) => {
-        e.target.closest('.mm-banner').style.display = 'none';
+    document.getElementById('mint-btn')?.addEventListener('click', async () => {
+        if (!signer) return alert("Owner Only");
+        const to = document.getElementById('mint-address').value;
+        const amount = document.getElementById('mint-amount').value;
+        if (!to || !amount) return alert("Missing fields");
+        alert("Minting: " + amount + " AEG to " + to);
+        // Add real logic if deployed
     });
 }
 
