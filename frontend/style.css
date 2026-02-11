@@ -1,15 +1,13 @@
 :root {
     --mm-bg: #030303;
-    --mm-card: rgba(13, 13, 13, 0.7);
-    --mm-border: rgba(255, 255, 255, 0.08);
+    --mm-card: #0d0d0d;
+    --mm-border: rgba(255, 255, 255, 0.12);
     --mm-text: #FFFFFF;
-    --mm-text-dim: rgba(255, 255, 255, 0.6);
+    --mm-text-dim: rgba(255, 255, 255, 0.5);
     --mm-primary: #037DD6;
-    --mm-primary-glow: rgba(3, 125, 214, 0.3);
     --mm-accent: #00D395;
-    --mm-accent-glow: rgba(0, 211, 149, 0.2);
     --mm-danger: #ff4d4d;
-    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-bg: rgba(255, 255, 255, 0.02);
     --font-mono: 'JetBrains Mono', monospace;
 }
 
@@ -54,13 +52,12 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(3, 3, 3, 0.7);
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
+    background: rgba(3, 3, 3, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--mm-border);
     z-index: 1000;
     padding: 1rem 0;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
 }
 
 .nav-content {
@@ -84,7 +81,6 @@ body {
     width: 32px;
     height: 32px;
     object-fit: contain;
-    filter: drop-shadow(0 0 10px var(--mm-primary));
 }
 
 .brand-name-main {
@@ -103,14 +99,11 @@ body {
     font-size: 0.85rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 15px var(--mm-primary-glow);
+    transition: all 0.2s;
 }
 
 .btn-connect:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px var(--mm-primary-glow);
-    filter: brightness(1.1);
+    filter: brightness(1.15);
 }
 
 .btn-connect.connected {
@@ -202,8 +195,7 @@ body {
 
 .input-group-elite:focus-within {
     border-color: var(--mm-primary);
-    box-shadow: 0 0 15px var(--mm-primary-glow);
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .input-group-elite i {
@@ -436,7 +428,18 @@ body {
     align-items: stretch;
 }
 
-.service-card,
+.service-card {
+    background: #0d0d0d;
+    border: 1px solid var(--mm-border);
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s;
+    height: 100%;
+    position: relative;
+}
+
 .buy-section {
     background: var(--mm-card);
     border: 1px solid var(--mm-border);
@@ -449,7 +452,10 @@ body {
     position: relative;
 }
 
-.service-card:hover,
+.service-card:hover {
+    border-color: var(--mm-primary);
+}
+
 .buy-section:hover {
     border-color: var(--mm-primary-glow);
     transform: translateY(-5px);
@@ -538,22 +544,18 @@ body {
 .btn-elite.btn-primary {
     background: var(--mm-primary);
     color: white;
-    box-shadow: 0 4px 15px var(--mm-primary-glow);
 }
 
 .btn-elite.btn-primary:hover {
-    box-shadow: 0 8px 25px var(--mm-primary-glow);
     filter: brightness(1.1);
 }
 
 .btn-elite.btn-accent {
     background: var(--mm-accent);
     color: #000;
-    box-shadow: 0 4px 15px var(--mm-accent-glow);
 }
 
 .btn-elite.btn-accent:hover {
-    box-shadow: 0 8px 25px var(--mm-accent-glow);
     filter: brightness(1.05);
 }
 
@@ -683,8 +685,6 @@ body {
     height: 8px;
     background-color: var(--mm-accent);
     border-radius: 50%;
-    box-shadow: 0 0 0 0 rgba(0, 211, 149, 0.4);
-    animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
