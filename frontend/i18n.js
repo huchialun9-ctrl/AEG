@@ -2,7 +2,6 @@ const translations = {
     "zh-TW": {
         "nav_connect": "連接錢包",
         "nav_connected": "已連接",
-        "nav_add_token": "加入錢包",
         "portfolio_welcome": "資產總覽",
         "portfolio_subtitle": "由 Aegis 盾級安全協議驅動，部署於 Base 主網。",
         "balance_total": "預估資產價值 (AEG)",
@@ -25,7 +24,6 @@ const translations = {
     "en": {
         "nav_connect": "Connect Wallet",
         "nav_connected": "Connected",
-        "nav_add_token": "Add to Wallet",
         "portfolio_welcome": "Your Portfolio",
         "portfolio_subtitle": "Secured by the Aegis Protocol on Base Network.",
         "balance_total": "ESTIMATED ASSET BALANCE",
