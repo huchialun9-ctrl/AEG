@@ -109,13 +109,11 @@ async function setupTokenDisplay() {
 }
 
 async function handleAccountsChanged(accounts) {
-    const ownerPanel = document.getElementById('owner-actions');
     if (accounts.length === 0) {
         connectBtn?.classList.remove('connected');
         if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
         if (walletAddrShort) walletAddrShort.innerText = "Disconnected";
         if (userBalance) userBalance.innerText = "0.00";
-        if (ownerPanel) ownerPanel.style.display = 'none';
     } else {
         signer = await provider.getSigner();
         const address = await signer.getAddress();
@@ -124,15 +122,6 @@ async function handleAccountsChanged(accounts) {
         if (walletAddrShort) walletAddrShort.innerText = address;
 
         updateDashboard(address);
-
-        if (contractAddress !== "0x0000000000000000000000000000000000000000") {
-            try {
-                const owner = await contract.owner();
-                if (ownerPanel) ownerPanel.style.display = (owner.toLowerCase() === address.toLowerCase()) ? 'block' : 'none';
-            } catch (e) {
-                if (ownerPanel) ownerPanel.style.display = 'none';
-            }
-        }
     }
 }
 
@@ -234,21 +223,6 @@ function initListeners() {
             alert("收益領取成功！");
             updateDashboard(await signer.getAddress());
         } catch (e) { alert("提取失敗。"); }
-    });
-
-    // --- Mint (Owner Only) ---
-    document.getElementById('mint-btn')?.addEventListener('click', async () => {
-        if (!(await checkConnection())) return;
-        const to = document.getElementById('mint-address').value;
-        const amount = document.getElementById('mint-amount').value;
-        if (!to || !amount) return alert("請填寫地址與數量。");
-
-        try {
-            const tx = await contract.connect(signer).mint(to, ethers.parseEther(amount));
-            alert("鑄造請求已發送...");
-            await tx.wait();
-            alert("鑄造成功！");
-        } catch (e) { alert("操作失敗，錢包可能非合約擁有人。"); }
     });
 }
 
