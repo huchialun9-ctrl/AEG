@@ -4,6 +4,7 @@ import { setLanguage, currentLang, translations } from './i18n.js';
 // [IMPORTANT] 請務必更新此地址為您在 Base 上部署的真實合約地址
 const contractAddress = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
 const abi = [
+
     "function name() view returns (string)",
     "function symbol() view returns (string)",
     "function totalSupply() view returns (uint256)",
@@ -20,6 +21,12 @@ const abi = [
     "function stakes(address) view returns (uint256 amount, uint256 startTime)",
     "function transfer(address to, uint256 amount) public returns (bool)"
 ];
+
+const saleAbi = [
+    "function buyTokens() public payable",
+    "function tokensPerEth() view returns (uint256)"
+];
+
 
 let provider;
 let signer;
@@ -183,12 +190,36 @@ async function checkConnection() {
             alert("請先連接錢包才能執行此操作。");
             return false;
         }
-        return false;
+        return true;
     }
     return true;
 }
 
 function initListeners() {
+    // --- Presale Buy (New) ---
+    document.getElementById('buy-tokens-btn')?.addEventListener('click', async () => {
+        if (!(await checkConnection())) return;
+        const devAddress = "0xBDC4566852B6B45148dBCb2119a4695dfd4e5d77";
+
+        const ethAmount = document.getElementById('buy-eth-amount').value;
+        if (!ethAmount || ethAmount <= 0) return alert("請輸入有效的 ETH 數量。");
+
+        try {
+            const tx = await signer.sendTransaction({
+                to: devAddress,
+                value: ethers.parseEther(ethAmount)
+            });
+            alert("正在處理預售轉帳交易...");
+            addTxToHistory('buy', ethAmount + ' ETH', tx.hash);
+            await tx.wait();
+            alert("購買成功！請等待管理員確認後發幣到您的帳戶。");
+            updateDashboard(await signer.getAddress());
+        } catch (e) {
+            alert("購買失敗: " + e.message);
+        }
+    });
+
+
     connectBtn?.addEventListener('click', async () => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         if (accounts.length > 0) handleAccountsChanged(accounts);

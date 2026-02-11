@@ -26,7 +26,12 @@ const translations = {
         "nav_copy": "複製合約",
         "transfer_title": "資產分發",
         "transfer_desc": "將 $AEG 安全發放至目標錢包。",
-        "transfer_btn": "立即發送"
+        "transfer_btn": "立即發送",
+        "presale_title": "種子輪預售",
+        "presale_desc": "直接使用 ETH 兌換 AEG (固定匯率)",
+        "presale_btn": "立即購買",
+        "presale_hint": "資金將全數用於開啟 Aerodrome 流動性池。"
+
     },
     "en": {
         "nav_connect": "Connect Wallet",
@@ -52,7 +57,12 @@ const translations = {
         "nav_copy": "Copy Contract",
         "transfer_title": "Asset Distribution",
         "transfer_desc": "Securely send $AEG to other wallets.",
-        "transfer_btn": "Send Now"
+        "transfer_btn": "Send Now",
+        "presale_title": "Seed Presale",
+        "presale_desc": "Swap ETH to AEG at a fixed rate",
+        "presale_btn": "Buy Now",
+        "presale_hint": "All funds will be used for Aerodrome liquidity."
+
     }
 };
 
