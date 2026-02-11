@@ -1,6 +1,8 @@
 import { setLanguage, currentLang, translations } from './i18n.js';
 
-const contractAddress = "0x0000000000000000000000000000000000000000"; // 部署後更新
+// --- 配置區 ---
+// [IMPORTANT] 請務必更新此地址為您在 Base 上部署的真實合約地址
+const contractAddress = "0x0000000000000000000000000000000000000000";
 const abi = [
     "function name() view returns (string)",
     "function symbol() view returns (string)",
@@ -23,7 +25,7 @@ let portfolioChart;
 const connectBtn = document.querySelector('#connect-wallet');
 const btnText = connectBtn?.querySelector('.btn-text');
 const userBalance = document.getElementById('user-balance');
-const stakedAmount = document.getElementById('staked-amount');
+const stakedAmountDisplay = document.getElementById('staked-amount');
 const walletAddrShort = document.getElementById('wallet-address-short');
 const tokenSymbol = document.getElementById('token-symbol');
 const totalSupplyCell = document.getElementById('total-supply');
@@ -40,22 +42,23 @@ function shortenAddress(addr) {
     return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
 
-// --- Chart JS Implementation ---
+// --- Chart JS Implementation (Real Session Monitoring) ---
+let chartDataPoints = [0];
 function initChart() {
     const ctx = document.getElementById('portfolioChart').getContext('2d');
     portfolioChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+            labels: ['Start', 'Current'],
             datasets: [{
                 label: 'Asset Growth',
-                data: [1000, 1050, 1020, 1100, 1200, 1150, 1234.56],
+                data: chartDataPoints,
                 borderColor: '#037DD6',
-                borderWidth: 4,
+                borderWidth: 3,
                 fill: true,
-                backgroundColor: 'rgba(3, 125, 214, 0.1)',
-                tension: 0.4,
-                pointRadius: 0
+                backgroundColor: 'rgba(3, 125, 214, 0.05)',
+                tension: 0.2,
+                pointRadius: 2
             }]
         },
         options: {
@@ -64,7 +67,10 @@ function initChart() {
             plugins: { legend: { display: false } },
             scales: {
                 x: { display: false },
-                y: { display: false }
+                y: {
+                    display: false,
+                    beginAtZero: true
+                }
             }
         }
     });
@@ -80,27 +86,34 @@ async function init() {
 
             window.ethereum.on('accountsChanged', handleAccountsChanged);
             setupTokenDisplay();
-        } catch (err) { }
+        } catch (err) {
+            console.error("Connection error:", err);
+        }
     }
 }
 
 async function setupTokenDisplay() {
     if (contractAddress === "0x0000000000000000000000000000000000000000") {
-        if (tokenSymbol) tokenSymbol.innerText = "AEG";
-    } else {
-        try {
-            contract = new ethers.Contract(contractAddress, abi, provider);
-            const total = await contract.totalSupply();
-            totalSupplyCell.innerText = parseFloat(ethers.formatEther(total)).toLocaleString();
-        } catch (e) { }
+        if (tokenSymbol) tokenSymbol.innerText = "NOT_DEPLOYED";
+        if (totalSupplyCell) totalSupplyCell.innerText = "0";
+        return;
+    }
+    try {
+        contract = new ethers.Contract(contractAddress, abi, provider);
+        tokenSymbol.innerText = await contract.symbol();
+        const total = await contract.totalSupply();
+        totalSupplyCell.innerText = parseFloat(ethers.formatEther(total)).toLocaleString();
+    } catch (e) {
+        console.error("Contract info fetch failed:", e);
     }
 }
 
 async function handleAccountsChanged(accounts) {
     if (accounts.length === 0) {
         connectBtn?.classList.remove('connected');
-        if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect";
+        if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
         if (walletAddrShort) walletAddrShort.innerText = "Disconnected";
+        if (userBalance) userBalance.innerText = "0.00";
     } else {
         signer = await provider.getSigner();
         const address = await signer.getAddress();
@@ -113,25 +126,31 @@ async function handleAccountsChanged(accounts) {
 }
 
 async function updateDashboard(address) {
-    try {
-        let balance, staked;
-        if (contractAddress === "0x0000000000000000000000000000000000000000") {
-            balance = "1,234.56";
-            staked = "500.00";
-        } else {
-            const b = await contract.balanceOf(address);
-            balance = ethers.formatEther(b);
-            const s = await contract.stakes(address);
-            staked = ethers.formatEther(s.amount);
+    if (contractAddress === "0x0000000000000000000000000000000000000000") {
+        if (userBalance) userBalance.innerText = "0.00";
+        if (stakedAmountDisplay) stakedAmountDisplay.innerText = "0.00 AEG";
+        return;
+    }
 
-            // Update Chart Data (Mocking relative to real balance)
-            const baseVal = parseFloat(balance);
-            portfolioChart.data.datasets[0].data = [baseVal * 0.8, baseVal * 0.85, baseVal * 0.9, baseVal * 0.95, baseVal * 1.0, baseVal * 1.02, baseVal];
-            portfolioChart.update();
-        }
-        userBalance.innerText = parseFloat(balance.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
-        stakedAmount.innerText = parseFloat(staked).toLocaleString() + " AEG";
-    } catch (err) { }
+    try {
+        const b = await contract.balanceOf(address);
+        const balance = ethers.formatEther(b);
+        const s = await contract.stakes(address);
+        const staked = ethers.formatEther(s.amount);
+
+        userBalance.innerText = parseFloat(balance).toLocaleString(undefined, { minimumFractionDigits: 2 });
+        stakedAmountDisplay.innerText = parseFloat(staked).toLocaleString() + " AEG";
+
+        // 更新圖表 (Real growth based on session updates)
+        chartDataPoints.push(parseFloat(balance));
+        if (chartDataPoints.length > 20) chartDataPoints.shift();
+        portfolioChart.data.labels = chartDataPoints.map((_, i) => i);
+        portfolioChart.data.datasets[0].data = chartDataPoints;
+        portfolioChart.update();
+
+    } catch (err) {
+        console.error("Dashboard Real-time update failed:", err);
+    }
 }
 
 function initListeners() {
@@ -140,51 +159,43 @@ function initListeners() {
         if (accounts.length > 0) handleAccountsChanged(accounts);
     });
 
-    // --- User Services: Burn ---
+    // --- Burn ---
     document.getElementById('burn-btn')?.addEventListener('click', async () => {
+        if (!signer) return alert("Connect vault first.");
         const amount = document.getElementById('burn-amount').value;
-        if (!amount || amount <= 0) return alert("Please specify an amount.");
-        if (contractAddress === "0x0000000000000000000000000000000000000000") {
-            alert("Shield active! Tokens burned successfully (Demo).");
-            return;
-        }
+        if (!amount || amount <= 0) return alert("Invalid amount.");
+
         try {
             const tx = await contract.connect(signer).burn(ethers.parseEther(amount));
             await tx.wait();
-            alert("Successful burn transaction on Base.");
+            alert("Successful chain burn.");
             updateDashboard(await signer.getAddress());
-        } catch (e) { alert("Action cancelled: " + e.message); }
+        } catch (e) { alert("Blockchain Error: " + e.message); }
     });
 
-    // --- User Services: Deposit (Stake) ---
+    // --- Stake ---
     document.getElementById('stake-btn')?.addEventListener('click', async () => {
+        if (!signer) return alert("Connect vault first.");
         const amount = document.getElementById('stake-amount').value;
-        if (!amount || amount <= 0) return alert("Please enter deposit amount.");
-        if (contractAddress === "0x0000000000000000000000000000000000000000") {
-            alert("Wealth secured! Staking deposit successful (Demo).");
-            return;
-        }
+        if (!amount || amount <= 0) return alert("Invalid amount.");
+
         try {
             const tx = await contract.connect(signer).stake(ethers.parseEther(amount));
             await tx.wait();
-            alert("Success! Your wealth is now yielding rewards.");
+            alert("Deposit successful confirmed on Base.");
             updateDashboard(await signer.getAddress());
-        } catch (e) { alert("Deposit failed: " + e.message); }
+        } catch (e) { alert("Blockchain Error: " + e.message); }
     });
 
-    // --- User Services: Claim ---
+    // --- Claim ---
     document.getElementById('claim-rewards-tab')?.addEventListener('click', async () => {
-        if (!signer) return alert("Please connect your vault.");
-        if (contractAddress === "0x0000000000000000000000000000000000000000") {
-            alert("Harvest complete! Rewards delivered to your balance.");
-            return;
-        }
+        if (!signer) return alert("Connect vault first.");
         try {
             const tx = await contract.connect(signer).withdrawStake();
             await tx.wait();
-            alert("Yield collected successfully!");
+            alert("Rewards Claimed & Principal Withdrawn (TX Confirmed).");
             updateDashboard(await signer.getAddress());
-        } catch (e) { alert("Collection error."); }
+        } catch (e) { alert("Blockchain Error: " + e.message); }
     });
 }
 
