@@ -16,6 +16,8 @@ const translations = {
         "burn_hint": "手動維護能加強生態價值底層。",
         "stat_total": "全網註冊總發行量",
         "stat_symbol": "協議識別代碼",
+        "owner_panel": "管理員終端",
+        "owner_desc": "僅限當前合約擁有人 (Owner) 存取資產鑄造權限。",
         "footer_text": "© 2026 Aegis 全球安全計畫。Base 主網技術開發。",
         "install_metamask": "請安裝錢包擴展"
     },

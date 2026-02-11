@@ -109,11 +109,13 @@ async function setupTokenDisplay() {
 }
 
 async function handleAccountsChanged(accounts) {
+    const ownerPanel = document.getElementById('owner-actions');
     if (accounts.length === 0) {
         connectBtn?.classList.remove('connected');
         if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
         if (walletAddrShort) walletAddrShort.innerText = "Disconnected";
         if (userBalance) userBalance.innerText = "0.00";
+        if (ownerPanel) ownerPanel.style.display = 'none';
     } else {
         signer = await provider.getSigner();
         const address = await signer.getAddress();
@@ -122,6 +124,15 @@ async function handleAccountsChanged(accounts) {
         if (walletAddrShort) walletAddrShort.innerText = address;
 
         updateDashboard(address);
+
+        if (contractAddress !== "0x0000000000000000000000000000000000000000") {
+            try {
+                const owner = await contract.owner();
+                if (ownerPanel) ownerPanel.style.display = (owner.toLowerCase() === address.toLowerCase()) ? 'block' : 'none';
+            } catch (e) {
+                if (ownerPanel) ownerPanel.style.display = 'none';
+            }
+        }
     }
 }
 
@@ -153,6 +164,24 @@ async function updateDashboard(address) {
     }
 }
 
+// 檢查連線狀態封裝
+async function checkConnection() {
+    if (!signer) {
+        try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            if (accounts.length > 0) {
+                await handleAccountsChanged(accounts);
+                return true;
+            }
+        } catch (e) {
+            alert("請先連接錢包才能執行此操作。");
+            return false;
+        }
+        return false;
+    }
+    return true;
+}
+
 function initListeners() {
     connectBtn?.addEventListener('click', async () => {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -161,41 +190,65 @@ function initListeners() {
 
     // --- Burn ---
     document.getElementById('burn-btn')?.addEventListener('click', async () => {
-        if (!signer) return alert("Connect vault first.");
+        if (!(await checkConnection())) return;
+        if (contractAddress === "0x0000000000000000000000000000000000000000") return alert("合約尚未部署，無法執行此操作。");
+
         const amount = document.getElementById('burn-amount').value;
-        if (!amount || amount <= 0) return alert("Invalid amount.");
+        if (!amount || amount <= 0) return alert("請輸入有效數量。");
 
         try {
             const tx = await contract.connect(signer).burn(ethers.parseEther(amount));
+            alert("燒毀交易已送出...");
             await tx.wait();
-            alert("Successful chain burn.");
+            alert("燒毀成功！");
             updateDashboard(await signer.getAddress());
-        } catch (e) { alert("Blockchain Error: " + e.message); }
+        } catch (e) { alert("交易失敗: " + e.message); }
     });
 
     // --- Stake ---
     document.getElementById('stake-btn')?.addEventListener('click', async () => {
-        if (!signer) return alert("Connect vault first.");
+        if (!(await checkConnection())) return;
+        if (contractAddress === "0x0000000000000000000000000000000000000000") return alert("合約尚未部署。");
+
         const amount = document.getElementById('stake-amount').value;
-        if (!amount || amount <= 0) return alert("Invalid amount.");
+        if (!amount || amount <= 0) return alert("請輸入有效數量。");
 
         try {
             const tx = await contract.connect(signer).stake(ethers.parseEther(amount));
+            alert("質押交易已送出...");
             await tx.wait();
-            alert("Deposit successful confirmed on Base.");
+            alert("存入成功！開始計算收益。");
             updateDashboard(await signer.getAddress());
-        } catch (e) { alert("Blockchain Error: " + e.message); }
+        } catch (e) { alert("質押失敗: " + e.message); }
     });
 
     // --- Claim ---
     document.getElementById('claim-rewards-tab')?.addEventListener('click', async () => {
-        if (!signer) return alert("Connect vault first.");
+        if (!(await checkConnection())) return;
+        if (contractAddress === "0x0000000000000000000000000000000000000000") return alert("合約尚未部署。");
+
         try {
             const tx = await contract.connect(signer).withdrawStake();
+            alert("收益領取交易送出...");
             await tx.wait();
-            alert("Rewards Claimed & Principal Withdrawn (TX Confirmed).");
+            alert("收益領取成功！");
             updateDashboard(await signer.getAddress());
-        } catch (e) { alert("Blockchain Error: " + e.message); }
+        } catch (e) { alert("提取失敗。"); }
+    });
+
+    // --- Mint (Owner Only) ---
+    document.getElementById('mint-btn')?.addEventListener('click', async () => {
+        if (!(await checkConnection())) return;
+        const to = document.getElementById('mint-address').value;
+        const amount = document.getElementById('mint-amount').value;
+        if (!to || !amount) return alert("請填寫地址與數量。");
+
+        try {
+            const tx = await contract.connect(signer).mint(to, ethers.parseEther(amount));
+            alert("鑄造請求已發送...");
+            await tx.wait();
+            alert("鑄造成功！");
+        } catch (e) { alert("操作失敗，錢包可能非合約擁有人。"); }
     });
 }
 

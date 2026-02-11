@@ -375,6 +375,29 @@ body {
     color: #222;
 }
 
+/* Admin Console */
+.owner-box {
+    margin-top: 4rem;
+    background: #0d0d0d;
+    border: 1px solid var(--mm-primary);
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(3, 125, 214, 0.1);
+}
+
+.admin-icon {
+    background: rgba(255, 215, 0, 0.05) !important;
+}
+
+.admin-stack {
+    margin-top: 1.5rem;
+}
+
+.admin-btn {
+    background: var(--mm-primary) !important;
+    color: white !important;
+}
+
 /* Animations */
 .fade-in {
     opacity: 0;
