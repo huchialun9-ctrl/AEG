@@ -19,10 +19,11 @@ contract Aegis is ERC20, ERC20Burnable, Pausable, Ownable {
 
     mapping(address => Stake) public stakes;
     uint256 public totalStaked;
-    uint256 public constant APY = 185; // 18.5% (multiplied by 10)
+    uint256 public apy = 185; // 18.5% (multiplied by 10)
 
     event Staked(address indexed user, uint256 amount);
     event Unstaked(address indexed user, uint256 amount, uint256 reward);
+    event APYUpdated(uint256 oldAPY, uint256 newAPY);
 
     constructor(address initialOwner) 
         ERC20("Aegis", "AEG") 
@@ -32,6 +33,12 @@ contract Aegis is ERC20, ERC20Burnable, Pausable, Ownable {
     }
 
     // --- Core Token Functions ---
+
+    function setAPY(uint256 newAPY) public onlyOwner {
+        uint256 oldAPY = apy;
+        apy = newAPY;
+        emit APYUpdated(oldAPY, newAPY);
+    }
 
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
@@ -100,9 +107,9 @@ contract Aegis is ERC20, ERC20Burnable, Pausable, Ownable {
         if (userStake.amount == 0) return 0;
 
         uint256 duration = block.timestamp - userStake.startTime;
-        // Reward = Amount * APY% * (Duration / 1 Year)
-        // Simplified: (amount * 185 * duration) / (1000 * 365 days)
-        return (userStake.amount * APY * duration) / (1000 * 365 days);
+        // Reward = Amount * apy% * (Duration / 1 Year)
+        // Simplified: (amount * apy * duration) / (1000 * 365 days)
+        return (userStake.amount * apy * duration) / (1000 * 365 days);
     }
 
     // --- Hooks ---

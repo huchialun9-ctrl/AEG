@@ -107,7 +107,126 @@ body {
     border-color: var(--mm-accent);
 }
 
-/* Portfolio Container */
+.btn-buy-nav {
+    color: var(--mm-accent);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-right: 1.5rem;
+    border: 1px solid rgba(0, 211, 149, 0.2);
+    padding: 6px 14px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.btn-buy-nav:hover {
+    background: rgba(0, 211, 149, 0.1);
+}
+
+.usd-value-container {
+    font-family: var(--font-mono);
+    color: var(--mm-text-dim);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: -5px;
+    margin-bottom: 1.5rem;
+}
+
+/* Transaction History */
+.transaction-history-section {
+    margin-top: 5rem;
+    border-top: 1px solid var(--mm-border);
+    padding-top: 2rem;
+}
+
+.transaction-history-section h4 {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: var(--mm-text-dim);
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    background: var(--mm-card);
+    border: 1px solid var(--mm-border);
+    padding: 1.2rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+}
+
+.history-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.history-type-pill {
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+}
+
+.type-stake {
+    background: rgba(3, 125, 214, 0.1);
+    color: var(--mm-primary);
+}
+
+.type-burn {
+    background: rgba(255, 77, 77, 0.1);
+    color: var(--mm-danger);
+}
+
+.type-claim {
+    background: rgba(0, 211, 149, 0.1);
+    color: var(--mm-accent);
+}
+
+.history-hash {
+    font-family: var(--font-mono);
+    color: var(--mm-text-dim);
+    font-size: 0.75rem;
+    text-decoration: none;
+}
+
+.history-placeholder {
+    text-align: center;
+    padding: 3rem;
+    color: #222;
+    border: 1px dashed #111;
+    border-radius: 8px;
+    font-size: 0.8rem;
+}
+
+/* User Portfolio Mobile Optimization */
+@media (max-width: 600px) {
+    .user-header h1 {
+        font-size: 2rem;
+    }
+
+    .value-text {
+        font-size: 3rem;
+    }
+
+    .btn-buy-nav {
+        display: none;
+    }
+
+    /* Hide on small mobile nav for space */
+}
+
 .portfolio-container {
     max-width: 800px;
     margin: 140px auto 4rem;
