@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis (AEG) | 個人資產看板 V1.0.7</title>
-    <link rel="stylesheet" href="style.css?v=1.0.7">
+    <title>Aegis (AEG) | 數位權益資產看板 V1.0.9</title>
+    <link rel="stylesheet" href="style.css?v=1.0.9">
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap"
         rel="stylesheet">
@@ -13,6 +13,11 @@
 </head>
 
 <body>
+    <!-- Background Decoration Grid -->
+    <div class="bg-decoration">
+        <div class="grid-overlay"></div>
+    </div>
+
     <nav class="navbar">
         <div class="nav-content">
             <div class="brand">
@@ -35,23 +40,23 @@
         <!-- User Welcome Header -->
         <header class="user-header fade-in">
             <div class="welcome-box">
-                <h1 data-i18n="portfolio_welcome">Your Portfolio.</h1>
-                <p class="subtitle-dim" data-i18n="portfolio_subtitle">Secured by the Aegis Protocol on Base.</p>
+                <h1 data-i18n="portfolio_welcome">資產總覽</h1>
+                <p class="subtitle-dim" data-i18n="portfolio_subtitle">由 Aegis 盾級安全協議驅動，部署於 Base 主網。</p>
             </div>
-            <div id="wallet-address-short" class="wallet-display-pill">Disconnected</div>
+            <div id="wallet-address-short" class="wallet-display-pill">未連接錢包</div>
         </header>
 
         <!-- Main Balance Visualizer -->
         <section class="main-stats-section fade-in">
             <div class="portfolio-main-card">
                 <div class="balance-labels">
-                    <label data-i18n="balance_total">ESTIMATED ASSET BALANCE</label>
+                    <label data-i18n="balance_total">預估資產價值 (AEG)</label>
                     <div class="massive-balance">
                         <span class="currency-symbol">AEG</span>
                         <span id="user-balance" class="value-text">0.00</span>
                     </div>
                     <div class="balance-change-indicator">
-                        <span class="indicator-up">▲ 18.5% APY active</span>
+                        <span class="indicator-up">APY 18.5% 已激活</span>
                     </div>
                 </div>
                 <!-- Mini Chart Container -->
@@ -66,75 +71,79 @@
             <!-- Staking Service -->
             <div class="service-card staking-service">
                 <div class="service-header">
-                    <div class="service-icon">💎</div>
+                    <div class="service-icon-svg">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                        </svg>
+                    </div>
                     <div class="service-info">
-                        <h3 data-i18n="stake_title">Wealth Staking</h3>
-                        <p data-i18n="stake_benefit">Earn daily AEG rewards automatically.</p>
+                        <h3 data-i18n="stake_title">資產質押</h3>
+                        <p data-i18n="stake_benefit">自動執行算力與流動性收益分配。</p>
                     </div>
                 </div>
                 <div class="reward-highlight">
-                    <small data-i18n="stake_earned">ACCUMULATED REWARDS</small>
+                    <small data-i18n="stake_earned">已積累獎勵餘額</small>
                     <div class="reward-row">
                         <strong id="staked-amount">0.00 AEG</strong>
-                        <button id="claim-rewards-tab" class="btn-claim-micro" data-i18n="stake_claim">CLAIM</button>
+                        <button id="claim-rewards-tab" class="btn-claim-micro" data-i18n="stake_claim">提取收益</button>
                     </div>
                 </div>
                 <div class="service-action">
-                    <input type="number" id="stake-amount" placeholder="0.00 AEG">
-                    <button id="stake-btn" class="btn-service-primary" data-i18n="stake_btn">DEPOSIT</button>
+                    <input type="number" id="stake-amount" placeholder="輸入存入數量">
+                    <button id="stake-btn" class="btn-service-primary" data-i18n="stake_btn">立即存入</button>
                 </div>
             </div>
 
             <!-- Protocol Protection (Burn) -->
             <div class="service-card protocol-service">
                 <div class="service-header">
-                    <div class="service-icon">🔥</div>
+                    <div class="service-icon-svg">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M12 2c1.33 2.67 1.33 4.67 0 7.33C14.67 6.67 16.67 6.67 19.33 8c-1.33 2.67-1.33 4.67 0 7.33-2.67-1.33-4.67-1.33-7.33 0 1.33-2.67 1.33-4.67 0-7.33C9.33 11.33 7.33 11.33 4.67 10c1.33-2.67 1.33-4.67 0-7.33 2.67 1.33 4.67 1.33 7.33 0z" />
+                        </svg>
+                    </div>
                     <div class="service-info">
-                        <h3 data-i18n="burn_title">Shield Support</h3>
-                        <p data-i18n="burn_benefit">Strengthen the protocol via deflation.</p>
+                        <h3 data-i18n="burn_title">通縮維護</h3>
+                        <p data-i18n="burn_benefit">執行通縮燒毀，強化協議稀缺性。</p>
                     </div>
                 </div>
                 <div class="service-action">
-                    <input type="number" id="burn-amount" placeholder="0.00 AEG">
-                    <button id="burn-btn" class="btn-service-danger" data-i18n="burn_btn">CONFIRM BURN</button>
+                    <input type="number" id="burn-amount" placeholder="輸入燒毀數量">
+                    <button id="burn-btn" class="btn-service-danger" data-i18n="burn_btn">執行燒毀</button>
                 </div>
-                <p class="service-footer-hint" data-i18n="burn_hint">Manual burning contributes to scarcity.</p>
+                <p class="service-footer-hint" data-i18n="burn_hint">手動維護能加強生態價值底層。</p>
             </div>
         </section>
 
         <!-- Footer Stats Mini -->
         <div class="global-stats-footer fade-in">
             <div class="mini-stat-item">
-                <label data-i18n="stat_total">TOTAL REGISTERED SUPPLY</label>
+                <label data-i18n="stat_total">全網註冊總發行量</label>
                 <div id="total-supply">1,000,000,000</div>
             </div>
             <div class="mini-stat-item">
-                <label data-i18n="stat_symbol">CONTRACT TICKER</label>
+                <label data-i18n="stat_symbol">協議識別代碼</label>
                 <div id="token-symbol">AEG</div>
             </div>
-        </div>
-
-        <!-- System Logic Slots (Hidden) -->
-        <div style="display: none;">
-            <input type="text" id="mint-address">
-            <input type="number" id="mint-amount">
-            <button id="mint-btn"></button>
-            <div id="owner-actions"></div>
         </div>
     </main>
 
     <footer class="footer">
         <div class="footer-links">
-            <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">AEG SOURCE</a>
-            <a href="../docs/index.html" target="_blank">PROTOCOLS</a>
-            <a href="#">COMMUNITY</a>
+            <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">技術源碼</a>
+            <a href="../docs/index.html" target="_blank">協議文檔</a>
+            <a href="#">社群終端</a>
+            <a href="#">X (Twitter)</a>
         </div>
-        <p class="footer-copyright">© 2026 Aegis Global Security Project. Base Mainnet Integration.</p>
+        <p class="footer-copyright">© 2026 Aegis 全球安全計畫。Base 主網技術開發。</p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
-    <script type="module" src="app.js?v=1.0.7"></script>
+    <script type="module" src="app.js?v=1.0.9"></script>
 </body>
 
 </html>
