@@ -318,22 +318,30 @@ body {
 }
 
 .portfolio-container {
-    max-width: 800px;
-    margin: 140px auto 4rem;
-    padding: 0 2rem;
+    max-width: 1200px;
+    margin: 120px auto 4rem;
+    padding: 0 5vw;
 }
 
 .user-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 3.5rem;
+    text-align: center;
+    margin-bottom: 4rem;
 }
 
 .user-header h1 {
-    font-size: 2.5rem;
+    font-size: 4rem;
     font-weight: 900;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 1.1rem;
+    color: var(--mm-text-dim);
+    line-height: 1.6;
 }
 
 .subtitle-dim {
@@ -412,11 +420,6 @@ body {
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--mm-accent);
-}
-
-.chart-container-mini {
-    flex: 1;
-    height: 120px;
 }
 
 /* Service Cards Grid */
@@ -704,12 +707,6 @@ body {
     }
 }
 
-.portfolio-container {
-    max-width: 1100px;
-    margin: 160px auto 4rem;
-    padding: 0 2rem;
-}
-
 @media (max-width: 950px) {
     .action-services-grid {
         grid-template-columns: 1fr;
@@ -741,14 +738,4 @@ body {
     .value-text {
         font-size: 3.5rem;
     }
-}
-
-.user-header h1 {
-    font-size: 3.2rem;
-    font-weight: 900;
-    letter-spacing: -2px;
-    background: linear-gradient(to bottom, #fff 0%, #aaa 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
 }

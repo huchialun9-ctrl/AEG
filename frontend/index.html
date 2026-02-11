@@ -59,9 +59,9 @@
         <!-- Main Balance Visualizer -->
         <section class="main-stats-section fade-in">
             <div class="portfolio-main-card">
-                <div class="balance-labels">
-                    <label data-i18n="balance_total">預估資產價值 (AEG)</label>
-                    <div class="massive-balance">
+                <div class="balance-info" style="text-align: center;">
+                    <span class="balance-label" data-i18n="portfolio_balance">預估資產價值 (AEG)</span>
+                    <div class="balance-main">
                         <span class="currency-symbol">AEG</span>
                         <span id="user-balance" class="value-text">0.00</span>
                     </div>
@@ -72,10 +72,6 @@
                     <div class="balance-change-indicator">
                         <span class="indicator-up">APY 18.5% 已激活</span>
                     </div>
-                </div>
-                <!-- Mini Chart Container -->
-                <div class="chart-container-mini">
-                    <canvas id="portfolioChart"></canvas>
                 </div>
             </div>
         </section>

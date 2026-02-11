@@ -24,7 +24,6 @@ const abi = [
 let provider;
 let signer;
 let contract;
-let portfolioChart;
 
 const connectBtn = document.querySelector('#connect-wallet');
 const btnText = connectBtn?.querySelector('.btn-text');
@@ -50,40 +49,6 @@ function shortenAddress(addr) {
     return addr.slice(0, 6) + "..." + addr.slice(-4);
 }
 
-// --- Chart JS Implementation (Real Session Monitoring) ---
-let chartDataPoints = [0];
-function initChart() {
-    const ctx = document.getElementById('portfolioChart').getContext('2d');
-    portfolioChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['Start', 'Current'],
-            datasets: [{
-                label: 'Asset Growth',
-                data: chartDataPoints,
-                borderColor: '#037DD6',
-                borderWidth: 3,
-                fill: true,
-                backgroundColor: 'rgba(3, 125, 214, 0.05)',
-                tension: 0.2,
-                pointRadius: 2
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
-            scales: {
-                x: { display: false },
-                y: {
-                    display: false,
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
 // --- 真實生態：獲取鏈上價格 ---
 async function updateAegPrice() {
     try {
@@ -107,7 +72,6 @@ async function updateAegPrice() {
 }
 
 async function init() {
-    initChart();
     if (typeof window.ethereum !== 'undefined') {
         try {
             provider = new ethers.BrowserProvider(window.ethereum);
