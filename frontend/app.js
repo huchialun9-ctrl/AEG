@@ -151,68 +151,73 @@ async function switchNetwork() {
     }
 }
 
-connectBtn.addEventListener('click', async () => {
-    if (typeof window.ethereum === 'undefined') return;
+// 核心事件監聽
+function initListeners() {
+    // 錢包連接
+    connectBtn?.addEventListener('click', async () => {
+        if (typeof window.ethereum === 'undefined') return;
+        try {
+            btnText.innerText = "...";
+            await provider.send("eth_requestAccounts", []);
+            const accounts = await provider.listAccounts();
+            handleAccountsChanged(accounts);
+        } catch (error) {
+            btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
+            alert("Fail: " + error.message);
+        }
+    });
 
-    try {
-        btnText.innerText = "...";
-        await provider.send("eth_requestAccounts", []);
-        const accounts = await provider.listAccounts();
-        handleAccountsChanged(accounts);
-    } catch (error) {
-        btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
-        alert("Fail: " + error.message);
-    }
-});
+    // 銷毀代幣
+    document.getElementById('burn-btn')?.addEventListener('click', async () => {
+        if (!signer) return alert("請先連接錢包");
+        const amount = document.getElementById('burn-amount').value;
+        if (!amount || amount <= 0) return alert("請輸入有效數量");
+        try {
+            const contractWithSigner = contract.connect(signer);
+            const tx = await contractWithSigner.burn(ethers.parseEther(amount));
+            alert("交易已發送，等待區塊鏈確認...");
+            await tx.wait();
+            alert("銷毀成功！");
+            updateDashboard(await signer.getAddress());
+        } catch (e) {
+            alert("操作失敗: " + (e.shortMessage || e.message));
+        }
+    });
 
-async function updateDashboard(address) {
-    if (contractAddress === "0x0000000000000000000000000000000000000000") {
-        userBalance.innerText = "8,888.88";
-        return;
-    }
-    if (!contract || !address) return;
-    try {
-        const balance = await contract.balanceOf(address);
-        userBalance.innerText = parseFloat(ethers.formatUnits(balance, 18)).toFixed(2);
-    } catch (e) {
-        console.error("Fail", e);
-    }
+    // 鑄造代幣 (Owner ONLY)
+    document.getElementById('mint-btn')?.addEventListener('click', async () => {
+        if (!signer) return alert("請管理員連接錢包");
+        const to = document.getElementById('mint-address').value;
+        const amount = document.getElementById('mint-amount').value;
+        if (!to || !amount) return alert("請填寫地址與數量");
+        try {
+            const contractWithSigner = contract.connect(signer);
+            const tx = await contractWithSigner.mint(to, ethers.parseEther(amount));
+            await tx.wait();
+            alert("鑄造成功！");
+            updateDashboard(await signer.getAddress());
+        } catch (e) {
+            alert("鑄造失敗: " + e.message);
+        }
+    });
+
+    // 質押與治理交互
+    document.getElementById('stake-btn')?.addEventListener('click', () => {
+        alert("質押功能將於合約部署後實機啟動！目前合約地址為測試佔位。");
+    });
+
+    document.getElementById('claim-btn')?.addEventListener('click', () => {
+        alert("獎勵領取功能將隨質押系統一同開啟。");
+    });
+
+    document.getElementById('propose-btn')?.addEventListener('click', () => {
+        alert("DAO 治理功能：僅限 AEG 持有人發起提案。");
+    });
 }
 
-init();
-// 銷毀代幣功能
-document.getElementById('burn-btn').addEventListener('click', async () => {
-    if (!signer) return alert("請先連接錢包");
-    const amount = document.getElementById('burn-amount').value;
-    if (!amount || amount <= 0) return alert("請輸入有效數量");
-
-    try {
-        const contractWithSigner = contract.connect(signer);
-        const tx = await contractWithSigner.burn(ethers.parseEther(amount));
-        alert("交易已發送，等待區塊鏈確認...");
-        await tx.wait();
-        alert("銷毀成功！");
-        updateDashboard(await signer.getAddress());
-    } catch (e) {
-        alert("操作失敗: " + e.shortMessage || e.message);
-    }
+// 啟動應用程式
+document.addEventListener('DOMContentLoaded', () => {
+    init();
+    initListeners();
+    initCharts(); // 確保圖表也初始化
 });
-
-// 鑄造代幣功能 (Owner ONLY)
-document.getElementById('mint-btn').addEventListener('click', async () => {
-    if (!signer) return;
-    const to = document.getElementById('mint-address').value;
-    const amount = document.getElementById('mint-amount').value;
-
-    try {
-        const contractWithSigner = contract.connect(signer);
-        const tx = await contractWithSigner.mint(to, ethers.parseEther(amount));
-        await tx.wait();
-        alert("鑄造成功！");
-        updateDashboard(await signer.getAddress());
-    } catch (e) {
-        alert("鑄造失敗: " + e.message);
-    }
-});
-
-init();
