@@ -365,18 +365,18 @@ body {
 
 /* Main Stats Card */
 .portfolio-main-card {
-    background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(5, 5, 5, 0.9) 100%);
+    background: #0d0d0d;
     border: 1px solid var(--mm-border);
     border-radius: 20px;
-    padding: 3.5rem;
+    padding: 4rem 2rem;
     margin-bottom: 3rem;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 4rem;
     backdrop-filter: blur(10px);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
     position: relative;
     overflow: hidden;
+    min-height: 250px;
 }
 
 .portfolio-main-card::before {
@@ -391,38 +391,41 @@ body {
     pointer-events: none;
 }
 
-.balance-labels label {
-    font-size: 0.65rem;
-    font-weight: 800;
-    color: var(--mm-text-dim);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-
-.massive-balance {
+.balance-info {
+    width: 100%;
     display: flex;
-    align-items: baseline;
-    gap: 12px;
-    margin: 0.5rem 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .currency-symbol {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 700;
     color: var(--mm-text-dim);
+    margin-right: 8px;
 }
 
 .value-text {
-    font-size: 4.5rem;
+    font-size: clamp(2.5rem, 8vw, 4rem);
     font-weight: 900;
     letter-spacing: -2px;
-    line-height: 1;
+    line-height: 1.1;
+}
+
+.balance-main {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin: 0.5rem 0;
 }
 
 .balance-change-indicator {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 600;
     color: var(--mm-accent);
+    margin-top: 0.5rem;
 }
 
 /* Service Cards Grid */
