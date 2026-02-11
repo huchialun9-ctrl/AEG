@@ -461,6 +461,74 @@ input:focus {
 .footer {
     padding: 4rem 2rem;
     text-align: center;
-    color: var(--text-gray);
     font-size: 0.9rem;
+}
+
+/* Staking & DAO Specific Styles */
+.gold-border {
+    border: 1px solid rgba(255, 215, 0, 0.3) !important;
+}
+
+.staking-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.apy-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ffd700, #ff9500);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    box-shadow: 0 4px 10px rgba(255, 149, 0, 0.3);
+}
+
+.staking-info {
+    margin: 1.5rem 0;
+    background: rgba(255, 215, 0, 0.03);
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: var(--text-gray);
+}
+
+.info-row.highlight {
+    color: var(--text-dark);
+    font-weight: 700;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 8px;
+}
+
+.info-row.highlight span:last-child {
+    color: #ff9500;
+}
+
+.btn-outline-small {
+    background: transparent;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 600;
+}
+
+.btn-outline-small:hover {
+    background: #f8f9fa;
+    border-color: #ddd;
 }

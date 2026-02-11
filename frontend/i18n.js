@@ -26,7 +26,11 @@ const translations = {
         "stake_rewards": "待領取收益",
         "stake_placeholder": "輸入質押數量",
         "stake_btn": "立即質押",
-        "claim_btn": "領取報酬"
+        "claim_btn": "領取報酬",
+        "dao_title": "治理中心 (DAO)",
+        "dao_active": "當前無活躍提案",
+        "dao_empty": "成為持有人即可發起提案，共同決定 Aegis 的未來。",
+        "dao_propose_btn": "發起新提案"
     },
     "en": {
         "nav_connect": "Connect Wallet",
@@ -55,7 +59,11 @@ const translations = {
         "stake_rewards": "Pending Rewards",
         "stake_placeholder": "Enter amount to stake",
         "stake_btn": "Stake Now",
-        "claim_btn": "Claim Rewards"
+        "claim_btn": "Claim Rewards",
+        "dao_title": "Governance Center (DAO)",
+        "dao_active": "No Active Proposals",
+        "dao_empty": "Hold AEG to create proposals and shape the future.",
+        "dao_propose_btn": "Create Proposal"
     }
 };
 
