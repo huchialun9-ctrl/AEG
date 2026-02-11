@@ -1,5 +1,4 @@
 import { setLanguage, currentLang, translations } from './i18n.js';
-import { initCharts } from './charts.js';
 
 const contractAddress = "0x0000000000000000000000000000000000000000"; // 部署後請更新此處
 const abi = [
@@ -219,7 +218,6 @@ function initListeners() {
 document.addEventListener('DOMContentLoaded', () => {
     init();
     initListeners();
-    initCharts();
 
     // 註冊 PWA Service Worker
     if ('serviceWorker' in navigator) {
