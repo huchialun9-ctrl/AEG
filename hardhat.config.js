@@ -13,13 +13,13 @@ export default {
         },
     },
     networks: {
+        base: {
+            url: "https://mainnet.base.org",
+            accounts: [process.env.PRIVATE_KEY]
+        },
         "base-sepolia": {
             url: "https://sepolia.base.org",
-            accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-        },
-        "base-mainnet": {
-            url: "https://api.developer.coinbase.com/rpc/v1/base/VZB6PCjLKQpCjVeVFv2aI3pB0dHyVVbJ",
-            accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-        },
+            accounts: [process.env.PRIVATE_KEY]
+        }
     },
 };

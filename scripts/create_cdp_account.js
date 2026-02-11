@@ -7,9 +7,9 @@ async function main() {
     try {
         // 核心修正：手動讀取 .env 中的變數名稱以確保與用戶提供的名稱對齊
         const cdp = new CdpClient({
-            apiKeyId: process.env.CDP_API_KEY_NAME,
-            apiKeySecret: process.env.CDP_API_KEY_PRIVATE_KEY,
-            walletSecret: process.env.CDP_WALLET_SECRET
+            apiKeyId: process.env.CDP_API_KEY_NAME?.trim(),
+            apiKeySecret: process.env.CDP_API_KEY_PRIVATE_KEY?.trim().replace(/\\n/g, '\n'),
+            walletSecret: process.env.CDP_WALLET_SECRET?.trim()
         });
 
         console.log("正在透過 CDP 組織權限生成免手續費智能帳戶...");

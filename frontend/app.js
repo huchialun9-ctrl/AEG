@@ -2,7 +2,7 @@ import { setLanguage, currentLang, translations } from './i18n.js';
 
 // --- 配置區 ---
 // [IMPORTANT] 請務必更新此地址為您在 Base 上部署的真實合約地址
-const contractAddress = "0x0000000000000000000000000000000000000000";
+const contractAddress = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
 const abi = [
     "function name() view returns (string)",
     "function symbol() view returns (string)",
@@ -84,17 +84,15 @@ function initChart() {
 }
 
 // --- 生態擴展：價格獲取 ---
-async function updateAegPrice() {
-    try {
-        if (contractAddress === "0x0000000000000000000000000000000000000000") return;
-        const totalRaw = await contract.totalSupply();
-        const total = parseFloat(ethers.formatEther(totalRaw));
-        const stakedRaw = await contract.totalStaked();
-        const staked = parseFloat(ethers.formatEther(stakedRaw));
-        const stakedRatio = staked / total;
-        aegPrice = 0.05 + (stakedRatio * 0.2); // 模擬隨質押率提升價格
-    } catch (e) { }
-}
+try {
+    if (!contract) return;
+    const totalRaw = await contract.totalSupply();
+    const total = parseFloat(ethers.formatEther(totalRaw));
+    const stakedRaw = await contract.totalStaked();
+    const staked = parseFloat(ethers.formatEther(stakedRaw));
+    const stakedRatio = total > 0 ? staked / total : 0;
+    aegPrice = 0.10 + (stakedRatio * 0.15); // 起步價 0.1, 隨質押率最高到 0.25
+} catch (e) { }
 
 async function init() {
     initChart();

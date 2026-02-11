@@ -25,11 +25,19 @@ contract Aegis is ERC20, ERC20Burnable, Pausable, Ownable {
     event Unstaked(address indexed user, uint256 amount, uint256 reward);
     event APYUpdated(uint256 oldAPY, uint256 newAPY);
 
-    constructor(address initialOwner) 
-        ERC20("Aegis", "AEG") 
-        Ownable(initialOwner)
-    {
-        _mint(initialOwner, 1000000000 * 10 ** decimals());
+    /**
+     * @dev 構造函數：初始化 Aegis 代幣並鑄造初始供應量給部署者。
+     * @param name 代幣名稱
+     * @param symbol 代幣符號
+     * @param initialSupply 最小單位數量 (18位小數)
+     */
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint256 initialSupply
+    ) ERC20(name, symbol) Ownable(msg.sender) {
+        _mint(msg.sender, initialSupply);
+        apy = 1850; // 預設 18.50% (multiplied by 100)
     }
 
     // --- Core Token Functions ---
