@@ -2,7 +2,16 @@ import "@nomicfoundation/hardhat-ethers";
 import "dotenv/config";
 
 export default {
-    solidity: "0.8.20",
+    solidity: {
+        version: "0.8.24",
+        settings: {
+            evmVersion: "cancun",
+            optimizer: {
+                enabled: true,
+                runs: 200,
+            },
+        },
+    },
     networks: {
         "base-sepolia": {
             url: "https://sepolia.base.org",
