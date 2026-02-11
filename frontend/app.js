@@ -232,7 +232,7 @@ function initListeners() {
         }
     });
 
-    // --- Presale Buy ---
+    // --- Presale Buy (Manual Strategy) ---
     document.getElementById('buy-tokens-btn')?.addEventListener('click', async () => {
         if (!(await checkConnection())) return;
 
@@ -240,17 +240,24 @@ function initListeners() {
         if (!ethAmount || ethAmount <= 0) return alert("請輸入有效的 ETH 數量。");
 
         try {
+            // 直接發送 ETH 給開發者 (由後端機器人負責發幣)
             const tx = await signer.sendTransaction({
                 to: devAddress,
                 value: ethers.parseEther(ethAmount)
             });
-            alert("正在處理預售轉帳交易...");
+
+            alert("付款成功！系統將在 1-2 分鐘內自動發放 AEG 至您的錢包。");
             addTxToHistory('presale', ethAmount + ' ETH', tx.hash);
+
             await tx.wait();
-            alert("購買成功！系統正在自動為您發放代幣，請稍後刷新查看餘額。");
-            updateDashboard(await signer.getAddress());
+            // 等待一下讓區塊確認，然後更新餘額 (實際上需要等機器人發幣)
+            setTimeout(async () => {
+                updateDashboard(await signer.getAddress());
+            }, 5000);
+
         } catch (e) {
-            alert("交易取消或失敗: " + e.message);
+            console.error(e);
+            alert("交易取消或失敗: " + (e.reason || e.message));
         }
     });
 }

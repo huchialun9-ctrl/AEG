@@ -1,8 +1,10 @@
-const { ethers } = require("ethers");
-require("dotenv").config();
+import { ethers } from "ethers";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * AEG 自動發放機器人 (Autonomous Airdrop Bot) V1.0
+ * AEG 自動發放機器人 (Autonomous Airdrop Bot) V1.1
  * 
  * 運作邏輯:
  * 1. 監聽您的開發者錢包 (0xBDC4...) 是否收到 ETH。
@@ -12,7 +14,7 @@ require("dotenv").config();
  */
 
 // --- 配置區 ---
-const RPC_URL = "https://mainnet.base.org"; // Base 主網 RPC
+const RPC_URL = "https://api.developer.coinbase.com/rpc/v1/base/VZB6PCjLKQpCjVeVFv2aI3pB0dHyVVbJ"; // Base 主網 RPC (Coinbase)
 const PRIVATE_KEY = process.env.PRIVATE_KEY; // 您的私鑰 (需存放在 .env 中)
 const AEG_ADDRESS = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
 const DEV_ADDRESS = "0xBDC4566852B6B45148dBCb2119a4695dfd4e5d77";
@@ -73,4 +75,7 @@ async function main() {
     });
 }
 
-main();
+main().catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+});
