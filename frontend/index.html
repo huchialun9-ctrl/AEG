@@ -48,111 +48,113 @@
                 </div>
             </section>
 
-            <div class="dashboard-grid">
-                <!-- 代幣狀態卡片 -->
-                <div class="glass-card stat-card pulse-border">
-                    <div class="card-header">
-                        <img src="https://img.icons8.com/isometric/50/shield.png" alt="shield" />
-                        <h3 data-i18n="stat_overview">代幣概況</h3>
-                    </div>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <label data-i18n="stat_symbol">代幣符號</label>
-                            <span id="token-symbol" class="value">AEG</span>
+            <!-- 一體化核心儀表板 (Master Dashboard) -->
+            <section class="dashboard-section fade-in">
+                <div class="master-dashboard">
+                    <!-- 左側：資產與數據概覽 -->
+                    <div class="dashboard-panel side-panel">
+                        <div class="panel-section">
+                            <h3 class="panel-tag" data-i18n="stat_overview">代幣概況</h3>
+                            <div class="stats-compact">
+                                <div class="stat-box">
+                                    <label data-i18n="stat_symbol">代幣符號</label>
+                                    <span id="token-symbol" class="value-small">AEG</span>
+                                </div>
+                                <div class="stat-box">
+                                    <label data-i18n="stat_total">總發行量</label>
+                                    <span id="total-supply" class="value-small">1,000,000,000</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <label data-i18n="stat_total">總發行量</label>
-                            <span id="total-supply" class="value">1,000,000,000</span>
+                        <div class="panel-divider"></div>
+                        <div class="panel-section">
+                            <h3 class="panel-tag" data-i18n="balance_title">您的資產</h3>
+                            <div class="balance-main">
+                                <span id="user-balance" class="massive-text">0.00</span>
+                                <span class="unit-text">AEG</span>
+                            </div>
+                            <div id="wallet-address" class="address-pill" data-i18n="balance_addr_none">未連接</div>
                         </div>
                     </div>
-                </div>
 
-                <!-- 您的餘額卡片 -->
-                <div class="glass-card balance-card">
-                    <div class="card-header">
-                        <img src="https://img.icons8.com/isometric/50/wallet.png" alt="wallet" />
-                        <h3 data-i18n="balance_title">您的資產</h3>
-                    </div>
-                    <div class="balance-display">
-                        <span id="user-balance">0.00</span>
-                        <small>AEG</small>
-                    </div>
-                    <div id="wallet-address" class="address-tag" data-i18n="balance_addr_none">未連接</div>
-                </div>
+                    <!-- 右側：交互與功能操作 -->
+                    <div class="dashboard-panel main-panel">
+                        <div class="panel-tabs">
+                            <div class="panel-section active">
+                                <h3 class="panel-tag" data-i18n="action_title">核心交互</h3>
+                                <div class="action-grid">
+                                    <div class="input-block">
+                                        <input type="number" id="burn-amount" data-i18n="burn_placeholder"
+                                            placeholder="輸入銷毀數量 (Burn)">
+                                        <button id="burn-btn" class="btn-action-primary"
+                                            data-i18n="burn_btn">確認銷毀</button>
+                                    </div>
+                                    <div class="input-block">
+                                        <div class="staking-stats-mini">
+                                            <span data-i18n="stake_staked">已存放數量</span>: <span id="staked-amount">0.00
+                                                AEG</span>
+                                            <span class="apy-text">APY: 18.5%</span>
+                                        </div>
+                                        <input type="number" id="stake-amount" data-i18n="stake_placeholder"
+                                            placeholder="輸入質押數量">
+                                        <button id="stake-btn" class="btn-action-gold"
+                                            data-i18n="stake_btn">開始質押</button>
+                                    </div>
+                                </div>
 
-                <!-- 質押中心 -->
-                <div class="glass-card staking-card gold-border">
-                    <div class="card-header">
-                        <img src="https://img.icons8.com/isometric/50/coins.png" alt="stake" />
-                        <h3 data-i18n="stake_title">質押中心</h3>
-                    </div>
-                    <div class="apy-badge">APY: 18.5%</div>
-                    <div class="staking-info">
-                        <div class="info-row">
-                            <span data-i18n="stake_staked">已存放數量</span>
-                            <span id="staked-amount">0.00 AEG</span>
+                                <div id="owner-actions" class="owner-panel-internal" style="display: none;">
+                                    <h4 class="owner-title" data-i18n="owner_panel">管理權限</h4>
+                                    <div class="mint-flex">
+                                        <input type="text" id="mint-address" placeholder="接收地址">
+                                        <input type="number" id="mint-amount" placeholder="數量">
+                                        <button id="mint-btn" class="btn-action-gold" data-i18n="mint_btn">執行鑄造</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <input type="number" id="stake-amount" data-i18n="stake_placeholder" placeholder="輸入質押數量">
-                        <button id="stake-btn" class="btn-gold" data-i18n="stake_btn">開始質押</button>
-                    </div>
                 </div>
-            </div>
+            </section>
 
             <!-- Tokenomics Section -->
             <section class="tokenomics-section fade-in">
-                <h2 class="section-title" data-i18n="tokenomics_title">代幣分配</h2>
-                <div class="tokenomics-grid">
-                    <div class="glass-card">
-                        <div class="tokenomics-viz">
-                            <div class="viz-item">
-                                <div class="viz-label"><span data-i18n="tokenomics_lp">流動性鎖定</span><span>60%</span>
-                                </div>
-                                <div class="viz-bar-bg">
-                                    <div class="viz-bar-fill" style="width: 60%"></div>
-                                </div>
+                <h2 class="section-title" data-i18n="tokenomics_title">代幣分配 (Tokenomics)</h2>
+                <div class="tokenomics-hero-box">
+                    <div class="tokenomics-viz-grid">
+                        <div class="viz-item-wide">
+                            <div class="viz-info">
+                                <span class="viz-title" data-i18n="tokenomics_lp">流動性鎖定</span>
+                                <span class="viz-percent">60%</span>
                             </div>
-                            <div class="viz-item">
-                                <div class="viz-label"><span data-i18n="tokenomics_rewards">質押獎賞</span><span>20%</span>
-                                </div>
-                                <div class="viz-bar-bg">
-                                    <div class="viz-bar-fill" style="width: 20%; background: #00d395"></div>
-                                </div>
-                            </div>
-                            <div class="viz-item">
-                                <div class="viz-label"><span data-i18n="tokenomics_team">核心團隊</span><span>10%</span>
-                                </div>
-                                <div class="viz-bar-bg">
-                                    <div class="viz-bar-fill" style="width: 10%; background: var(--accent)"></div>
-                                </div>
-                            </div>
-                            <div class="viz-item">
-                                <div class="viz-label"><span
-                                        data-i18n="tokenomics_marketing">行銷與生態</span><span>10%</span></div>
-                                <div class="viz-bar-bg">
-                                    <div class="viz-bar-fill" style="width: 10%; background: #6a737d"></div>
-                                </div>
+                            <div class="progress-track">
+                                <div class="progress-bar" style="width: 60%"></div>
                             </div>
                         </div>
-                    </div>
-                    <div class="glass-card action-card">
-                        <div class="card-header">
-                            <img src="https://img.icons8.com/isometric/50/fire-element.png" alt="burn" />
-                            <h3 data-i18n="action_title">核心交互</h3>
+                        <div class="viz-item-wide">
+                            <div class="viz-info">
+                                <span class="viz-title" data-i18n="tokenomics_rewards">質押獎賞</span>
+                                <span class="viz-percent">20%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-bar rewards-bg" style="width: 20%"></div>
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <input type="number" id="burn-amount" data-i18n="burn_placeholder"
-                                placeholder="輸入銷毀數量 (Burn)">
-                            <button id="burn-btn" class="btn-primary" data-i18n="burn_btn">確認銷毀</button>
+                        <div class="viz-item-wide">
+                            <div class="viz-info">
+                                <span class="viz-title" data-i18n="tokenomics_team">核心團隊</span>
+                                <span class="viz-percent">10%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-bar team-bg" style="width: 10%"></div>
+                            </div>
                         </div>
-                        <div id="owner-actions" class="owner-panel" style="display: none;">
-                            <hr>
-                            <h4 data-i18n="owner_panel">管理權限 (僅限擁有者)</h4>
-                            <div class="input-group">
-                                <input type="text" id="mint-address" placeholder="接收地址">
-                                <input type="number" id="mint-amount" placeholder="鑄造量">
-                                <button id="mint-btn" class="btn-gold" data-i18n="mint_btn">執行鑄造</button>
+                        <div class="viz-item-wide">
+                            <div class="viz-info">
+                                <span class="viz-title" data-i18n="tokenomics_marketing">行銷與生態</span>
+                                <span class="viz-percent">10%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-bar market-bg" style="width: 10%"></div>
                             </div>
                         </div>
                     </div>
