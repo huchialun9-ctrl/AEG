@@ -227,15 +227,21 @@ function initListeners() {
     });
 }
 
-// 啟動應用程式
 document.addEventListener('DOMContentLoaded', () => {
+    console.log("DOM Loaded, checking for SW cleanup...");
+
+    // 強制註銷舊的 Service Worker 以解決快取問題
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+            for (let registration of registrations) {
+                registration.unregister();
+                console.log("Old Service Worker unregistered");
+            }
+        });
+    }
+
     init();
     initListeners();
-
-    // 註冊 PWA Service Worker
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js').catch(() => { });
-    }
 
     // 電子報按鈕
     document.getElementById('nl-btn')?.addEventListener('click', () => {
