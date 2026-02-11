@@ -7,16 +7,23 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
- * @title Aegis Token
- * @dev Implementation of the Aegis (AEG) token on Base Mainnet.
- * Industrial-grade ERC20 with professional minting, burning, and pausing mechanisms.
+ * @title Aegis Token & Staking
+ * @dev Implementation of the Aegis (AEG) token with integrated staking logic for the official site.
  */
 contract Aegis is ERC20, ERC20Burnable, Pausable, Ownable {
     
-    /**
-     * @dev Sets the name, symbol, and initial supply.
-     * Initial supply is 1,000,000,000 tokens with 18 decimals.
-     */
+    struct Stake {
+        uint256 amount;
+        uint256 startTime;
+    }
+
+    mapping(address => Stake) public stakes;
+    uint256 public totalStaked;
+    uint256 public constant APY = 185; // 18.5% (multiplied by 10)
+
+    event Staked(address indexed user, uint256 amount);
+    event Unstaked(address indexed user, uint256 amount, uint256 reward);
+
     constructor(address initialOwner) 
         ERC20("Aegis", "AEG") 
         Ownable(initialOwner)
@@ -24,33 +31,82 @@ contract Aegis is ERC20, ERC20Burnable, Pausable, Ownable {
         _mint(initialOwner, 1000000000 * 10 ** decimals());
     }
 
-    /**
-     * @dev Function to mint new tokens. Restricted to the owner.
-     * @param to The address that will receive the minted tokens.
-     * @param amount The amount of tokens to mint.
-     */
+    // --- Core Token Functions ---
+
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount);
     }
 
-    /**
-     * @dev Triggers stopped state.
-     */
     function pause() public onlyOwner {
         _pause();
     }
 
-    /**
-     * @dev Returns to normal state.
-     */
     function unpause() public onlyOwner {
         _unpause();
     }
 
+    // --- Staking Logic ---
+
     /**
-     * @dev Hook that is called before any transfer of tokens. This includes
-     * minting and burning.
+     * @dev Stake AEG tokens to earn rewards.
      */
+    function stake(uint256 amount) public whenNotPaused {
+        require(amount > 0, "Cannot stake 0");
+        require(balanceOf(msg.sender) >= amount, "Insufficient balance");
+
+        // If user already has a stake, they must unstake (claim) first or it complicates math
+        // Simplified for this version:
+        if (stakes[msg.sender].amount > 0) {
+            _unstake();
+        }
+
+        _transfer(msg.sender, address(this), amount);
+        stakes[msg.sender] = Stake(amount, block.timestamp);
+        totalStaked += amount;
+
+        emit Staked(msg.sender, amount);
+    }
+
+    /**
+     * @dev Internal function to handle unstaking and reward distribution.
+     */
+    function _unstake() internal {
+        Stake storage userStake = stakes[msg.sender];
+        require(userStake.amount > 0, "No active stake");
+
+        uint256 reward = calculateReward(msg.sender);
+        uint256 principal = userStake.amount;
+
+        totalStaked -= principal;
+        delete stakes[msg.sender];
+
+        _transfer(address(this), msg.sender, principal);
+        if (reward > 0) {
+            _mint(msg.sender, reward); // Rewards are minted as inflation
+        }
+
+        emit Unstaked(msg.sender, principal, reward);
+    }
+
+    function withdrawStake() public whenNotPaused {
+        _unstake();
+    }
+
+    /**
+     * @dev Calculate rewards based on time and APY.
+     */
+    function calculateReward(address user) public view returns (uint256) {
+        Stake memory userStake = stakes[user];
+        if (userStake.amount == 0) return 0;
+
+        uint256 duration = block.timestamp - userStake.startTime;
+        // Reward = Amount * APY% * (Duration / 1 Year)
+        // Simplified: (amount * 185 * duration) / (1000 * 365 days)
+        return (userStake.amount * APY * duration) / (1000 * 365 days);
+    }
+
+    // --- Hooks ---
+
     function _update(address from, address to, uint256 value)
         internal
         virtual

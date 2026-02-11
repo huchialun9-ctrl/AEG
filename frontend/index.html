@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis (AEG) | 盾級資產管理終端 V1.0.5</title>
-    <link rel="stylesheet" href="style.css?v=1.0.5">
+    <title>Aegis (AEG) | 盾級資產管理終端 V1.0.6</title>
+    <link rel="stylesheet" href="style.css?v=1.0.6">
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
@@ -33,7 +33,7 @@
         <!-- Account Info -->
         <div class="account-selector fade-in">
             <div class="account-icon-orb"></div>
-            <span class="account-name">Aegis User Console</span>
+            <span class="account-name" data-i18n="account_label">Aegis User Console</span>
         </div>
 
         <!-- Integrated Interaction Hub -->
@@ -52,6 +52,7 @@
                         <input type="number" id="burn-amount" placeholder="0.00">
                         <button id="burn-btn" class="btn-action-small">🔥</button>
                     </div>
+                    <small class="helper-text" data-i18n="burn_desc">Deflationary mechanism.</small>
                 </div>
 
                 <!-- Stake Section -->
@@ -61,11 +62,14 @@
                         <input type="number" id="stake-amount" placeholder="0.00">
                         <button id="stake-btn" class="btn-action-small">📥</button>
                     </div>
-                    <small class="apy-text-small">APY: 18.5%</small>
+                    <div class="staking-stats-row">
+                        <span class="apy-text-small">APY: 18.5%</span>
+                        <span class="staked-val" id="staked-amount">0.00 AEG</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Owner Panel (Hidden by default) -->
+            <!-- Owner Panel -->
             <div id="owner-actions" class="protocol-box owner-box" style="display: none;">
                 <label class="box-tag" data-i18n="owner_panel">OWNER ACTIONS</label>
                 <div class="input-stack">
@@ -82,7 +86,7 @@
         <div class="assets-section fade-in">
             <div class="tabs-bar">
                 <span class="tab active" data-i18n="balance_title">Aegis Assets</span>
-                <span class="tab">DeFi Staking</span>
+                <span class="tab" data-i18n="stake_claim" id="claim-rewards-tab">Claim Rewards</span>
                 <span class="tab" data-i18n="tx_history">History</span>
             </div>
 
@@ -113,6 +117,47 @@
             </div>
             <div id="wallet-address" class="wallet-pill-mini">Disconnected</div>
         </div>
+
+        <!-- New: Official Info Sections (Restored) -->
+        <div class="official-info-container fade-in">
+            <!-- Roadmap Area -->
+            <section class="info-block">
+                <h3 class="block-title" data-i18n="roadmap_title">DEVELOPMENT ROADMAP</h3>
+                <div class="roadmap-stack">
+                    <div class="roadmap-card">
+                        <span class="q-tag">Q1</span>
+                        <p data-i18n="roadmap_q1_text">Core contract audit and seed liquidity deployment.</p>
+                    </div>
+                    <div class="roadmap-card">
+                        <span class="q-tag">Q2</span>
+                        <p data-i18n="roadmap_q2_text">DEX listing, Staking launch, and community incentives.</p>
+                    </div>
+                    <div class="roadmap-card">
+                        <span class="q-tag">Q3</span>
+                        <p data-i18n="roadmap_q3_text">DAO Governance implementation and L2 expansion.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tokenomics Area -->
+            <section class="info-block">
+                <h3 class="block-title" data-i18n="tokenomics_title">TOKENOMICS</h3>
+                <div class="token-viz-stack">
+                    <div class="viz-row">
+                        <span data-i18n="tokenomics_lp">Liquidity pool</span>
+                        <strong>60%</strong>
+                    </div>
+                    <div class="viz-row">
+                        <span data-i18n="tokenomics_rewards">Staking Rewards</span>
+                        <strong>20%</strong>
+                    </div>
+                    <div class="viz-row">
+                        <span data-i18n="tokenomics_team">Core Team</span>
+                        <strong>10%</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="footer">
@@ -128,7 +173,7 @@
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
-    <script type="module" src="app.js?v=1.0.5"></script>
+    <script type="module" src="app.js?v=1.0.6"></script>
 </body>
 
 </html>
