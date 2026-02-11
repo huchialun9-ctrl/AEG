@@ -3,7 +3,7 @@
     --mm-card: #0d0d0d;
     --mm-border: #1a1a1a;
     --mm-text: #FFFFFF;
-    --mm-text-dim: #666666;
+    --mm-text-dim: #A0A0A0;
     --mm-primary: #037DD6;
     --mm-accent: #00D395;
     --mm-danger: #ff4d4d;
@@ -204,8 +204,8 @@ body {
 .history-placeholder {
     text-align: center;
     padding: 3rem;
-    color: #222;
-    border: 1px dashed #111;
+    color: var(--mm-text-dim);
+    border: 1px dashed #333;
     border-radius: 8px;
     font-size: 0.8rem;
 }
@@ -491,7 +491,7 @@ body {
 
 .footer-copyright {
     font-size: 0.75rem;
-    color: #222;
+    color: var(--mm-text-dim);
 }
 
 /* Animations */
