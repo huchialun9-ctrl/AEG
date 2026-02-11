@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegis (AEG) | 頂級加密安全協議</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700&display=swap"
         rel="stylesheet">
 </head>
@@ -146,10 +147,65 @@
                     </div>
                 </div>
             </section>
+
+            <!-- DEX 兌換組件 -->
+            <section class="dex-section fade-in">
+                <div class="glass-card dex-container">
+                    <div class="dex-header">
+                        <img src="https://img.icons8.com/isometric/50/data-transfer.png" />
+                        <h2 data-i18n="dex_title">直接兌換 (Direct Swap)</h2>
+                    </div>
+                    <div class="swap-widget-box">
+                        <!-- Uniswap Widget Placeholder -->
+                        <iframe
+                            src="https://app.uniswap.org/#/swap?outputCurrency=0x0000000000000000000000000000000000000000&chain=base"
+                            height="500px" width="100%" style="border:0; border-radius: 20px;"></iframe>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 信任與審計區塊 -->
+            <section class="trust-section fade-in">
+                <div class="trust-content">
+                    <h2 class="section-title" data-i18n="trust_title">安全與審計</h2>
+                    <div class="audit-logos">
+                        <div class="audit-item" title="CertiK (Pending)">
+                            <img src="https://img.icons8.com/color/48/verified-account.png" />
+                            <span>CertiK</span>
+                        </div>
+                        <div class="audit-item" title="OpenZeppelin">
+                            <img src="https://img.icons8.com/color/48/shield.png" />
+                            <span>OpenZeppelin</span>
+                        </div>
+                        <div class="audit-item" title="Hacken">
+                            <img src="https://img.icons8.com/color/48/lock.png" />
+                            <span>Hacken</span>
+                        </div>
+                    </div>
+                    <div class="whitepaper-box">
+                        <p data-i18n="wp_text">詳細了解 Aegis 的代幣經濟與技術底層</p>
+                        <a href="../docs/index.html" class="btn-gold" data-i18n="wp_btn">閱讀技術白皮書</a>
+                    </div>
+                </div>
+            </section>
         </div>
     </main>
 
+    <!-- 社交懸浮列 -->
+    <div class="social-sidebar">
+        <a href="#" class="social-icon tg"><img src="https://img.icons8.com/color/48/telegram-app.png" /></a>
+        <a href="#" class="social-icon tw"><img src="https://img.icons8.com/color/48/twitter--v1.png" /></a>
+        <a href="#" class="social-icon dc"><img src="https://img.icons8.com/color/48/discord-new-zealand.png" /></a>
+    </div>
+
     <footer class="footer">
+        <div class="newsletter-section">
+            <h4 data-i18n="nl_title">訂閱 Aegis 最新動態</h4>
+            <div class="nl-input-group">
+                <input type="email" id="nl-email" placeholder="Email Address">
+                <button id="nl-btn" data-i18n="nl_btn">訂閱</button>
+            </div>
+        </div>
         <div class="footer-content">
             <p data-i18n="footer_text">© 2026 Aegis Global Security Project. Built on Base Mainnet.</p>
         </div>

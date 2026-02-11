@@ -30,7 +30,13 @@ const translations = {
         "dao_title": "治理中心 (DAO)",
         "dao_active": "當前無活躍提案",
         "dao_empty": "成為持有人即可發起提案，共同決定 Aegis 的未來。",
-        "dao_propose_btn": "發起新提案"
+        "dao_propose_btn": "發起新提案",
+        "dex_title": "直接兌換 (Direct Swap)",
+        "trust_title": "安全與審計",
+        "wp_text": "詳細了解 Aegis 的代幣經濟與技術底層",
+        "wp_btn": "閱讀技術白皮書",
+        "nl_title": "訂閱 Aegis 最新動態",
+        "nl_btn": "訂閱"
     },
     "en": {
         "nav_connect": "Connect Wallet",
@@ -63,7 +69,13 @@ const translations = {
         "dao_title": "Governance Center (DAO)",
         "dao_active": "No Active Proposals",
         "dao_empty": "Hold AEG to create proposals and shape the future.",
-        "dao_propose_btn": "Create Proposal"
+        "dao_propose_btn": "Create Proposal",
+        "dex_title": "Direct Swap",
+        "trust_title": "Security & Audit",
+        "wp_text": "Learn more about Tokenomics & Technical background",
+        "wp_btn": "Read Whitepaper",
+        "nl_title": "Subscribe to Aegis Updates",
+        "nl_btn": "Subscribe"
     }
 };
 

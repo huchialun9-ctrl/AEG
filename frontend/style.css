@@ -537,3 +537,139 @@ input:focus {
     background: #f8f9fa;
     border-color: #ddd;
 }
+
+/* --- Phase 12 Styles --- */
+
+/* DEX Section */
+.dex-section {
+    margin-top: 5rem;
+}
+
+.dex-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.swap-widget-box {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Trust Section */
+.trust-section {
+    margin-top: 6rem;
+    padding: 4rem 0;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.audit-logos {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    margin: 3rem 0;
+    flex-wrap: wrap;
+}
+
+.audit-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    filter: grayscale(1);
+    opacity: 0.6;
+    transition: all 0.3s;
+}
+
+.audit-item:hover {
+    filter: grayscale(0);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.whitepaper-box {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 24px;
+    box-shadow: var(--shadow);
+    max-width: 600px;
+    margin: 3rem auto 0;
+}
+
+.whitepaper-box p {
+    margin-bottom: 20px;
+    color: var(--text-gray);
+}
+
+/* Social Sidebar */
+.social-sidebar {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    z-index: 1000;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.social-icon:hover {
+    transform: rotate(10deg) scale(1.1);
+    filter: brightness(0.95);
+}
+
+/* Newsletter */
+.newsletter-section {
+    max-width: 500px;
+    margin: 0 auto 3rem;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.nl-input-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.nl-input-group input {
+    flex-grow: 1;
+    padding: 0.8rem 1.2rem;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+}
+
+#nl-btn {
+    padding: 0 25px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .social-sidebar {
+        display: none;
+    }
+
+    .audit-logos {
+        gap: 1.5rem;
+    }
+}

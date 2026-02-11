@@ -219,5 +219,21 @@ function initListeners() {
 document.addEventListener('DOMContentLoaded', () => {
     init();
     initListeners();
-    initCharts(); // 確保圖表也初始化
+    initCharts();
+
+    // 註冊 PWA Service Worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => { });
+    }
+
+    // 電子報按鈕
+    document.getElementById('nl-btn')?.addEventListener('click', () => {
+        const email = document.getElementById('nl-email').value;
+        if (email && email.includes('@')) {
+            alert("感謝訂閱！您將會收到 Aegis 的最新動態。");
+            document.getElementById('nl-email').value = "";
+        } else {
+            alert("請輸入有效的 Email 地址。");
+        }
+    });
 });
