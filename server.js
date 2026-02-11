@@ -8,11 +8,13 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// 服務靜態資源
-app.use(express.static(path.join(__dirname, 'frontend')));
+// 先定義 /docs 路由
 app.use('/docs', express.static(path.join(__dirname, 'docs')));
 
-// 首頁跳轉
+// 再服務 frontend 靜態資源
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+// 首頁跳轉 (可省略，express.static 會自動尋找 frontend/index.html)
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));
 });
