@@ -18,8 +18,12 @@
                 <span class="brand-text">AEGIS</span>
             </div>
             <div class="nav-actions">
+                <select id="lang-select" class="lang-switcher">
+                    <option value="zh-TW">繁體中文</option>
+                    <option value="en">English</option>
+                </select>
                 <button id="connect-wallet" class="btn-connect">
-                    <span class="btn-text">連接錢包</span>
+                    <span class="btn-text" data-i18n="nav_connect">連接錢包</span>
                     <div class="dot"></div>
                 </button>
             </div>
@@ -37,11 +41,11 @@
                 <div class="resource-buttons">
                     <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank" class="btn-outline">
                         <img src="https://img.icons8.com/ios-glyphs/30/github.png" alt="github" />
-                        查看 GitHub 倉庫
+                        <span data-i18n="btn_github">查看 GitHub 倉庫</span>
                     </a>
-                    <a href="./docs/README.md" class="btn-outline">
+                    <a href="../docs/index.html" target="_blank" class="btn-outline">
                         <img src="https://img.icons8.com/ios-glyphs/30/document.png" alt="doc" />
-                        專案開發文檔
+                        <span data-i18n="btn_docs">專案開發文檔</span>
                     </a>
                 </div>
             </section>
@@ -51,15 +55,15 @@
                 <div class="glass-card stat-card pulse-border">
                     <div class="card-header">
                         <img src="https://img.icons8.com/isometric/50/shield.png" alt="shield" />
-                        <h3>代幣概況</h3>
+                        <h3 data-i18n="stat_overview">代幣概況</h3>
                     </div>
                     <div class="stats">
                         <div class="stat-item">
-                            <label>代幣符號</label>
+                            <label data-i18n="stat_symbol">代幣符號</label>
                             <span id="token-symbol" class="value">AEG</span>
                         </div>
                         <div class="stat-item">
-                            <label>總發行量</label>
+                            <label data-i18n="stat_total">總發行量</label>
                             <span id="total-supply" class="value">---</span>
                         </div>
                     </div>
@@ -69,33 +73,33 @@
                 <div class="glass-card balance-card">
                     <div class="card-header">
                         <img src="https://img.icons8.com/isometric/50/wallet.png" alt="wallet" />
-                        <h3>您的資產</h3>
+                        <h3 data-i18n="balance_title">您的資產</h3>
                     </div>
                     <div class="balance-display">
                         <span id="user-balance">0.00</span>
                         <small>AEG</small>
                     </div>
-                    <div id="wallet-address" class="address-tag">未連接</div>
+                    <div id="wallet-address" class="address-tag" data-i18n="balance_addr_none">未連接</div>
                 </div>
 
                 <!-- 互動操作卡片 -->
                 <div class="glass-card action-card">
                     <div class="card-header">
                         <img src="https://img.icons8.com/isometric/50/fire-element.png" alt="burn" />
-                        <h3>核心交互</h3>
+                        <h3 data-i18n="action_title">核心交互</h3>
                     </div>
                     <div class="input-group">
-                        <input type="number" id="burn-amount" placeholder="輸入銷毀數量 (Burn)">
-                        <button id="burn-btn" class="btn-primary">確認銷毀</button>
+                        <input type="number" id="burn-amount" data-i18n="burn_placeholder" placeholder="輸入銷毀數量 (Burn)">
+                        <button id="burn-btn" class="btn-primary" data-i18n="burn_btn">確認銷毀</button>
                     </div>
 
                     <div id="owner-actions" class="owner-panel" style="display: none;">
                         <hr>
-                        <h4>管理權限 (Owner Only)</h4>
+                        <h4 data-i18n="owner_panel">管理權限 (Owner Only)</h4>
                         <div class="input-group">
                             <input type="text" id="mint-address" placeholder="接收地址">
                             <input type="number" id="mint-amount" placeholder="鑄造量">
-                            <button id="mint-btn" class="btn-gold">執行鑄造</button>
+                            <button id="mint-btn" class="btn-gold" data-i18n="mint_btn">執行鑄造</button>
                         </div>
                         <button id="pause-btn" class="btn-danger">緊急暫停功能</button>
                     </div>
@@ -106,13 +110,13 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2026 Aegis Global Security Project. Built on Base Mainnet.</p>
+            <p data-i18n="footer_text">© 2026 Aegis Global Security Project. Built on Base Mainnet.</p>
         </div>
     </footer>
 
     <!-- Ethers.js v6 -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 
 </html>

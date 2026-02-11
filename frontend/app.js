@@ -1,3 +1,5 @@
+import { setLanguage, currentLang, translations } from './i18n.js';
+
 const contractAddress = "0x0000000000000000000000000000000000000000"; // 部署後請更新此處
 const abi = [
     "function name() view returns (string)",
@@ -22,6 +24,15 @@ const walletAddr = document.getElementById('wallet-address');
 const tokenSymbol = document.getElementById('token-symbol');
 const totalSupplyCell = document.getElementById('total-supply');
 const ownerPanel = document.getElementById('owner-actions');
+const langSelect = document.getElementById('lang-select');
+
+// 初始化語言選擇器狀態
+if (langSelect) {
+    langSelect.value = currentLang;
+    langSelect.addEventListener('change', (e) => {
+        setLanguage(e.target.value);
+    });
+}
 
 // 格式化地址
 function shortenAddress(addr) {
@@ -49,7 +60,7 @@ async function init() {
         // 顯示代幣基本資訊
         setupTokenDisplay();
     } else {
-        btnText.innerText = "立即安裝 MetaMask";
+        btnText.innerText = translations[currentLang]?.install_metamask || "Install MetaMask";
         connectBtn.onclick = () => window.open('https://metamask.io/download/', '_blank');
         connectBtn.style.background = "var(--accent)";
     }
@@ -76,8 +87,8 @@ async function handleAccountsChanged(accounts) {
     if (accounts.length === 0) {
         // 用戶斷開連線
         connectBtn.classList.remove('connected');
-        btnText.innerText = "連接錢包";
-        walletAddr.innerText = "尚未連接";
+        btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
+        walletAddr.innerText = translations[currentLang]?.balance_addr_none || "Not Connected";
         userBalance.innerText = "0.00";
         ownerPanel.style.display = 'none'; // 隱藏管理面板
     } else {
@@ -98,13 +109,15 @@ async function handleAccountsChanged(accounts) {
         updateDashboard(address);
 
         // 檢查是否為 Owner 以顯示管理面板
-        if (contract) {
-            const owner = await contract.owner();
-            if (owner.toLowerCase() === address.toLowerCase()) {
-                ownerPanel.style.display = 'block';
-            } else {
-                ownerPanel.style.display = 'none';
-            }
+        if (contractAddress !== "0x0000000000000000000000000000000000000000") {
+            try {
+                const owner = await contract.owner();
+                if (owner.toLowerCase() === address.toLowerCase()) {
+                    ownerPanel.style.display = 'block';
+                } else {
+                    ownerPanel.style.display = 'none';
+                }
+            } catch (e) { }
         }
     }
 }
@@ -140,13 +153,13 @@ connectBtn.addEventListener('click', async () => {
     if (typeof window.ethereum === 'undefined') return;
 
     try {
-        btnText.innerText = "連接中...";
+        btnText.innerText = "...";
         await provider.send("eth_requestAccounts", []);
         const accounts = await provider.listAccounts();
         handleAccountsChanged(accounts);
     } catch (error) {
-        btnText.innerText = "連接錢包";
-        alert("連線失敗: " + error.message);
+        btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
+        alert("Fail: " + error.message);
     }
 });
 
@@ -160,10 +173,11 @@ async function updateDashboard(address) {
         const balance = await contract.balanceOf(address);
         userBalance.innerText = parseFloat(ethers.formatUnits(balance, 18)).toFixed(2);
     } catch (e) {
-        console.error("更新餘額失敗", e);
+        console.error("Fail", e);
     }
 }
 
+init();
 // 銷毀代幣功能
 document.getElementById('burn-btn').addEventListener('click', async () => {
     if (!signer) return alert("請先連接錢包");
