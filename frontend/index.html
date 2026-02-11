@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis (AEG) | 頂級加密安全協議</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="brand">
+                <img src="logo.png" alt="Aegis Logo" class="nav-logo">
+                <span class="brand-text">AEGIS</span>
+            </div>
+            <div class="nav-actions">
+                <button id="connect-wallet" class="btn-connect">
+                    <span class="btn-text">連接錢包</span>
+                    <div class="dot"></div>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-bg">
+            <div class="blob"></div>
+            <div class="blob-2"></div>
+        </div>
+
+        <div class="content-wrapper">
+            <section class="resource-section fade-in">
+                <div class="resource-buttons">
+                    <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank" class="btn-outline">
+                        <img src="https://img.icons8.com/ios-glyphs/30/github.png" alt="github" />
+                        查看 GitHub 倉庫
+                    </a>
+                    <a href="./docs/README.md" class="btn-outline">
+                        <img src="https://img.icons8.com/ios-glyphs/30/document.png" alt="doc" />
+                        專案開發文檔
+                    </a>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <!-- 代幣狀態卡片 -->
+                <div class="glass-card stat-card pulse-border">
+                    <div class="card-header">
+                        <img src="https://img.icons8.com/isometric/50/shield.png" alt="shield" />
+                        <h3>代幣概況</h3>
+                    </div>
+                    <div class="stats">
+                        <div class="stat-item">
+                            <label>代幣符號</label>
+                            <span id="token-symbol" class="value">AEG</span>
+                        </div>
+                        <div class="stat-item">
+                            <label>總發行量</label>
+                            <span id="total-supply" class="value">---</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 您的餘額卡片 -->
+                <div class="glass-card balance-card">
+                    <div class="card-header">
+                        <img src="https://img.icons8.com/isometric/50/wallet.png" alt="wallet" />
+                        <h3>您的資產</h3>
+                    </div>
+                    <div class="balance-display">
+                        <span id="user-balance">0.00</span>
+                        <small>AEG</small>
+                    </div>
+                    <div id="wallet-address" class="address-tag">未連接</div>
+                </div>
+
+                <!-- 互動操作卡片 -->
+                <div class="glass-card action-card">
+                    <div class="card-header">
+                        <img src="https://img.icons8.com/isometric/50/fire-element.png" alt="burn" />
+                        <h3>核心交互</h3>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="burn-amount" placeholder="輸入銷毀數量 (Burn)">
+                        <button id="burn-btn" class="btn-primary">確認銷毀</button>
+                    </div>
+
+                    <div id="owner-actions" class="owner-panel" style="display: none;">
+                        <hr>
+                        <h4>管理權限 (Owner Only)</h4>
+                        <div class="input-group">
+                            <input type="text" id="mint-address" placeholder="接收地址">
+                            <input type="number" id="mint-amount" placeholder="鑄造量">
+                            <button id="mint-btn" class="btn-gold">執行鑄造</button>
+                        </div>
+                        <button id="pause-btn" class="btn-danger">緊急暫停功能</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2026 Aegis Global Security Project. Built on Base Mainnet.</p>
+        </div>
+    </footer>
+
+    <!-- Ethers.js v6 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
