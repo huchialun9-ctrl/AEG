@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis (AEG) | 開發者文案中心</title>
+    <link rel="stylesheet" href="doc-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-brand">
+            <img src="../frontend/logo.png" width="30" height="30" alt="logo">
+            AEGIS DOCS
+        </div>
+        <div class="sidebar-nav">
+            <div class="nav-label">開始使用</div>
+            <ul>
+                <li><a href="#intro" class="active">專案簡介</a></li>
+                <li><a href="#quickstart">快速啟動</a></li>
+            </ul>
+            <div class="nav-label">代幣標準</div>
+            <ul>
+                <li><a href="#contract">智能合約架構</a></li>
+                <li><a href="#api">API 參考</a></li>
+            </ul>
+            <div class="nav-label">鏈上安全</div>
+            <ul>
+                <li><a href="#security">權限與管理</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <section id="intro" class="section">
+            <span class="badge">V1.0.0</span>
+            <h1>Aegis (AEG) 專案簡介</h1>
+            <p>Aegis (AEG) 是一個在 Base 主網 (Eth Layer 2) 上發行的工業級 ERC-20 代幣資產。本專案旨在提供高安全性、可控性且具備通縮機制的代幣解決方案。</p>
+            <p>本文件提供了開發者在整合或部署 AEG 代幣時所需的所有技術細節。</p>
+        </section>
+
+        <section id="quickstart" class="section">
+            <h2>快速啟動</h2>
+            <p>您可以透過 Hardhat 或 Truffle 快速初始化開發環境。</p>
+            <h3>1. 安裝依賴</h3>
+            <pre>npm install --save-dev hardhat @nomicfoundation/hardhat-toolbox</pre>
+            <h3>2. 配置環境變數</h3>
+            <p>請在專案根目錄建立 <code>.env</code> 檔案：</p>
+            <pre>PRIVATE_KEY=您的錢包私鑰
+BASESCAN_API_KEY=您的 BaseScan API 金鑰</pre>
+        </section>
+
+        <section id="contract" class="section">
+            <h2>智能合約架構</h2>
+            <p>合約繼承自 OpenZeppelin 的標準庫，確保了最高等級的安全合規性。</p>
+            <ul>
+                <li><strong>ERC20</strong>: 標準代幣邏輯</li>
+                <li><strong>Ownable</strong>: 權限控管邏輯</li>
+                <li><strong>Pausable</strong>: 緊急中止機制</li>
+                <li><strong>Burnable</strong>: 通縮銷毀機制</li>
+            </ul>
+            <pre>
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Aegis is ERC20, Ownable {
+    // 鑄造 10 億枚
+    constructor() ERC20("Aegis", "AEG") {
+        _mint(msg.sender, 1000000000 * 10**18);
+    }
+}</pre>
+        </section>
+
+        <section id="api" class="section">
+            <h2>API 參考 / 核心函數</h2>
+
+            <h3>balanceOf(address)</h3>
+            <p><span class="badge badge-green">GET</span> 回傳指定地址的代幣餘額。</p>
+
+            <h3>mint(address, uint256)</h3>
+            <p><span class="badge">OWNER ONLY</span> 由合約擁有者呼叫，用於增發代幣。</p>
+
+            <h3>burn(uint256)</h3>
+            <p><span class="badge badge-green">PUBLIC</span> 任何持有人皆可永久銷毀自己名下的代幣。</p>
+        </section>
+
+        <section id="security" class="section">
+            <h2>權限與安全 (Security)</h2>
+            <p>Aegis 幣內建 <code>Pausable</code> 機制。當偵測到鏈上異常或合約漏洞時，擁有者可以呼叫 <code>pause()</code> 函數暫停所有轉帳活動。</p>
+            <pre>function pause() public onlyOwner { _pause(); }</pre>
+        </section>
+
+        <footer
+            style="margin-top: 5rem; border-top: 1px solid var(--doc-border); padding-top: 1rem; color: var(--doc-muted); font-size: 0.8rem;">
+            © 2026 Aegis Global Project Team. Documentation powered by Etherscan Style.
+        </footer>
+    </main>
+</body>
+
+</html>

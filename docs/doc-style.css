@@ -1,0 +1,156 @@
+:root {
+    --doc-primary: #0784c3;
+    --doc-bg: #f8f9fa;
+    --doc-sidebar: #ffffff;
+    --doc-text: #212529;
+    --doc-muted: #6c757d;
+    --doc-border: #e9ecef;
+    --doc-code-bg: #f1f3f5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--doc-text);
+    background-color: var(--doc-bg);
+    line-height: 1.6;
+    display: flex;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    background: var(--doc-sidebar);
+    border-right: 1px solid var(--doc-border);
+    position: fixed;
+    padding: 2rem 1.5rem;
+    overflow-y: auto;
+}
+
+.sidebar-brand {
+    font-weight: 800;
+    color: var(--doc-primary);
+    font-size: 1.25rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+}
+
+.nav-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--doc-muted);
+    margin: 1.5rem 0 0.5rem;
+    letter-spacing: 1px;
+}
+
+.sidebar-nav a {
+    text-decoration: none;
+    color: var(--doc-text);
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+    display: block;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.sidebar-nav a:hover,
+.sidebar-nav a.active {
+    background: var(--doc-bg);
+    color: var(--doc-primary);
+}
+
+/* Content Area */
+.main-content {
+    margin-left: 280px;
+    padding: 3rem 5rem;
+    width: calc(100% - 280px);
+}
+
+.section {
+    margin-bottom: 4rem;
+    scroll-margin-top: 2rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 1.75rem;
+    border-bottom: 1px solid var(--doc-border);
+    padding-bottom: 0.5rem;
+    margin: 2rem 0 1rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+    margin: 1.5rem 0 0.5rem;
+}
+
+p {
+    margin-bottom: 1rem;
+    color: #495057;
+}
+
+/* Code Blocks */
+pre {
+    background: #212529;
+    color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 12px;
+    overflow-x: auto;
+    margin: 1rem 0;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.9rem;
+}
+
+code {
+    background: var(--doc-code-bg);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* Badge */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 4px;
+    background: #e7f5ff;
+    color: #007bff;
+    margin-right: 0.5rem;
+}
+
+.badge-green {
+    background: #ebfbee;
+    color: #40c057;
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 0;
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+        padding: 2rem;
+    }
+}
