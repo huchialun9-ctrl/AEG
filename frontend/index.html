@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis (AEG) </title>
-    <link rel="stylesheet" href="style.css?v=1.0.1">
+    <title>Aegis (AEG) | 頂級加密安全協議 V1.0.2</title>
+    <link rel="stylesheet" href="style.css?v=1.0.2">
     <link rel="icon" type="image/png" href="logo.png">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700&display=swap"
@@ -40,16 +40,11 @@
         </div>
 
         <div class="content-wrapper">
-            <section class="resource-section fade-in">
-                <div class="resource-buttons">
-                    <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank" class="btn-outline">
-                        <img src="https://img.icons8.com/ios-glyphs/30/github.png" alt="github" />
-                        <span data-i18n="btn_github">查看 GitHub 存放庫</span>
-                    </a>
-                    <a href="../docs/index.html" target="_blank" class="btn-outline">
-                        <img src="https://img.icons8.com/ios-glyphs/30/document.png" alt="doc" />
-                        <span data-i18n="btn_docs">開發文件中心</span>
-                    </a>
+            <section class="intro-section fade-in">
+                <h1 class="main-title"><span class="gradient-text" data-i18n="hero_title">Aegis 盾級加密安全協議</span></h1>
+                <p class="hero-subtitle" data-i18n="hero_subtitle">在 Base 網路上構建最堅固的去中心化資產</p>
+                <div class="hero-action-buttons">
+                    <a href="#swap" class="btn-buy-now" data-i18n="hero_buy">立即購買 AEG</a>
                 </div>
             </section>
 
@@ -67,7 +62,7 @@
                         </div>
                         <div class="stat-item">
                             <label data-i18n="stat_total">總發行量</label>
-                            <span id="total-supply" class="value">---</span>
+                            <span id="total-supply" class="value">1,000,000,000</span>
                         </div>
                     </div>
                 </div>
@@ -85,63 +80,116 @@
                     <div id="wallet-address" class="address-tag" data-i18n="balance_addr_none">未連接</div>
                 </div>
 
-                <!-- 質押與收益卡片 -->
+                <!-- 質押中心 -->
                 <div class="glass-card staking-card gold-border">
                     <div class="card-header">
                         <img src="https://img.icons8.com/isometric/50/coins.png" alt="stake" />
-                        <h3 data-i18n="stake_title">質押挖礦 (Staking)</h3>
+                        <h3 data-i18n="stake_title">質押中心</h3>
                     </div>
                     <div class="apy-badge">APY: 18.5%</div>
                     <div class="staking-info">
                         <div class="info-row">
-                            <span data-i18n="stake_staked">已質押</span>
+                            <span data-i18n="stake_staked">已存放數量</span>
                             <span id="staked-amount">0.00 AEG</span>
-                        </div>
-                        <div class="info-row highlight">
-                            <span data-i18n="stake_rewards">待領取收益</span>
-                            <span id="pending-rewards">0.00 AEG</span>
                         </div>
                     </div>
                     <div class="input-group">
                         <input type="number" id="stake-amount" data-i18n="stake_placeholder" placeholder="輸入質押數量">
-                        <button id="stake-btn" class="btn-gold" data-i18n="stake_btn">立即質押</button>
-                    </div>
-                    <button id="claim-btn" class="btn-outline-small" data-i18n="claim_btn">領取報酬</button>
-                </div>
-
-                <!-- 互動操作卡片 -->
-                <div class="glass-card action-card">
-                    <div class="card-header">
-                        <img src="https://img.icons8.com/isometric/50/fire-element.png" alt="burn" />
-                        <h3 data-i18n="action_title">核心交互</h3>
-                    </div>
-                    <div class="input-group">
-                        <input type="number" id="burn-amount" data-i18n="burn_placeholder" placeholder="輸入銷毀數量 (Burn)">
-                        <button id="burn-btn" class="btn-primary" data-i18n="burn_btn">確認銷毀</button>
-                    </div>
-
-                    <div id="owner-actions" class="owner-panel" style="display: none;">
-                        <hr>
-                        <h4 data-i18n="owner_panel">管理權限 (Owner Only)</h4>
-                        <div class="input-group">
-                            <input type="text" id="mint-address" placeholder="接收地址">
-                            <input type="number" id="mint-amount" placeholder="鑄造量">
-                            <button id="mint-btn" class="btn-gold" data-i18n="mint_btn">執行鑄造</button>
-                        </div>
-                        <button id="pause-btn" class="btn-danger">緊急暫停功能</button>
+                        <button id="stake-btn" class="btn-gold" data-i18n="stake_btn">開始質押</button>
                     </div>
                 </div>
             </div>
 
-            <!-- DEX 兌換組件 -->
-            <section class="dex-section fade-in">
+            <!-- Tokenomics Section -->
+            <section class="tokenomics-section fade-in">
+                <h2 class="section-title" data-i18n="tokenomics_title">代幣分配</h2>
+                <div class="tokenomics-grid">
+                    <div class="glass-card">
+                        <div class="tokenomics-viz">
+                            <div class="viz-item">
+                                <div class="viz-label"><span data-i18n="tokenomics_lp">流動性鎖定</span><span>60%</span>
+                                </div>
+                                <div class="viz-bar-bg">
+                                    <div class="viz-bar-fill" style="width: 60%"></div>
+                                </div>
+                            </div>
+                            <div class="viz-item">
+                                <div class="viz-label"><span data-i18n="tokenomics_rewards">質押獎賞</span><span>20%</span>
+                                </div>
+                                <div class="viz-bar-bg">
+                                    <div class="viz-bar-fill" style="width: 20%; background: #00d395"></div>
+                                </div>
+                            </div>
+                            <div class="viz-item">
+                                <div class="viz-label"><span data-i18n="tokenomics_team">核心團隊</span><span>10%</span>
+                                </div>
+                                <div class="viz-bar-bg">
+                                    <div class="viz-bar-fill" style="width: 10%; background: var(--accent)"></div>
+                                </div>
+                            </div>
+                            <div class="viz-item">
+                                <div class="viz-label"><span
+                                        data-i18n="tokenomics_marketing">行銷與生態</span><span>10%</span></div>
+                                <div class="viz-bar-bg">
+                                    <div class="viz-bar-fill" style="width: 10%; background: #6a737d"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="glass-card action-card">
+                        <div class="card-header">
+                            <img src="https://img.icons8.com/isometric/50/fire-element.png" alt="burn" />
+                            <h3 data-i18n="action_title">核心交互</h3>
+                        </div>
+                        <div class="input-group">
+                            <input type="number" id="burn-amount" data-i18n="burn_placeholder"
+                                placeholder="輸入銷毀數量 (Burn)">
+                            <button id="burn-btn" class="btn-primary" data-i18n="burn_btn">確認銷毀</button>
+                        </div>
+                        <div id="owner-actions" class="owner-panel" style="display: none;">
+                            <hr>
+                            <h4 data-i18n="owner_panel">管理權限 (僅限擁有者)</h4>
+                            <div class="input-group">
+                                <input type="text" id="mint-address" placeholder="接收地址">
+                                <input type="number" id="mint-amount" placeholder="鑄造量">
+                                <button id="mint-btn" class="btn-gold" data-i18n="mint_btn">執行鑄造</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Roadmap Section -->
+            <section class="roadmap-section fade-in">
+                <h2 class="section-title" data-i18n="roadmap_title">發展藍圖</h2>
+                <div class="roadmap-container">
+                    <div class="roadmap-item">
+                        <div class="roadmap-q" data-i18n="roadmap_q1">Q1: 核心開發</div>
+                        <p class="roadmap-text" data-i18n="roadmap_q1_text">智能合約審計、官網 V1 上線與種子輪部署。</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-q" data-i18n="roadmap_q2">Q2: 市場擴張</div>
+                        <p class="roadmap-text" data-i18n="roadmap_q2_text">DEX 流動性注入、開啟 Staking 質押激勵與社區建設。</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-q" data-i18n="roadmap_q3">Q3: 生態系統</div>
+                        <p class="roadmap-text" data-i18n="roadmap_q3_text">DAO 治理上線、跨鏈橋接到以太坊主網與二層擴展。</p>
+                    </div>
+                    <div class="roadmap-item">
+                        <div class="roadmap-q" data-i18n="roadmap_q4">Q4: 全球化戰略</div>
+                        <p class="roadmap-text" data-i18n="roadmap_q4_text">CEX 登錄、實體支付場景對接與 Aegis 安全生態成型。</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- DEX Swap Section -->
+            <section id="swap" class="dex-section fade-in">
                 <div class="glass-card dex-container">
                     <div class="dex-header">
                         <img src="https://img.icons8.com/isometric/50/data-transfer.png" />
                         <h2 data-i18n="dex_title">直接兌換 (Direct Swap)</h2>
                     </div>
                     <div class="swap-widget-box">
-                        <!-- Uniswap Widget Placeholder -->
                         <iframe
                             src="https://app.uniswap.org/#/swap?outputCurrency=0x0000000000000000000000000000000000000000&chain=base"
                             height="500px" width="100%" style="border:0; border-radius: 20px;"></iframe>
@@ -149,35 +197,42 @@
                 </div>
             </section>
 
-            <!-- 信任與審計區塊 -->
+            <!-- Trust Section -->
             <section class="trust-section fade-in">
-                <div class="trust-content">
-                    <h2 class="section-title" data-i18n="trust_title">安全與審計</h2>
-                    <div class="audit-logos">
-                        <div class="audit-item" title="CertiK (Pending)">
-                            <img src="https://img.icons8.com/color/48/verified-account.png" />
-                            <span>CertiK</span>
-                        </div>
-                        <div class="audit-item" title="OpenZeppelin">
-                            <img src="https://img.icons8.com/color/48/shield.png" />
-                            <span>OpenZeppelin</span>
-                        </div>
-                        <div class="audit-item" title="Hacken">
-                            <img src="https://img.icons8.com/color/48/lock.png" />
-                            <span>Hacken</span>
-                        </div>
+                <h2 class="section-title" data-i18n="trust_title">安全與審計</h2>
+                <div class="audit-logos">
+                    <div class="audit-item" title="CertiK (Pending)">
+                        <img src="https://img.icons8.com/color/48/verified-account.png" />
+                        <span>CertiK</span>
                     </div>
-                    <div class="whitepaper-box">
-                        <p data-i18n="wp_text">詳細了解 Aegis 的代幣經濟與技術底層</p>
-                        <a href="../docs/index.html" class="btn-gold" data-i18n="wp_btn">閱讀技術白皮書</a>
+                    <div class="audit-item" title="OpenZeppelin">
+                        <img src="https://img.icons8.com/color/48/shield.png" />
+                        <span>OpenZeppelin</span>
                     </div>
+                    <div class="audit-item" title="Hacken">
+                        <img src="https://img.icons8.com/color/48/lock.png" />
+                        <span>Hacken</span>
+                    </div>
+                </div>
+                <div class="resource-buttons" style="margin-top: 2rem;">
+                    <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank" class="btn-outline">
+                        <img src="https://img.icons8.com/ios-glyphs/30/github.png" alt="github" />
+                        <span data-i18n="btn_github">GitHub</span>
+                    </a>
+                    <a href="../docs/index.html" target="_blank" class="btn-outline">
+                        <img src="https://img.icons8.com/ios-glyphs/30/document.png" alt="doc" />
+                        <span data-i18n="btn_docs">技術文檔</span>
+                    </a>
                 </div>
             </section>
         </div>
     </main>
 
-
     <footer class="footer">
+        <div class="social-matrix">
+            <a href="#" class="social-link"><img src="https://img.icons8.com/color/48/telegram-app.png" alt="tg" /></a>
+            <a href="#" class="social-link"><img src="https://img.icons8.com/color/48/twitter--v1.png" alt="tw" /></a>
+        </div>
         <div class="newsletter-section">
             <h4 data-i18n="nl_title">訂閱 Aegis 最新動態</h4>
             <div class="nl-input-group">
