@@ -83,16 +83,27 @@ function initChart() {
     });
 }
 
-// --- 生態擴展：價格獲取 ---
-try {
-    if (!contract) return;
-    const totalRaw = await contract.totalSupply();
-    const total = parseFloat(ethers.formatEther(totalRaw));
-    const stakedRaw = await contract.totalStaked();
-    const staked = parseFloat(ethers.formatEther(stakedRaw));
-    const stakedRatio = total > 0 ? staked / total : 0;
-    aegPrice = 0.10 + (stakedRatio * 0.15); // 起步價 0.1, 隨質押率最高到 0.25
-} catch (e) { }
+// --- 真實生態：獲取鏈上價格 ---
+async function updateAegPrice() {
+    try {
+        if (!contract) return;
+
+        // 未來擴展：透過 OnchainKit 或 DEX API 獲取真實價格
+        // 目前若無池子，則保持為 0 或顯示 'Coming Soon'
+        const hasLiquidity = false; // 這裡將接入真實檢測邏輯
+
+        if (!hasLiquidity) {
+            aegPrice = 0;
+            if (userUsdBalance) userUsdBalance.innerText = "N/A";
+            return;
+        }
+
+        // 真實報價邏輯...
+    } catch (e) {
+        console.error("Price fetch failed:", e);
+        aegPrice = 0;
+    }
+}
 
 async function init() {
     initChart();
