@@ -39,13 +39,17 @@
     </nav>
 
     <main class="portfolio-container">
-        <!-- User Welcome Header -->
+        <!-- Elite Header Section -->
         <header class="user-header fade-in">
             <div class="welcome-box">
-                <h1 data-i18n="portfolio_welcome">資產總覽</h1>
-                <p class="subtitle-dim" data-i18n="portfolio_subtitle">由 Aegis 盾級安全協議驅動，部署於 Base 主網。</p>
+                <div class="status-indicator">
+                    <span class="pulse-dot"></span>
+                    <span data-i18n="status_mainnet">Base Mainnet Live</span>
+                </div>
+                <h1 data-i18n="portfolio_welcome">Aegis Executive Dashboard</h1>
+                <p class="subtitle-dim" data-i18n="portfolio_subtitle">Securing the next billion assets with adaptive
+                    protocol protection.</p>
             </div>
-            <div id="wallet-address-short" class="wallet-display-pill">未連接錢包</div>
         </header>
 
         <!-- Main Balance Visualizer -->
@@ -75,17 +79,24 @@
         <!-- Service Component Grid -->
         <section class="action-services-grid fade-in">
             <!-- Buy AEG Action -->
-            <div class="glass-card buy-section fade-in">
-                <div class="card-header">
-                    <i class="fas fa-shopping-cart"></i>
-                    <h2 data-i18n="buy_title">Get AEG</h2>
+            <div class="service-card buy-service fade-in">
+                <div class="service-header">
+                    <div class="service-icon-svg">
+                        <i class="fas fa-shopping-cart" style="font-size: 1.2rem;"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3 data-i18n="buy_title">Trading Hub</h3>
+                        <p data-i18n="buy_desc">Real-time swap on Aerodrome DEX</p>
+                    </div>
                 </div>
-                <p class="section-desc" data-i18n="buy_desc">Trade on Aerodrome (Base DEX)</p>
-                <a href="https://aerodrome.finance/swap?from=eth&to=0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
-                    target="_blank" class="btn-primary buy-btn">
-                    <span data-i18n="buy_action">Buy on Aerodrome</span>
-                    <i class="fas fa-external-link-alt"></i>
-                </a>
+                <div class="service-action" style="margin-top: 2rem;">
+                    <a href="https://aerodrome.finance/swap?from=eth&to=0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
+                        target="_blank" class="btn-service-primary"
+                        style="width: 100%; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span data-i18n="buy_action">Launch Trade</span>
+                        <i class="fas fa-external-link-alt" style="font-size: 0.7rem;"></i>
+                    </a>
+                </div>
             </div>
             <!-- Staking Service -->
             <div class="service-card staking-service">
