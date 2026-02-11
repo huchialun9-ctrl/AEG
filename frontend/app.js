@@ -156,15 +156,26 @@ async function switchNetwork() {
 function initListeners() {
     // 錢包連接
     connectBtn?.addEventListener('click', async () => {
-        if (typeof window.ethereum === 'undefined') return;
+        if (typeof window.ethereum === 'undefined') {
+            alert(translations[currentLang]?.install_metamask || "請先安裝 MetaMask 錢包！");
+            window.open('https://metamask.io/download/', '_blank');
+            return;
+        }
         try {
+            console.log("Connect button clicked, requesting accounts...");
             btnText.innerText = "...";
-            await provider.send("eth_requestAccounts", []);
-            const accounts = await provider.listAccounts();
-            handleAccountsChanged(accounts);
+
+            // 強制請求帳號
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            console.log("Accounts found:", accounts);
+
+            if (accounts.length > 0) {
+                handleAccountsChanged(accounts);
+            }
         } catch (error) {
-            btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
-            alert("Fail: " + error.message);
+            console.error("Connection error:", error);
+            btnText.innerText = translations[currentLang]?.nav_connect || "連接錢包";
+            alert("連接失敗: " + (error.message || "未知錯誤"));
         }
     });
 
