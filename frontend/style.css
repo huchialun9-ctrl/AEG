@@ -431,8 +431,8 @@ body {
 /* Service Cards Grid */
 .action-services-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
     margin-bottom: 4rem;
     align-items: stretch;
 }
