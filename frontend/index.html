@@ -10,7 +10,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -30,8 +29,6 @@
                     <i class="far fa-copy"></i>
                     <span data-i18n="nav_copy">複製合約</span>
                 </button>
-                <a href="https://aerodrome.finance/swap?from=eth&to=0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
-                    target="_blank" class="btn-buy-nav" data-i18n="nav_buy">購買 AEG</a>
                 <select id="lang-select" class="lang-switcher">
                     <option value="zh-TW">繁體中文</option>
                     <option value="en">English</option>
@@ -69,7 +66,7 @@
                         <span class="usd-symbol">≈ $</span>
                         <span id="user-usd-balance">0.00</span>
                     </div>
-                    <div class="balance-change-indicator">
+                    <div class="usd-value-container" style="margin-top: 5px;">
                         <span class="indicator-up">APY 18.5% 已激活</span>
                     </div>
                 </div>
@@ -94,7 +91,8 @@
         <!-- Service Component Grid -->
         <section class="action-services-grid fade-in">
             <!-- Presale Buy (New) -->
-            <div class="service-card presale-service fade-in" style="border: 1px solid var(--accent-color);">
+            <div class="service-card presale-service fade-in"
+                style="border: 1px solid var(--accent-color); grid-column: span 2;">
                 <div class="service-header">
                     <div class="service-icon-svg" style="background: var(--accent-color);">
                         <i class="fas fa-rocket"></i>
@@ -114,104 +112,6 @@
                     <p class="service-footer-hint" data-i18n="presale_hint">資金將全數用於開啟 Aerodrome 流動性池。</p>
                 </div>
             </div>
-
-            <!-- Buy AEG Action -->
-            <div class="service-card buy-service fade-in">
-
-                <div class="service-header">
-                    <div class="service-icon-svg">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="service-info">
-                        <h3 data-i18n="buy_title">Trading Hub</h3>
-                        <p data-i18n="buy_desc">Real-time swap on Aerodrome DEX</p>
-                    </div>
-                </div>
-                <div class="service-action">
-                    <a href="https://aerodrome.finance/swap?from=eth&to=0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
-                        target="_blank" class="btn-elite btn-primary">
-                        <span data-i18n="buy_action">Launch Trade</span>
-                        <i class="fas fa-external-link-alt"></i>
-                    </a>
-                </div>
-            </div>
-            <!-- Staking Service -->
-            <div class="service-card staking-service">
-                <div class="service-header">
-                    <div class="service-icon-svg">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <div class="service-info">
-                        <h3 data-i18n="stake_title">資產質押</h3>
-                        <p data-i18n="stake_benefit">自動執行算力與流動性收益分配。</p>
-                    </div>
-                </div>
-                <div class="reward-highlight">
-                    <small data-i18n="stake_earned">已積累獎勵餘額</small>
-                    <div class="reward-row">
-                        <strong id="staked-amount">0.00 AEG</strong>
-                    </div>
-                </div>
-                <div class="service-action">
-                    <button id="claim-rewards-tab" class="btn-elite btn-accent" data-i18n="stake_claim">提取收益</button>
-                    <div class="input-group-elite">
-                        <i class="fas fa-vault"></i>
-                        <input type="number" id="stake-amount" placeholder="輸入存入數量">
-                        <button class="btn-max-small" data-target="stake-amount">MAX</button>
-                        <span class="unit-tag">AEG</span>
-                    </div>
-                    <button id="stake-btn" class="btn-elite btn-primary" data-i18n="stake_btn">立即存入</button>
-                </div>
-            </div>
-
-            <!-- Protocol Protection (Burn) -->
-            <div class="service-card protocol-service">
-                <div class="service-header">
-                    <div class="service-icon-svg">
-                        <i class="fas fa-fire"></i>
-                    </div>
-                    <div class="service-info">
-                        <h3 data-i18n="burn_title">通縮維護</h3>
-                        <p data-i18n="burn_benefit">執行通縮燒毀，強化協議稀缺性。</p>
-                    </div>
-                </div>
-                <div class="service-action">
-                    <div class="input-group-elite">
-                        <i class="fas fa-fire-burner"></i>
-                        <input type="number" id="burn-amount" placeholder="輸入燒毀數量">
-                        <button class="btn-max-small" data-target="burn-amount">MAX</button>
-                        <span class="unit-tag">AEG</span>
-                    </div>
-                    <button id="burn-btn" class="btn-elite btn-danger" data-i18n="burn_btn">執行燒毀</button>
-                </div>
-                <p class="service-footer-hint" data-i18n="burn_hint">手動維護能加強生態價值底層。</p>
-            </div>
-
-            <!-- Elite Transfer (New) -->
-            <div class="service-card transfer-service fade-in">
-                <div class="service-header">
-                    <div class="service-icon-svg">
-                        <i class="fas fa-paper-plane"></i>
-                    </div>
-                    <div class="service-info">
-                        <h3 data-i18n="transfer_title">資產分發</h3>
-                        <p data-i18n="transfer_desc">將 $AEG 安全發放至其它目標錢包。</p>
-                    </div>
-                </div>
-                <div class="service-action">
-                    <div class="input-group-elite">
-                        <i class="fas fa-user-tag"></i>
-                        <input type="text" id="transfer-to" placeholder="目標地址 0x...">
-                    </div>
-                    <div class="input-group-elite">
-                        <i class="fas fa-coins"></i>
-                        <input type="number" id="transfer-amount" placeholder="分發數量">
-                        <button class="btn-max-small" data-target="transfer-amount">MAX</button>
-                        <span class="unit-tag">AEG</span>
-                    </div>
-                    <button id="transfer-btn" class="btn-elite btn-accent" data-i18n="transfer_btn">立即發送</button>
-                </div>
-            </div>
         </section>
 
         <!-- Footer Stats Mini -->
@@ -226,38 +126,11 @@
             </div>
         </div>
 
-
         <!-- Transaction History -->
         <section class="transaction-history-section fade-in">
             <h4 data-i18n="history_title">近期協議交互紀錄</h4>
             <div id="tx-history-list" class="history-list">
                 <div class="history-placeholder" data-i18n="history_empty">尚無近期鏈上紀錄</div>
-            </div>
-        </section>
-
-        <!-- Leaderboard Section (New) -->
-        <section class="leaderboard-section fade-in"
-            style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.03); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1);">
-            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
-                <i class="fas fa-crown" style="color: gold; font-size: 24px;"></i>
-                <div>
-                    <h4 data-i18n="leaderboard_title" style="margin: 0;">社區貢獻排行榜</h4>
-                    <p data-i18n="leaderboard_desc" style="font-size: 12px; opacity: 0.7; margin: 0;">展示持有與質押量最高的頂尖貢獻者。
-                    </p>
-                </div>
-            </div>
-            <div id="leaderboard-list">
-                <div
-                    style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <span>#1 0x74...a92</span>
-                    <span style="color: var(--accent-color);">12.5M AEG</span>
-                </div>
-                <div
-                    style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <span>#2 0x31...f81</span>
-                    <span style="color: var(--accent-color);">8.2M AEG</span>
-                </div>
-                <!-- 更多排名 -->
             </div>
         </section>
 
@@ -267,15 +140,13 @@
         <div class="footer-links">
             <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">技術源碼</a>
             <a href="../docs/whitepaper.html" target="_blank">技術白皮書</a>
-
-
         </div>
         <p class="footer-copyright">© 2026 Aegis 全球安全計畫。Base 主網技術開發。</p>
     </footer>
 
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
-    <script type="module" src="app.js?v=1.0.9"></script>
+    <script type="module" src="app.js?v=0.1.0"></script>
 </body>
 
 </html>

@@ -1,0 +1,1 @@
+function main() { const AEG_ADDRESS = '0xCFEF8Ee0197E846805Af515412256f24cCE3061d'; ethers.getContractAt(['function owner() view returns (address)'], AEG_ADDRESS).then(c => c.owner()).then(o => console.log('Owner:', o)); } main();
