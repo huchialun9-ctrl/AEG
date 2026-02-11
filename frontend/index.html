@@ -9,6 +9,7 @@
     <link rel="icon" type="image/png" href="logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -105,10 +106,7 @@
             <div class="service-card staking-service">
                 <div class="service-header">
                     <div class="service-icon-svg">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                        </svg>
+                        <i class="fas fa-layer-group"></i>
                     </div>
                     <div class="service-info">
                         <h3 data-i18n="stake_title">資產質押</h3>
@@ -123,7 +121,12 @@
                 </div>
                 <div class="service-action">
                     <button id="claim-rewards-tab" class="btn-elite btn-accent" data-i18n="stake_claim">提取收益</button>
-                    <input type="number" id="stake-amount" placeholder="輸入存入數量">
+                    <div class="input-group-elite">
+                        <i class="fas fa-vault"></i>
+                        <input type="number" id="stake-amount" placeholder="輸入存入數量">
+                        <button class="btn-max-small" data-target="stake-amount">MAX</button>
+                        <span class="unit-tag">AEG</span>
+                    </div>
                     <button id="stake-btn" class="btn-elite btn-primary" data-i18n="stake_btn">立即存入</button>
                 </div>
             </div>
@@ -140,7 +143,12 @@
                     </div>
                 </div>
                 <div class="service-action">
-                    <input type="number" id="burn-amount" placeholder="輸入燒毀數量">
+                    <div class="input-group-elite">
+                        <i class="fas fa-fire-burner"></i>
+                        <input type="number" id="burn-amount" placeholder="輸入燒毀數量">
+                        <button class="btn-max-small" data-target="burn-amount">MAX</button>
+                        <span class="unit-tag">AEG</span>
+                    </div>
                     <button id="burn-btn" class="btn-elite btn-danger" data-i18n="burn_btn">執行燒毀</button>
                 </div>
                 <p class="service-footer-hint" data-i18n="burn_hint">手動維護能加強生態價值底層。</p>
@@ -158,8 +166,16 @@
                     </div>
                 </div>
                 <div class="service-action">
-                    <input type="text" id="transfer-to" placeholder="目標地址 0x...">
-                    <input type="number" id="transfer-amount" placeholder="分發數量">
+                    <div class="input-group-elite">
+                        <i class="fas fa-user-tag"></i>
+                        <input type="text" id="transfer-to" placeholder="目標地址 0x...">
+                    </div>
+                    <div class="input-group-elite">
+                        <i class="fas fa-coins"></i>
+                        <input type="number" id="transfer-amount" placeholder="分發數量">
+                        <button class="btn-max-small" data-target="transfer-amount">MAX</button>
+                        <span class="unit-tag">AEG</span>
+                    </div>
                     <button id="transfer-btn" class="btn-elite btn-accent" data-i18n="transfer_btn">立即發送</button>
                 </div>
             </div>

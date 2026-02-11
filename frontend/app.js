@@ -310,6 +310,24 @@ function initListeners() {
             setTimeout(() => span.innerText = originalText, 2000);
         }
     });
+
+    // --- Max Button Logic ---
+    document.querySelectorAll('.btn-max-small').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            if (!(await checkConnection())) return;
+            const targetId = e.target.getAttribute('data-target');
+            const targetInput = document.getElementById(targetId);
+            if (!targetInput) return;
+
+            try {
+                const address = await signer.getAddress();
+                const bal = await contract.balanceOf(address);
+                targetInput.value = ethers.formatEther(bal);
+            } catch (err) {
+                console.error("Max fetch failed:", err);
+            }
+        });
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -188,6 +188,70 @@ body {
     gap: 12px;
 }
 
+.input-group-elite {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--mm-border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    height: 52px;
+    transition: all 0.3s ease;
+    gap: 12px;
+}
+
+.input-group-elite:focus-within {
+    border-color: var(--mm-primary);
+    box-shadow: 0 0 15px var(--mm-primary-glow);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.input-group-elite i {
+    color: var(--mm-text-dim);
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+}
+
+.input-group-elite input {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 600;
+    outline: none !important;
+    flex: 1;
+    min-width: 0;
+}
+
+.input-group-elite .unit-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--mm-accent);
+    background: rgba(0, 211, 149, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.btn-max-small {
+    background: var(--mm-primary-glow);
+    border: none;
+    color: var(--mm-primary);
+    font-size: 0.65rem;
+    font-weight: 800;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-max-small:hover {
+    background: var(--mm-primary);
+    color: white;
+}
+
 .history-item {
     background: var(--mm-card);
     border: 1px solid var(--mm-border);
