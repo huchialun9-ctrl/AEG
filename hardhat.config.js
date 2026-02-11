@@ -18,9 +18,8 @@ export default {
             accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
         },
         "base-mainnet": {
-            url: "https://mainnet.base.org",
+            url: "https://api.developer.coinbase.com/rpc/v1/base/VZB6PCjLKQpCjVeVFv2aI3pB0dHyVVbJ",
             accounts: process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
-            gasPrice: 100000000, // 0.1 gwei - Base gas is low
         },
     },
 };

@@ -1,0 +1,29 @@
+正在初始化 CDP Client...
+正在創建新的 EVM 帳戶...
+創建帳戶失敗:
+UnknownError: Something went wrong. Please reach out at https://discord.com/channels/1220414409550336183/1271495764580896789 for help.
+    at cdpApiClient (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/openapi-client/cdpApiClient.js:155:15)
+    at async EvmClient._createAccountInternal (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/client/evm/evm.js:1232:32)
+    ... 3 lines matching cause stack trace ...
+    at async EvmClient.<anonymous> (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:186:28)
+    at async main (file:///Users/jianyufang/Documents/coin/scripts/create_cdp_account.js:16:25) {
+  [cause]: InvalidWalletSecretFormatError: Invalid Wallet Secret format: Could not create the EC key: DataError: Invalid keyData
+      at generateWalletJwt (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/auth/utils/jwt.js:103:15)
+      at async getAuthHeaders (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/auth/utils/http.js:32:33)
+      at async file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/auth/hooks/axios/withAuth.js:28:25
+      at async Axios.request (file:///Users/jianyufang/Documents/coin/node_modules/axios/lib/core/Axios.js:41:14)
+      at async cdpApiClient (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/openapi-client/cdpApiClient.js:70:26)
+      at async EvmClient._createAccountInternal (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/client/evm/evm.js:1232:32)
+      at async executeWithRecursionProtection (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:143:16)
+      at async EvmClient.<anonymous> (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:186:28)
+      at async executeWithRecursionProtection (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:143:16)
+      at async EvmClient.<anonymous> (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:186:28)
+      at Axios.request (file:///Users/jianyufang/Documents/coin/node_modules/axios/lib/core/Axios.js:46:41)
+      at async cdpApiClient (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/openapi-client/cdpApiClient.js:70:26)
+      at async EvmClient._createAccountInternal (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/client/evm/evm.js:1232:32)
+      at async executeWithRecursionProtection (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:143:16)
+      at async EvmClient.<anonymous> (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:186:28)
+      at async executeWithRecursionProtection (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:143:16)
+      at async EvmClient.<anonymous> (file:///Users/jianyufang/Documents/coin/node_modules/@coinbase/cdp-sdk/_esm/analytics.js:186:28)
+      at async main (file:///Users/jianyufang/Documents/coin/scripts/create_cdp_account.js:16:25)
+}
