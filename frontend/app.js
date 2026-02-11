@@ -13,13 +13,12 @@ const abi = [
     "function unpause() public"
 ];
 
-
 let provider;
 let signer;
 let contract;
 
 const connectBtn = document.querySelector('#connect-wallet');
-const btnText = connectBtn.querySelector('.btn-text');
+const btnText = connectBtn?.querySelector('.btn-text');
 const userBalance = document.getElementById('user-balance');
 const walletAddr = document.getElementById('wallet-address');
 const tokenSymbol = document.getElementById('token-symbol');
@@ -27,7 +26,7 @@ const totalSupplyCell = document.getElementById('total-supply');
 const ownerPanel = document.getElementById('owner-actions');
 const langSelect = document.getElementById('lang-select');
 
-// 初始化語言選擇器狀態
+// 初始化語言選擇器
 if (langSelect) {
     langSelect.value = currentLang;
     langSelect.addEventListener('change', (e) => {
@@ -35,7 +34,6 @@ if (langSelect) {
     });
 }
 
-// 格式化地址
 function shortenAddress(addr) {
     if (!addr) return "";
     return addr.slice(0, 6) + "..." + addr.slice(-4);
@@ -44,96 +42,88 @@ function shortenAddress(addr) {
 const BASE_MAINNET_CHAIN_ID = "0x2105"; // 8453
 
 async function init() {
-    console.log("Aegis Web3 Initializing (V1.0.1)...");
+    console.log("Aegis Web3 Initializing (V1.0.4)...");
     if (typeof window.ethereum !== 'undefined') {
         try {
             provider = new ethers.BrowserProvider(window.ethereum);
-
             const accounts = await provider.listAccounts();
             if (accounts.length > 0) {
                 handleAccountsChanged(accounts);
             }
-
             window.ethereum.on('accountsChanged', handleAccountsChanged);
             window.ethereum.on('chainChanged', () => window.location.reload());
-
             setupTokenDisplay();
         } catch (err) {
             console.error("Web3 Provider Error:", err);
         }
     } else {
-        console.warn("MetaMask not found, providing install link.");
-        btnText.innerText = translations[currentLang]?.install_metamask || "安裝 MetaMask";
-        connectBtn.onclick = () => window.open('https://metamask.io/download/', '_blank');
-        connectBtn.style.background = "var(--accent)";
+        if (btnText) btnText.innerText = translations[currentLang]?.install_metamask || "Install MetaMask";
+        if (connectBtn) connectBtn.onclick = () => window.open('https://metamask.io/download/', '_blank');
     }
 }
 
 async function setupTokenDisplay() {
     if (contractAddress === "0x0000000000000000000000000000000000000000") {
-        tokenSymbol.innerText = "AEG (DEMO)";
-        totalSupplyCell.innerText = "1,000,000,000";
+        if (tokenSymbol) tokenSymbol.innerText = "AEG (DEMO)";
+        if (totalSupplyCell) totalSupplyCell.innerText = "1,000,000,000";
     } else {
         try {
             contract = new ethers.Contract(contractAddress, abi, provider);
-            tokenSymbol.innerText = await contract.symbol();
+            if (tokenSymbol) tokenSymbol.innerText = await contract.symbol();
             const total = await contract.totalSupply();
-            totalSupplyCell.innerText = parseFloat(ethers.formatEther(total)).toLocaleString();
+            if (totalSupplyCell) totalSupplyCell.innerText = parseFloat(ethers.formatEther(total)).toLocaleString();
         } catch (e) {
-            tokenSymbol.innerText = "AEG";
-            totalSupplyCell.innerText = "1,000,000,000";
+            if (tokenSymbol) tokenSymbol.innerText = "AEG";
         }
     }
 }
 
 async function handleAccountsChanged(accounts) {
     if (accounts.length === 0) {
-        // 用戶斷開連線
-        connectBtn.classList.remove('connected');
-        btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
-        walletAddr.innerText = translations[currentLang]?.balance_addr_none || "Not Connected";
-        userBalance.innerText = "0.00";
-        ownerPanel.style.display = 'none'; // 隱藏管理面板
+        connectBtn?.classList.remove('connected');
+        if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
+        if (userBalance) userBalance.innerText = "0.00";
     } else {
         signer = await provider.getSigner();
         const address = await signer.getAddress();
-
-        // 檢查網路是否為 Base Mainnet
         const network = await provider.getNetwork();
-        if (network.chainId !== 8453n) {
-            await switchNetwork();
-        }
+        if (network.chainId !== 8453n) await switchNetwork();
 
-        connectBtn.classList.add('connected');
-        btnText.innerText = shortenAddress(address);
-        walletAddr.innerText = address;
-        walletAddr.style.color = "#00d395";
+        connectBtn?.classList.add('connected');
+        if (btnText) btnText.innerText = shortenAddress(address);
 
         updateDashboard(address);
 
-        // 檢查是否為 Owner 以顯示管理面板
         if (contractAddress !== "0x0000000000000000000000000000000000000000") {
             try {
                 const owner = await contract.owner();
-                if (owner.toLowerCase() === address.toLowerCase()) {
-                    ownerPanel.style.display = 'block';
-                } else {
-                    ownerPanel.style.display = 'none';
-                }
+                if (ownerPanel) ownerPanel.style.display = (owner.toLowerCase() === address.toLowerCase()) ? 'block' : 'none';
             } catch (e) { }
         }
     }
 }
 
+async function updateDashboard(address) {
+    if (!address) return;
+    try {
+        let balance;
+        if (contractAddress === "0x0000000000000000000000000000000000000000") {
+            balance = "1,234.56";
+        } else {
+            const b = await contract.balanceOf(address);
+            balance = ethers.formatEther(b);
+        }
+        if (userBalance) userBalance.innerText = parseFloat(balance.replace(/,/g, '')).toLocaleString(undefined, { minimumFractionDigits: 2 });
+    } catch (err) {
+        console.error("Dashboard Update Error:", err);
+    }
+}
+
 async function switchNetwork() {
     try {
-        await window.ethereum.request({
-            method: 'wallet_switchEthereumChain',
-            params: [{ chainId: BASE_MAINNET_CHAIN_ID }],
-        });
-    } catch (switchError) {
-        // 如果錢包沒這個網路，則執行添加
-        if (switchError.code === 4902) {
+        await window.ethereum.request({ method: 'wallet_switchEthereumChain', params: [{ chainId: BASE_MAINNET_CHAIN_ID }] });
+    } catch (e) {
+        if (e.code === 4902) {
             try {
                 await window.ethereum.request({
                     method: 'wallet_addEthereumChain',
@@ -143,114 +133,64 @@ async function switchNetwork() {
                         nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
                         rpcUrls: ['https://mainnet.base.org'],
                         blockExplorerUrls: ['https://basescan.org']
-                    }],
+                    }]
                 });
-            } catch (addError) {
-                console.error(addError);
-            }
+            } catch (addError) { }
         }
     }
 }
 
-// 核心事件監聽
 function initListeners() {
-    // 錢包連接
     connectBtn?.addEventListener('click', async () => {
         if (typeof window.ethereum === 'undefined') {
-            alert(translations[currentLang]?.install_metamask || "請先安裝 MetaMask 錢包！");
             window.open('https://metamask.io/download/', '_blank');
             return;
         }
         try {
-            console.log("Connect button clicked, requesting accounts...");
-            btnText.innerText = "...";
-
-            // 強制請求帳號
+            if (btnText) btnText.innerText = "...";
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            console.log("Accounts found:", accounts);
-
-            if (accounts.length > 0) {
-                handleAccountsChanged(accounts);
-            }
+            if (accounts.length > 0) handleAccountsChanged(accounts);
         } catch (error) {
-            console.error("Connection error:", error);
-            btnText.innerText = translations[currentLang]?.nav_connect || "連接錢包";
-            alert("連接失敗: " + (error.message || "未知錯誤"));
+            if (btnText) btnText.innerText = translations[currentLang]?.nav_connect || "Connect Wallet";
         }
     });
 
-    // 銷毀代幣
     document.getElementById('burn-btn')?.addEventListener('click', async () => {
-        if (!signer) return alert("請先連接錢包");
-        const amount = document.getElementById('burn-amount').value;
-        if (!amount || amount <= 0) return alert("請輸入有效數量");
+        if (!signer) return alert(translations[currentLang]?.balance_addr_none || "Please connect wallet");
+        const amount = window.prompt(translations[currentLang]?.burn_placeholder || "Enter amount to burn:");
+        if (!amount || amount <= 0) return;
         try {
             const contractWithSigner = contract.connect(signer);
             const tx = await contractWithSigner.burn(ethers.parseEther(amount));
-            alert("交易已發送，等待區塊鏈確認...");
             await tx.wait();
-            alert("銷毀成功！");
+            alert("Burn successful!");
             updateDashboard(await signer.getAddress());
         } catch (e) {
-            alert("操作失敗: " + (e.shortMessage || e.message));
+            alert("Error: " + (e.shortMessage || e.message));
         }
     });
 
-    // 鑄造代幣 (Owner ONLY)
-    document.getElementById('mint-btn')?.addEventListener('click', async () => {
-        if (!signer) return alert("請管理員連接錢包");
-        const to = document.getElementById('mint-address').value;
-        const amount = document.getElementById('mint-amount').value;
-        if (!to || !amount) return alert("請填寫地址與數量");
-        try {
-            const contractWithSigner = contract.connect(signer);
-            const tx = await contractWithSigner.mint(to, ethers.parseEther(amount));
-            await tx.wait();
-            alert("鑄造成功！");
-            updateDashboard(await signer.getAddress());
-        } catch (e) {
-            alert("鑄造失敗: " + e.message);
-        }
+    document.getElementById('stake-btn')?.addEventListener('click', async () => {
+        if (!signer) return alert("Please connect wallet");
+        window.prompt("Enter amount to stake:");
+        alert("Staking will be enabled in the next phase.");
     });
 
-    // 質押與治理交互
-    document.getElementById('stake-btn')?.addEventListener('click', () => {
-        alert("質押功能將於合約部署後實機啟動！目前合約地址為測試佔位。");
+    document.getElementById('buy-action')?.addEventListener('click', () => {
+        alert("Fiat Gateway (Demo): Aegis supports Kredit and Bank Transfer soon.");
     });
 
-    document.getElementById('claim-btn')?.addEventListener('click', () => {
-        alert("獎勵領取功能將隨質押系統一同開啟。");
+    document.getElementById('swap-btn-mock')?.addEventListener('click', () => {
+        const assetSection = document.getElementById('asset-focus');
+        assetSection?.scrollIntoView({ behavior: 'smooth' });
     });
 
-    document.getElementById('propose-btn')?.addEventListener('click', () => {
-        alert("DAO 治理功能：僅限 AEG 持有人發起提案。");
+    document.querySelector('.close-banner')?.addEventListener('click', (e) => {
+        e.target.closest('.mm-banner').style.display = 'none';
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM Loaded, checking for SW cleanup...");
-
-    // 強制註銷舊的 Service Worker 以解決快取問題
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(registrations => {
-            for (let registration of registrations) {
-                registration.unregister();
-                console.log("Old Service Worker unregistered");
-            }
-        });
-    }
-
     init();
     initListeners();
-
-    // 電子報按鈕
-    document.getElementById('nl-btn')?.addEventListener('click', () => {
-        const email = document.getElementById('nl-email').value;
-        if (email && email.includes('@')) {
-            alert("感謝訂閱！您將會收到 Aegis 的最新動態。");
-            document.getElementById('nl-email').value = "";
-        } else {
-            alert("請輸入有效的 Email 地址。");
-        }
-    });
 });
