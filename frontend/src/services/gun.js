@@ -40,7 +40,7 @@ export const updateLeaderboardScore = (address, scoreDelta) => {
         // and let the client sort them.
         getLeaderboard().set(userNode);
     });
-});
+
 };
 
 // Helper to record a referral
