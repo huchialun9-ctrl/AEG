@@ -860,3 +860,90 @@ body {
     opacity: 1;
   }
 }
+
+/* Whitepaper Modal Specifics */
+.whitepaper-content {
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.whitepaper-section {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--mm-border);
+  padding-bottom: 1.5rem;
+}
+
+.whitepaper-section:last-child {
+  border-bottom: none;
+}
+
+.whitepaper-section h3 {
+  color: var(--mm-primary);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.whitepaper-section p {
+  color: var(--mm-text-dim);
+  line-height: 1.6;
+}
+
+/* Mobile Polish */
+@media (max-width: 768px) {
+  .user-header h1 {
+    font-size: 2.5rem;
+    /* Smaller hero title */
+  }
+
+  .value-text {
+    font-size: 2.5rem;
+    /* Smaller balance text */
+  }
+
+  .portfolio-main-card {
+    padding: 2rem 1rem;
+    /* Reduce padding */
+  }
+
+  .nav-content {
+    padding: 0 1rem;
+  }
+
+  .btn-nav-text span {
+    display: none;
+    /* Hide text on mobile nav, keep icons */
+  }
+
+  .brand-name-main {
+    font-size: 0.9rem;
+  }
+
+  .global-stats-footer {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .instruction-steps .steps-row {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .step-arrow {
+    transform: rotate(90deg);
+  }
+}

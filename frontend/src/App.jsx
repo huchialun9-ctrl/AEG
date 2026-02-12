@@ -81,6 +81,40 @@ const FAQ = () => {
 // ... (existing App component)
 
 
+const WhitepaperModal = ({ onClose }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content whitepaper-content" onClick={e => e.stopPropagation()}>
+        <button className="close-btn" onClick={onClose}>&times;</button>
+        <h2 style={{ borderBottom: '1px solid #333', paddingBottom: '15px', marginBottom: '20px' }}>📄 {t('whitepaper.title')}</h2>
+
+        <div className="whitepaper-section">
+          <h3>{t('whitepaper.section1_title')}</h3>
+          <p>{t('whitepaper.section1_text')}</p>
+        </div>
+
+        <div className="whitepaper-section">
+          <h3>{t('whitepaper.section2_title')}</h3>
+          <p>{t('whitepaper.section2_text')}</p>
+        </div>
+
+        <div className="whitepaper-section">
+          <h3>{t('whitepaper.section3_title')}</h3>
+          <p>{t('whitepaper.section3_text')}</p>
+        </div>
+
+        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <button className="btn-elite btn-primary" onClick={() => toast("Coming soon!", { icon: "⏳" })}>
+            <i className="fas fa-file-download"></i> {t('whitepaper.download_full')}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 function App() {
   const { t, i18n } = useTranslation();
   const { address, isConnected } = useAccount();
@@ -90,6 +124,7 @@ function App() {
   const [ethAmount, setEthAmount] = useState('');
   const [refLink, setRefLink] = useState('');
   const [showDevModal, setShowDevModal] = useState(false);
+  const [showWhitepaperModal, setShowWhitepaperModal] = useState(false);
 
   // Read User Balance
   const { data: balanceData } = useReadContract({
@@ -218,7 +253,9 @@ function App() {
             <span className="brand-name-main">AEGIS</span>
           </div>
           <div className="nav-actions">
-
+            <button className="btn-nav-text" onClick={() => setShowWhitepaperModal(true)}>
+              <i className="fas fa-book"></i> {t('nav.whitepaper')}
+            </button>
             <button className="btn-nav-text" onClick={() => setShowDevModal(true)}>
               <i className="fas fa-code"></i> {t('nav.developers')}
             </button>
@@ -520,13 +557,18 @@ function App() {
       <footer className="footer">
         <div className="footer-links">
           <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank" rel="noreferrer">{t('footer.source_code')}</a>
-          <a href="#" target="_blank">{t('nav.whitepaper')}</a>
+          <button onClick={() => setShowWhitepaperModal(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--mm-text-dim)', fontSize: '0.75rem', fontWeight: '800', letterSpacing: '1px' }}>
+            {t('nav.whitepaper')}
+          </button>
         </div>
         <p className="footer-copyright">{t('footer.copyright')}</p>
         <p className="footer-disclaimer" style={{ fontSize: '0.7rem', opacity: 0.4, maxWidth: '600px', margin: '10px auto 0', textAlign: 'center' }}>
           {t('footer.disclaimer')}
         </p>
       </footer>
+
+      {/* Whitepaper Modal */}
+      {showWhitepaperModal && <WhitepaperModal onClose={() => setShowWhitepaperModal(false)} />}
     </>
   );
 }

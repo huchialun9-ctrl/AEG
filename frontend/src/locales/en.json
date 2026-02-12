@@ -124,5 +124,15 @@
         "a3": "Yes. The Aegis contract follows standard ERC-20 security practices. The source code is verified on BaseScan (0xCFEF...3061d) for full transparency.",
         "q4": "How do I add the token to MetaMask?",
         "a4": "Open MetaMask, go to 'Import Tokens', and paste our contract address: 0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
+    },
+    "whitepaper": {
+        "title": "Aegis Protocol Lite Whitepaper",
+        "section1_title": "1. Project Vision",
+        "section1_text": "Aegis Protocol is a decentralized asset management system built on Base L2. Our mission is to provide a transparent, secure, and high-yield environment for investors through automated strategies and on-chain governance.",
+        "section2_title": "2. Tokenomics (AEG)",
+        "section2_text": "Total Supply: 1,000,000,000 AEG. Allocation: Presale (20%), Liquidity (15%), Staking Rewards (30%), Ecosystem Fund (20%), Team (10%, vested), Advisors (5%).",
+        "section3_title": "3. Security Mechanisms",
+        "section3_text": "Smart contracts are audited by independent firms. Liquidity is locked for 12 months. Multi-sig treasury management ensures funds are used strictly for protocol development.",
+        "download_full": "Download Full PDF"
     }
 }

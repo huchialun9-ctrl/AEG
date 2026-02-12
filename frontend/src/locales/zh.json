@@ -124,5 +124,15 @@
         "a3": "是的。Aegis 合約遵循標準的 ERC-20 安全規範。源代碼已在 BaseScan (0xCFEF...3061d) 上驗證，完全透明。",
         "q4": "如何將代幣添加到 MetaMask？",
         "a4": "打開 MetaMask，點擊「匯入代幣 (Import Tokens)」，然後貼上我們的合約地址：0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
+    },
+    "whitepaper": {
+        "title": "Aegis 協議技術白皮書 (精簡版)",
+        "section1_title": "1. 專案願景詳情",
+        "section1_text": "Aegis 協議是建立在 Base L2 上的去中心化資產管理系統。我們的使命是透過自動化策略和鏈上治理，為投資者提供一個透明、安全且高收益的環境。",
+        "section2_title": "2. 代幣經濟模型 (AEG)",
+        "section2_text": "總供應量：10億顆 AEG。分配：預售 (20%)、流動性 (15%)、質押獎勵 (30%)、生態基金 (20%)、團隊 (10%，鎖倉釋放)、顧問 (5%)。",
+        "section3_title": "3. 安全機制與保護",
+        "section3_text": "智能合約由獨立機構審計。流動性將鎖定 12 個月。多重簽名國庫管理確保資金嚴格用於協議開發。",
+        "download_full": "下載完整 PDF"
     }
 }
