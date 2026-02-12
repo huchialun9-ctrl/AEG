@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useReadContract, useSendTransaction, useWaitForTransactionReceipt, useBalance } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
@@ -16,17 +17,18 @@ const TOKEN_ABI = [
 
 // --- Components ---
 const Roadmap = () => {
+  const { t } = useTranslation();
   const steps = [
-    { phase: "Phase 1", title: "Social Launch & Seed Round", status: "current", icon: "fa-rocket", items: ["Community Formation (Telegram/Twitter)", "Seed Round Presale (Active)", "Smart Contract Audit"] },
-    { phase: "Phase 2", title: "DEX Listing & Liquidity", status: "upcoming", icon: "fa-exchange-alt", items: ["Aerodrome Liquidity Pool Launch", "CoinGecko/CMC Listing", "Marketing Campaign Wave 2"] },
-    { phase: "Phase 3", title: "Ecosystem Expansion", status: "future", icon: "fa-layer-group", items: ["Staking DApp Release (18.5% APY)", "DAO Governance Portal", "Strategic Partnerships"] },
-    { phase: "Phase 4", title: "Global Adoption", status: "future", icon: "fa-globe", items: ["CEX Listings (Tier 2)", "Multichain Bridge", "Aegis Mobile Wallet"] },
+    { phase: t('roadmap.phase1'), title: t('roadmap.phase1_title'), status: "current", icon: "fa-rocket", items: [t('roadmap.phase1_item1'), t('roadmap.phase1_item2'), t('roadmap.phase1_item3')] },
+    { phase: t('roadmap.phase2'), title: t('roadmap.phase2_title'), status: "upcoming", icon: "fa-exchange-alt", items: [t('roadmap.phase2_item1'), t('roadmap.phase2_item2'), t('roadmap.phase2_item3')] },
+    { phase: t('roadmap.phase3'), title: t('roadmap.phase3_title'), status: "future", icon: "fa-layer-group", items: [t('roadmap.phase3_item1'), t('roadmap.phase3_item2'), t('roadmap.phase3_item3')] },
+    { phase: t('roadmap.phase4'), title: t('roadmap.phase4_title'), status: "future", icon: "fa-globe", items: [t('roadmap.phase4_item1'), t('roadmap.phase4_item2'), t('roadmap.phase4_item3')] },
   ];
 
   return (
     <section className="roadmap-section fade-in">
       <h2 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '3rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-        Development Roadmap
+        {t('roadmap.title')}
       </h2>
       <div className="roadmap-grid">
         {steps.map((step, index) => (
@@ -46,19 +48,20 @@ const Roadmap = () => {
 };
 
 const FAQ = () => {
+  const { t } = useTranslation();
   const [openIndex, setOpenIndex] = useState(null);
 
   const faqs = [
-    { q: "When will I receive my tokens?", a: "Instantly! Our autonomous bot monitors the blockchain 24/7. As soon as your ETH transfer is confirmed, the bot mints and sends AEG tokens to your wallet within seconds." },
-    { q: "What is the listing price?", a: "The Seed Round price is 1 ETH = 23,176 AEG (~$0.00012). The target listing price on Aerodrome is $0.005, offering significant upside for early adopters." },
-    { q: "Is the contract audible/safe?", a: "Yes. The Aegis contract follows standard ERC-20 security practices. The source code is verified on BaseScan (0xCFEF...3061d) for full transparency." },
-    { q: "How do I add the token to MetaMask?", a: "Open MetaMask, go to 'Import Tokens', and paste our contract address: 0xCFEF8Ee0197E846805Af515412256f24cCE3061d" },
+    { q: t('faq.q1'), a: t('faq.a1') },
+    { q: t('faq.q2'), a: t('faq.a2') },
+    { q: t('faq.q3'), a: t('faq.a3') },
+    { q: t('faq.q4'), a: t('faq.a4') },
   ];
 
   return (
     <section className="faq-section fade-in">
       <h2 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '3rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-        Frequently Asked Questions
+        {t('faq.title')}
       </h2>
       {faqs.map((faq, index) => (
         <div key={index} className={`faq-item ${openIndex === index ? 'open' : ''}`}>
@@ -79,6 +82,7 @@ const FAQ = () => {
 
 
 function App() {
+  const { t, i18n } = useTranslation();
   const { address, isConnected } = useAccount();
   const { sendTransaction, data: hash, isPending: isTxPending } = useSendTransaction();
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
@@ -157,29 +161,29 @@ function App() {
           <div className="modal-overlay" onClick={() => setShowDevModal(false)}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
               <button className="close-btn" onClick={() => setShowDevModal(false)}>&times;</button>
-              <h2 style={{ borderBottom: '1px solid #333', paddingBottom: '15px', marginBottom: '20px' }}>👨‍💻 Core Developer</h2>
+              <h2 style={{ borderBottom: '1px solid #333', paddingBottom: '15px', marginBottom: '20px' }}>👨‍💻 {t('dev_modal.title')}</h2>
               <div className="dev-profile">
                 <div className="dev-avatar">L</div>
                 <div className="dev-info">
                   <h3>Lucas</h3>
-                  <p className="dev-role">Lead Blockchain Architect</p>
-                  <p className="dev-desc">Full-stack Web3 developer specializing in Solidity smart contract audits and high-performance frontend interactions. Dedicated to building secure, transparent DeFi protocols.</p>
+                  <p className="dev-role">{t('dev_modal.role')}</p>
+                  <p className="dev-desc">{t('dev_modal.desc')}</p>
                   <div className="resource-list" style={{ marginTop: '0' }}>
                     <a href="https://github.com/huchialun9-ctrl" target="_blank" rel="noreferrer" style={{ padding: '5px 10px', fontSize: '0.8rem', display: 'inline-flex', marginRight: '10px', background: '#333' }}>
-                      <i className="fab fa-github"></i> GitHub Profile
+                      <i className="fab fa-github"></i> {t('dev_modal.github')}
                     </a>
                   </div>
                 </div>
               </div>
 
-              <h3 style={{ marginTop: '25px', marginBottom: '15px', fontSize: '1rem', color: '#888' }}>🛠️ Developer Resources</h3>
+              <h3 style={{ marginTop: '25px', marginBottom: '15px', fontSize: '1rem', color: '#888' }}>🛠️ {t('dev_modal.resources_title')}</h3>
               <ul className="resource-list">
                 <li>
                   <a href="https://github.com/huchialun9-ctrl/AEG" target="_blank" rel="noreferrer">
                     <i className="fas fa-box-open"></i>
                     <div>
-                      <strong>Project Source Code</strong>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Official repository for Aegis Protocol</div>
+                      <strong>{t('dev_modal.source_code')}</strong>
+                      <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>{t('dev_modal.source_desc')}</div>
                     </div>
                   </a>
                 </li>
@@ -187,8 +191,8 @@ function App() {
                   <a href="https://docs.base.org/" target="_blank" rel="noreferrer">
                     <i className="fas fa-book"></i>
                     <div>
-                      <strong>Base Documentation</strong>
-                      <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Build on Base L2</div>
+                      <strong>{t('dev_modal.base_docs')}</strong>
+                      <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>{t('dev_modal.base_desc')}</div>
                     </div>
                   </a>
                 </li>
@@ -216,7 +220,10 @@ function App() {
           <div className="nav-actions">
 
             <button className="btn-nav-text" onClick={() => setShowDevModal(true)}>
-              <i className="fas fa-code"></i> Developers
+              <i className="fas fa-code"></i> {t('nav.developers')}
+            </button>
+            <button className="btn-nav-text" onClick={() => i18n.changeLanguage(i18n.language.startsWith('zh') ? 'en' : 'zh')} style={{ marginLeft: '10px' }}>
+              <i className="fas fa-globe"></i> {i18n.language.startsWith('zh') ? 'EN' : '中文'}
             </button>
 
             <div className="rainbow-connect-wrapper">
@@ -232,10 +239,10 @@ function App() {
           <div className="user-header">
             <div className="status-badge">
               <span className="pulse-dot"></span>
-              <span>LIVE ON BASE MAINNET</span>
+              <span>{t('hero.status')}</span>
             </div>
-            <h1>AEGIS GLOBAL</h1>
-            <p className="hero-subtitle">精英級去中心化安全與收益協議，致力於構建透明、精簡、高效的資產管理生態。</p>
+            <h1>{t('hero.title')}</h1>
+            <p className="hero-subtitle">{t('hero.subtitle')}</p>
           </div>
         </section>
 
@@ -243,7 +250,7 @@ function App() {
         <section className="main-stats-section fade-in">
           <div className="portfolio-main-card">
             <div className="balance-info">
-              <span className="balance-label">預估資產價值 (AEG)</span>
+              <span className="balance-label">{t('balance.label')}</span>
               <div className="balance-main">
                 <img src="/aegis_token.png" alt="AEG" style={{ width: '48px', height: '48px', marginRight: '15px' }} />
                 <span className="value-text">{displayBalance}</span>
@@ -253,7 +260,7 @@ function App() {
                 <span>{displayUsd}</span>
               </div>
               <div className="usd-value-container" style={{ marginTop: '5px' }}>
-                <span className="indicator-up" style={{ color: '#00D395', fontSize: '0.9rem' }}>APY 18.5% 已激活</span>
+                <span className="indicator-up" style={{ color: '#00D395', fontSize: '0.9rem' }}>{t('balance.apy_active')}</span>
               </div>
             </div>
           </div>
@@ -262,15 +269,15 @@ function App() {
           {isConnected && (
             <div id="referral-center" className="portfolio-main-card fade-in" style={{ marginTop: '20px' }}>
               <div style={{ textAlign: 'center', padding: '10px' }}>
-                <h4 style={{ marginBottom: '5px' }}>推薦計畫</h4>
-                <p style={{ fontSize: '11px', opacity: 0.7 }}>您的專屬推薦連結</p>
+                <h4 style={{ marginBottom: '5px' }}>{t('referral.title')}</h4>
+                <p style={{ fontSize: '11px', opacity: 0.7 }}>{t('referral.subtitle')}</p>
                 <div className="input-group-elite" style={{ marginTop: '5px', justifyContent: 'center' }}>
                   <input type="text" value={refLink} readOnly style={{ fontSize: '11px', textAlign: 'center' }} />
                   <button className="btn-elite btn-accent" style={{ padding: '5px 15px', minWidth: 'auto', fontSize: '11px' }} onClick={() => {
                     navigator.clipboard.writeText(refLink);
-                    alert("Link Copied!");
+                    alert(t('referral.copied'));
                   }}>
-                    複製連結
+                    {t('referral.copy')}
                   </button>
                 </div>
               </div>
@@ -281,21 +288,21 @@ function App() {
         {/* Instruction Banner */}
         <section className="instruction-banner fade-in">
           <div className="banner-content">
-            <h2>🚀 如何參與預售 (How to Buy)</h2>
+            <h2>{t('instruction.title')}</h2>
             <div className="steps-grid">
               <div className="step-item">
                 <div className="step-icon">1</div>
-                <p>連接錢包<br />Connect Wallet (Base)</p>
+                <p>{t('instruction.step1')}</p>
               </div>
               <div className="step-arrow"><i className="fas fa-chevron-right"></i></div>
               <div className="step-item">
                 <div className="step-icon">2</div>
-                <p>輸入 ETH 數量<br />Enter Amount</p>
+                <p>{t('instruction.step2')}</p>
               </div>
               <div className="step-arrow"><i className="fas fa-chevron-right"></i></div>
               <div className="step-item">
                 <div className="step-icon">3</div>
-                <p>點擊搶購 & 等待空投<br />Buy & Wait Airdrop</p>
+                <p>{t('instruction.step3')}</p>
               </div>
             </div>
           </div>
@@ -307,24 +314,23 @@ function App() {
 
             {/* Benefit Cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Why Join Seed Round?</h3>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{t('benefits.title')}</h3>
 
               <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <h4 style={{ color: '#00D395', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <i className="fas fa-tag"></i> Lowest Entry Price
+                  <i className="fas fa-tag"></i> {t('benefits.card1_title')}
                 </h4>
                 <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
-                  Get AEG at the absolute bottom price.
-                  <br /><strong>Seed Price: $0.00012</strong> vs <strong>Listing: $0.00500</strong>
+                  {t('benefits.card1_desc')}
                 </p>
               </div>
 
               <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <h4 style={{ color: '#037DD6', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <i className="fas fa-shield-alt"></i> No Slippage & Tax
+                  <i className="fas fa-shield-alt"></i> {t('benefits.card2_title')}
                 </h4>
                 <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
-                  Buy directly from the protocol. Zero trading fees, zero price impact.
+                  {t('benefits.card2_desc')}
                 </p>
               </div>
             </div>
@@ -332,27 +338,27 @@ function App() {
             {/* Comparison Table */}
             <div style={{ background: '#0d0d0d', borderRadius: '16px', border: '1px solid #333', overflow: 'hidden' }}>
               <div style={{ background: '#1a1a1a', padding: '1rem', textAlign: 'center', borderBottom: '1px solid #333' }}>
-                <h4 style={{ margin: 0 }}>Price Comparison</h4>
+                <h4 style={{ margin: 0 }}>{t('price_comparison.title')}</h4>
               </div>
               <div style={{ padding: '1.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #222' }}>
-                  <span style={{ color: '#888' }}>Stage</span>
-                  <span style={{ fontWeight: 'bold' }}>Price (AEG)</span>
+                  <span style={{ color: '#888' }}>{t('price_comparison.col_stage')}</span>
+                  <span style={{ fontWeight: 'bold' }}>{t('price_comparison.col_price')}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', color: '#00D395', fontWeight: 'bold' }}>
-                  <span>🟢 Seed Round (Now)</span>
+                  <span>{t('price_comparison.row_seed')}</span>
                   <span>$0.00012</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
-                  <span>🟡 Private Sale</span>
+                  <span>{t('price_comparison.row_private')}</span>
                   <span>$0.00080</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
-                  <span>⚪ Public IDO</span>
+                  <span>{t('price_comparison.row_public')}</span>
                   <span>$0.00250</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px dashed #333' }}>
-                  <span>🚀 Exchange Listing</span>
+                  <span>{t('price_comparison.row_listing')}</span>
                   <span style={{ color: '#ff00cc', fontWeight: 'bold' }}>$0.00500 (+4000%)</span>
                 </div>
               </div>
@@ -366,7 +372,7 @@ function App() {
           <div className="service-card presale-service fade-in" style={{ border: '1px solid var(--accent-color)', maxWidth: '500px', width: '100%', position: 'relative', overflow: 'hidden' }}>
             {/* Promo Ribbon */}
             <div style={{ position: 'absolute', top: '15px', right: '-30px', background: 'var(--accent-color)', color: '#000', padding: '5px 40px', transform: 'rotate(45deg)', fontSize: '10px', fontWeight: '800', boxShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
-              EARLY BIRD
+              {t('presale_card.ribbon')}
             </div>
 
 
@@ -376,17 +382,17 @@ function App() {
                 <i className="fas fa-rocket"></i>
               </div>
               <div className="service-info">
-                <h3>種子輪預售 (Stage 1)</h3>
-                <p style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>限時優惠：1 ETH = 23,176 AEG</p>
+                <h3>{t('presale_card.title')}</h3>
+                <p style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>{t('presale_card.subtitle')}</p>
                 <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
-                  上市目標價 Target: $0.10 (+1800%)
+                  {t('presale_card.target')}
                 </p>
               </div>
             </div>
             <div className="service-action">
               <div className="input-group-elite" style={{ borderColor: 'var(--accent-color)' }}>
                 <i className="fab fa-ethereum"></i>
-                <input type="number" placeholder="輸入 ETH 數量" value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} />
+                <input type="number" placeholder={t('presale_card.input_placeholder')} value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} />
                 <span className="unit-tag">ETH</span>
               </div>
 
@@ -396,11 +402,11 @@ function App() {
                 disabled={isTxPending || isConfirming}
                 style={{ width: '100%', marginTop: '15px', background: 'linearGradient(45deg, var(--primary-color), var(--accent-color))', border: 'none' }}
               >
-                {isTxPending ? '需錢包確認...' : isConfirming ? '交易確認中...' : '立即搶購 (Buy Now)'}
+                {isTxPending ? t('presale_card.btn_pending') : isConfirming ? t('presale_card.btn_confirming') : t('presale_card.btn_buy')}
               </button>
 
               <p className="service-footer-hint" style={{ marginTop: '15px', textAlign: 'center', opacity: 0.8 }}>
-                資金將全數用於開啟流動性池。
+                {t('presale_card.footer')}
               </p>
             </div>
           </div>
@@ -411,12 +417,10 @@ function App() {
         {/* Tokenomics & Utility Section */}
         <section className="tokenomics-section fade-in" style={{ maxWidth: '1000px', margin: '4rem auto', padding: '0 20px', textAlign: 'center' }}>
           <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            About Aegis (AEG)
+            {t('tokenomics.title')}
           </h2>
           <p style={{ maxWidth: '700px', margin: '0 auto 3rem', color: '#ccc', lineHeight: '1.6' }}>
-            AEG is the native utility and governance token of the Aegis Protocol.
-            Designed on the Base network, it powers the ecosystem through staking rewards,
-            premium access, and decentralized decision-making.
+            {t('tokenomics.desc')}
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
@@ -425,20 +429,20 @@ function App() {
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
                 <img src="/aegis_token.png" alt="AEG" style={{ width: '50px', height: '50px', marginRight: '15px' }} />
                 <div>
-                  <h3 style={{ margin: 0, fontSize: '1.2rem' }}>Token Specs</h3>
-                  <span style={{ fontSize: '0.8rem', color: '#888' }}>Base Mainnet (ERC-20)</span>
+                  <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{t('tokenomics.specs_title')}</h3>
+                  <span style={{ fontSize: '0.8rem', color: '#888' }}>{t('tokenomics.specs_network')}</span>
                 </div>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
-                <span style={{ color: '#888' }}>Symbol</span>
+                <span style={{ color: '#888' }}>{t('tokenomics.specs_symbol')}</span>
                 <span style={{ fontWeight: 'bold', color: '#fff' }}>AEG</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
-                <span style={{ color: '#888' }}>Total Supply</span>
+                <span style={{ color: '#888' }}>{t('tokenomics.specs_supply')}</span>
                 <span style={{ fontWeight: 'bold', color: '#fff' }}>1,000,000,000</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <span style={{ color: '#888' }}>Contract</span>
+                <span style={{ color: '#888' }}>{t('tokenomics.specs_contract')}</span>
                 <button onClick={() => {
                   navigator.clipboard.writeText(CONTRACT_ADDRESS);
                   toast.success("Address Copied!");
@@ -450,27 +454,27 @@ function App() {
 
             {/* Utility List */}
             <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
-              <h3 style={{ margin: '0 0 1.5rem', fontSize: '1.2rem' }}>Core Utility</h3>
+              <h3 style={{ margin: '0 0 1.5rem', fontSize: '1.2rem' }}>{t('tokenomics.utility_title')}</h3>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                 <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
                   <i className="fas fa-check-circle" style={{ color: 'var(--primary-color)', marginTop: '4px' }}></i>
                   <div>
-                    <strong style={{ color: '#fff' }}>Governance</strong>
-                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Vote on protocol upgrades and treasury usage.</p>
+                    <strong style={{ color: '#fff' }}>{t('tokenomics.utility_gov')}</strong>
+                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_gov_desc')}</p>
                   </div>
                 </li>
                 <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
                   <i className="fas fa-check-circle" style={{ color: 'var(--accent-color)', marginTop: '4px' }}></i>
                   <div>
-                    <strong style={{ color: '#fff' }}>Staking Rewards</strong>
-                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Earn up to 18.5% APY by securing the network.</p>
+                    <strong style={{ color: '#fff' }}>{t('tokenomics.utility_staking')}</strong>
+                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_staking_desc')}</p>
                   </div>
                 </li>
                 <li style={{ display: 'flex', gap: '10px' }}>
                   <i className="fas fa-check-circle" style={{ color: '#ff4d4d', marginTop: '4px' }}></i>
                   <div>
-                    <strong style={{ color: '#fff' }}>Security Verification</strong>
-                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Access premium audit reports and security tools.</p>
+                    <strong style={{ color: '#fff' }}>{t('tokenomics.utility_security')}</strong>
+                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_security_desc')}</p>
                   </div>
                 </li>
               </ul>
@@ -484,23 +488,23 @@ function App() {
         {/* Footer Stats Mini */}
         <div className="global-stats-footer fade-in">
           <div className="mini-stat-item">
-            <label>全網註冊總發行量</label>
+            <label>{t('footer.supply_label')}</label>
             <div>1,000,000,000</div>
           </div>
           <div className="mini-stat-item">
-            <label>協議識別代碼</label>
+            <label>{t('footer.code_label')}</label>
             <div>AEG</div>
           </div>
         </div>
 
         {/* Transaction History - Simplified for Demo */}
         <section className="transaction-history-section fade-in">
-          <h4>近期協議交互紀錄</h4>
+          <h4>{t('footer.history_title')}</h4>
           <div className="history-list">
             {hash && (
               <div className="history-item fade-in">
                 <div className="history-info">
-                  <span className="history-type-pill type-claim">BUY</span>
+                  <span className="history-type-pill type-claim">{t('footer.history_buy')}</span>
                   <span className="history-amount">{ethAmount} ETH</span>
                 </div>
                 <a href={`https://basescan.org/tx/${hash}`} target="_blank" rel="noreferrer" className="history-hash">
@@ -508,20 +512,19 @@ function App() {
                 </a>
               </div>
             )}
-            <div className="history-placeholder">尚無其他近期鏈上紀錄</div>
+            <div className="history-placeholder">{t('footer.history_empty')}</div>
           </div>
         </section>
       </main >
 
       <footer className="footer">
         <div className="footer-links">
-          <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank" rel="noreferrer">技術源碼</a>
-          <a href="#" target="_blank">技術白皮書</a>
+          <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank" rel="noreferrer">{t('footer.source_code')}</a>
+          <a href="#" target="_blank">{t('nav.whitepaper')}</a>
         </div>
-        <p className="footer-copyright">© 2026 Aegis 全球安全計畫。Base 主網技術開發。</p>
+        <p className="footer-copyright">{t('footer.copyright')}</p>
         <p className="footer-disclaimer" style={{ fontSize: '0.7rem', opacity: 0.4, maxWidth: '600px', margin: '10px auto 0', textAlign: 'center' }}>
-          Disclaimer: Cryptocurrency investments involve high risk. The simplified visuals (e.g., APY, price targets) are for illustrative purposes only.
-          AEG is a utility token for the Aegis ecosystem. Please do your own research (DYOR) before participating.
+          {t('footer.disclaimer')}
         </p>
       </footer>
     </>

@@ -1,0 +1,128 @@
+{
+    "nav": {
+        "developers": "Developers",
+        "whitepaper": "Whitepaper"
+    },
+    "dev_modal": {
+        "title": "Core Developer",
+        "role": "Lead Blockchain Architect",
+        "desc": "Full-stack Web3 developer specializing in Solidity smart contract audits and high-performance frontend interactions. Dedicated to building secure, transparent DeFi protocols.",
+        "github": "GitHub Profile",
+        "resources_title": "Developer Resources",
+        "source_code": "Project Source Code",
+        "source_desc": "Official repository for Aegis Protocol",
+        "base_docs": "Base Documentation",
+        "base_desc": "Build on Base L2"
+    },
+    "hero": {
+        "status": "LIVE ON BASE MAINNET",
+        "title": "AEGIS GLOBAL",
+        "subtitle": "Elite decentralized security and yield protocol, built for a transparent, lean, and efficient asset management ecosystem."
+    },
+    "balance": {
+        "label": "Estimated Asset Value (AEG)",
+        "apy_active": "APY 18.5% Active"
+    },
+    "referral": {
+        "title": "Referral Program",
+        "subtitle": "Your Exclusive Referral Link",
+        "copy": "Copy Link",
+        "copied": "Link Copied!"
+    },
+    "instruction": {
+        "title": "🚀 How to Buy",
+        "step1": "Connect Wallet (Base)",
+        "step2": "Enter Amount",
+        "step3": "Buy & Wait Airdrop"
+    },
+    "announcement": {
+        "text": "🔥 SEED ROUND IS LIVE! &nbsp; EARLY BIRD PRICE: 1 ETH = 23,176 AEG &nbsp; (Limited Time) 🔥"
+    },
+    "benefits": {
+        "title": "Why Join Seed Round?",
+        "card1_title": "Lowest Entry Price",
+        "card1_desc": "Get AEG at the absolute bottom price.\nSeed Price: $0.00012 vs Listing: $0.00500",
+        "card2_title": "No Slippage & Tax",
+        "card2_desc": "Buy directly from the protocol. Zero trading fees, zero price impact."
+    },
+    "price_comparison": {
+        "title": "Price Comparison",
+        "col_stage": "Stage",
+        "col_price": "Price (AEG)",
+        "row_seed": "🟢 Seed Round (Now)",
+        "row_private": "🟡 Private Sale",
+        "row_public": "⚪ Public IDO",
+        "row_listing": "🚀 Exchange Listing"
+    },
+    "presale_card": {
+        "ribbon": "EARLY BIRD",
+        "title": "Seed Round Presale (Stage 1)",
+        "subtitle": "Limited Time: 1 ETH = 23,176 AEG",
+        "target": "Listing Target: $0.10 (+1800%)",
+        "input_placeholder": "Enter ETH Amount",
+        "btn_buy": "Buy Now",
+        "btn_pending": "Confirming...",
+        "btn_confirming": "Processing...",
+        "footer": "Funds will be used to initialize the liquidity pool."
+    },
+    "tokenomics": {
+        "title": "About Aegis (AEG)",
+        "desc": "AEG is the native utility and governance token of the Aegis Protocol. Designed on the Base network, it powers the ecosystem through staking rewards, premium access, and decentralized decision-making.",
+        "specs_title": "Token Specs",
+        "specs_network": "Base Mainnet (ERC-20)",
+        "specs_symbol": "Symbol",
+        "specs_supply": "Total Supply",
+        "specs_contract": "Contract",
+        "utility_title": "Core Utility",
+        "utility_gov": "Governance",
+        "utility_gov_desc": "Vote on protocol upgrades and treasury usage.",
+        "utility_staking": "Staking Rewards",
+        "utility_staking_desc": "Earn up to 18.5% APY by securing the network.",
+        "utility_security": "Security Verification",
+        "utility_security_desc": "Access premium audit reports and security tools."
+    },
+    "footer": {
+        "supply_label": "Total Registered Supply",
+        "code_label": "Protocol ID",
+        "history_title": "Recent Protocol Interaction",
+        "history_buy": "BUY",
+        "history_empty": "No recent on-chain history",
+        "source_code": "Source Code",
+        "copyright": "© 2026 Aegis Global Project. Built on Base Mainnet.",
+        "disclaimer": "Disclaimer: Cryptocurrency investments involve high risk. The simplified visuals (e.g., APY, price targets) are for illustrative purposes only. AEG is a utility token for the Aegis ecosystem. Please do your own research (DYOR) before participating."
+    },
+    "roadmap": {
+        "title": "Development Roadmap",
+        "phase1": "Phase 1",
+        "phase1_title": "Social Launch & Seed Round",
+        "phase1_item1": "Community Formation (Telegram/Twitter)",
+        "phase1_item2": "Seed Round Presale (Active)",
+        "phase1_item3": "Smart Contract Audit",
+        "phase2": "Phase 2",
+        "phase2_title": "DEX Listing & Liquidity",
+        "phase2_item1": "Aerodrome Liquidity Pool Launch",
+        "phase2_item2": "CoinGecko/CMC Listing",
+        "phase2_item3": "Marketing Campaign Wave 2",
+        "phase3": "Phase 3",
+        "phase3_title": "Ecosystem Expansion",
+        "phase3_item1": "Staking DApp Release (18.5% APY)",
+        "phase3_item2": "DAO Governance Portal",
+        "phase3_item3": "Strategic Partnerships",
+        "phase4": "Phase 4",
+        "phase4_title": "Global Adoption",
+        "phase4_item1": "CEX Listings (Tier 2)",
+        "phase4_item2": "Multichain Bridge",
+        "phase4_item3": "Aegis Mobile Wallet"
+    },
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "q1": "When will I receive my tokens?",
+        "a1": "Instantly! Our autonomous bot monitors the blockchain 24/7. As soon as your ETH transfer is confirmed, the bot mints and sends AEG tokens to your wallet within seconds.",
+        "q2": "What is the listing price?",
+        "a2": "The Seed Round price is 1 ETH = 23,176 AEG (~$0.00012). The target listing price on Aerodrome is $0.005, offering significant upside for early adopters.",
+        "q3": "Is the contract audible/safe?",
+        "a3": "Yes. The Aegis contract follows standard ERC-20 security practices. The source code is verified on BaseScan (0xCFEF...3061d) for full transparency.",
+        "q4": "How do I add the token to MetaMask?",
+        "a4": "Open MetaMask, go to 'Import Tokens', and paste our contract address: 0xCFEF8Ee0197E846805Af515412256f24cCE3061d"
+    }
+}
