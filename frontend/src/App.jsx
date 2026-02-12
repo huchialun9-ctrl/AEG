@@ -15,9 +15,65 @@ const TOKEN_ABI = [
 ];
 
 // --- Components ---
+const Roadmap = () => {
+  const steps = [
+    { phase: "Phase 1", title: "Social Launch & Seed Round", status: "current", icon: "fa-rocket", items: ["Community Formation (Telegram/Twitter)", "Seed Round Presale (Active)", "Smart Contract Audit"] },
+    { phase: "Phase 2", title: "DEX Listing & Liquidity", status: "upcoming", icon: "fa-exchange-alt", items: ["Aerodrome Liquidity Pool Launch", "CoinGecko/CMC Listing", "Marketing Campaign Wave 2"] },
+    { phase: "Phase 3", title: "Ecosystem Expansion", status: "future", icon: "fa-layer-group", items: ["Staking DApp Release (18.5% APY)", "DAO Governance Portal", "Strategic Partnerships"] },
+    { phase: "Phase 4", title: "Global Adoption", status: "future", icon: "fa-globe", items: ["CEX Listings (Tier 2)", "Multichain Bridge", "Aegis Mobile Wallet"] },
+  ];
 
+  return (
+    <section className="roadmap-section fade-in">
+      <h2 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '3rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        Development Roadmap
+      </h2>
+      <div className="roadmap-grid">
+        {steps.map((step, index) => (
+          <div key={index} className={`roadmap-item ${step.status === 'done' ? 'completed' : step.status === 'current' ? 'active' : ''}`}>
+            <span className={`phase-tag ${step.status}`}>{step.phase} {step.status === 'current' && '🔥'}</span>
+            <h3><i className={`fas ${step.icon}`} style={{ marginRight: '10px', color: 'var(--mm-primary)' }}></i> {step.title}</h3>
+            <ul className="roadmap-list">
+              {step.items.map((item, i) => (
+                <li key={i}><i className="fas fa-check" style={{ color: step.status === 'done' ? 'var(--mm-accent)' : '#333', fontSize: '0.8rem' }}></i> {item}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
+const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState(null);
 
+  const faqs = [
+    { q: "When will I receive my tokens?", a: "Instantly! Our autonomous bot monitors the blockchain 24/7. As soon as your ETH transfer is confirmed, the bot mints and sends AEG tokens to your wallet within seconds." },
+    { q: "What is the listing price?", a: "The Seed Round price is 1 ETH = 23,176 AEG (~$0.00012). The target listing price on Aerodrome is $0.005, offering significant upside for early adopters." },
+    { q: "Is the contract audible/safe?", a: "Yes. The Aegis contract follows standard ERC-20 security practices. The source code is verified on BaseScan (0xCFEF...3061d) for full transparency." },
+    { q: "How do I add the token to MetaMask?", a: "Open MetaMask, go to 'Import Tokens', and paste our contract address: 0xCFEF8Ee0197E846805Af515412256f24cCE3061d" },
+  ];
+
+  return (
+    <section className="faq-section fade-in">
+      <h2 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '3rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+        Frequently Asked Questions
+      </h2>
+      {faqs.map((faq, index) => (
+        <div key={index} className={`faq-item ${openIndex === index ? 'open' : ''}`}>
+          <div className="faq-question" onClick={() => setOpenIndex(openIndex === index ? null : index)}>
+            {faq.q}
+            <i className="fas fa-chevron-down faq-icon"></i>
+          </div>
+          <div className="faq-answer">
+            <p>{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </section>
+  );
+};
 
 // ... (existing App component)
 
@@ -421,6 +477,9 @@ function App() {
             </div>
           </div>
         </section>
+
+        <Roadmap />
+        <FAQ />
 
         {/* Footer Stats Mini */}
         <div className="global-stats-footer fade-in">
