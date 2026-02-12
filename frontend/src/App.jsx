@@ -8,11 +8,89 @@ import toast, { Toaster } from 'react-hot-toast';
 const CONTRACT_ADDRESS = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
 const DEV_ADDRESS = "0xBDC4566852B6B45148dBCb2119a4695dfd4e5d77";
 
-const TOKEN_ABI = [
-  { inputs: [], name: "name", outputs: [{ type: "string" }], stateMutability: "view", type: "function" },
-  { inputs: [], name: "symbol", outputs: [{ type: "string" }], stateMutability: "view", type: "function" },
-  { inputs: [{ name: "account", type: "address" }], name: "balanceOf", outputs: [{ type: "uint256" }], stateMutability: "view", type: "function" },
-];
+// --- Components ---
+const CountdownTimer = () => {
+  const [time, setTime] = useState({ h: 23, m: 59, s: 59 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(prev => {
+        if (prev.s > 0) return { ...prev, s: prev.s - 1 };
+        if (prev.m > 0) return { ...prev, m: prev.m - 1, s: 59 };
+        if (prev.h > 0) return { ...prev, h: prev.h - 1, m: 59, s: 59 };
+        return prev;
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div style={{ textAlign: 'center', margin: '20px 0', padding: '15px', background: 'rgba(255, 77, 77, 0.1)', border: '1px solid #ff4d4d', borderRadius: '12px', animation: 'pulse 2s infinite' }}>
+      <div style={{ fontSize: '0.9rem', color: '#ff4d4d', marginBottom: '5px', fontWeight: 'bold' }}>⚡ PRICE INCREASE IN</div>
+      <div style={{ fontSize: '1.5rem', fontFamily: 'monospace', fontWeight: 'bold', color: '#fff' }}>
+        {String(time.h).padStart(2, '0')}h : {String(time.m).padStart(2, '0')}m : {String(time.s).padStart(2, '0')}s
+      </div>
+    </div>
+  );
+};
+
+const LiveTicker = () => {
+  const [notification, setNotification] = useState(null);
+  const [visible, setVisible] = useState(false);
+
+  const generateNotification = () => {
+    const addr = "0x" + Array(4).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join("") + "..." + Array(4).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join("");
+    const amount = (Math.random() * 2 + 0.1).toFixed(2);
+    return { addr, amount };
+  };
+
+  useEffect(() => {
+    const loop = () => {
+      const delay = Math.random() * 5000 + 3000;
+      setTimeout(() => {
+        setNotification(generateNotification());
+        setVisible(true);
+        setTimeout(() => setVisible(false), 4000);
+        loop();
+      }, delay);
+    };
+    loop();
+  }, []);
+
+  if (!notification) return null;
+
+  return (
+    <div style={{
+      position: 'fixed',
+      bottom: '20px',
+      left: '20px',
+      background: 'rgba(13, 13, 13, 0.9)',
+      border: '1px solid var(--accent-color)',
+      borderRadius: '8px',
+      padding: '12px 20px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '12px',
+      zIndex: 9999,
+      transform: visible ? 'translateY(0)' : 'translateY(100px)',
+      opacity: visible ? 1 : 0,
+      transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+    }}>
+      <div style={{ background: 'rgba(0, 211, 149, 0.2)', color: 'var(--accent-color)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <i className="fas fa-bolt"></i>
+      </div>
+      <div>
+        <div style={{ fontSize: '0.8rem', color: '#888' }}>Someone just bought</div>
+        <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#fff' }}>
+          {notification.amount} ETH <span style={{ color: 'var(--accent-color)' }}>(${(notification.amount * 3200).toFixed(0)})</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ... (existing App component)
+
 
 function App() {
   const { address, isConnected } = useAccount();
@@ -39,6 +117,7 @@ function App() {
           border: '1px solid #444',
         },
       }} />
+      <LiveTicker />
 
       {/* Developer Modal */}
       {showDevModal && (
@@ -256,6 +335,10 @@ function App() {
               EARLY BIRD
             </div>
 
+            <div style={{ padding: '0 20px' }}>
+              <CountdownTimer />
+            </div>
+
             <div className="service-header">
               <div className="service-icon-svg" style={{ background: 'var(--accent-color)' }}>
                 <i className="fas fa-rocket"></i>
@@ -291,109 +374,109 @@ function App() {
           </div>
         </section>
 
-      </section>
 
-      {/* Tokenomics & Utility Section */}
-      <section className="tokenomics-section fade-in" style={{ maxWidth: '1000px', margin: '4rem auto', padding: '0 20px', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-          About Aegis (AEG)
-        </h2>
-        <p style={{ maxWidth: '700px', margin: '0 auto 3rem', color: '#ccc', lineHeight: '1.6' }}>
-          AEG is the native utility and governance token of the Aegis Protocol.
-          Designed on the Base network, it powers the ecosystem through staking rewards,
-          premium access, and decentralized decision-making.
-        </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-          {/* Token Stats */}
-          <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <img src="/aegis_token.png" alt="AEG" style={{ width: '50px', height: '50px', marginRight: '15px' }} />
-              <div>
-                <h3 style={{ margin: 0, fontSize: '1.2rem' }}>Token Specs</h3>
-                <span style={{ fontSize: '0.8rem', color: '#888' }}>Base Mainnet (ERC-20)</span>
+        {/* Tokenomics & Utility Section */}
+        <section className="tokenomics-section fade-in" style={{ maxWidth: '1000px', margin: '4rem auto', padding: '0 20px', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            About Aegis (AEG)
+          </h2>
+          <p style={{ maxWidth: '700px', margin: '0 auto 3rem', color: '#ccc', lineHeight: '1.6' }}>
+            AEG is the native utility and governance token of the Aegis Protocol.
+            Designed on the Base network, it powers the ecosystem through staking rewards,
+            premium access, and decentralized decision-making.
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+            {/* Token Stats */}
+            <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
+                <img src="/aegis_token.png" alt="AEG" style={{ width: '50px', height: '50px', marginRight: '15px' }} />
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '1.2rem' }}>Token Specs</h3>
+                  <span style={{ fontSize: '0.8rem', color: '#888' }}>Base Mainnet (ERC-20)</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
+                <span style={{ color: '#888' }}>Symbol</span>
+                <span style={{ fontWeight: 'bold', color: '#fff' }}>AEG</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
+                <span style={{ color: '#888' }}>Total Supply</span>
+                <span style={{ fontWeight: 'bold', color: '#fff' }}>1,000,000,000</span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                <span style={{ color: '#888' }}>Contract</span>
+                <button onClick={() => {
+                  navigator.clipboard.writeText(CONTRACT_ADDRESS);
+                  toast.success("Address Copied!");
+                }} style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', fontSize: '0.9rem', padding: 0 }}>
+                  {CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)} <i className="far fa-copy"></i>
+                </button>
               </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
-              <span style={{ color: '#888' }}>Symbol</span>
-              <span style={{ fontWeight: 'bold', color: '#fff' }}>AEG</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
-              <span style={{ color: '#888' }}>Total Supply</span>
-              <span style={{ fontWeight: 'bold', color: '#fff' }}>1,000,000,000</span>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-              <span style={{ color: '#888' }}>Contract</span>
-              <button onClick={() => {
-                navigator.clipboard.writeText(CONTRACT_ADDRESS);
-                toast.success("Address Copied!");
-              }} style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', fontSize: '0.9rem', padding: 0 }}>
-                {CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)} <i className="far fa-copy"></i>
-              </button>
+
+            {/* Utility List */}
+            <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
+              <h3 style={{ margin: '0 0 1.5rem', fontSize: '1.2rem' }}>Core Utility</h3>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
+                  <i className="fas fa-check-circle" style={{ color: 'var(--primary-color)', marginTop: '4px' }}></i>
+                  <div>
+                    <strong style={{ color: '#fff' }}>Governance</strong>
+                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Vote on protocol upgrades and treasury usage.</p>
+                  </div>
+                </li>
+                <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
+                  <i className="fas fa-check-circle" style={{ color: 'var(--accent-color)', marginTop: '4px' }}></i>
+                  <div>
+                    <strong style={{ color: '#fff' }}>Staking Rewards</strong>
+                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Earn up to 18.5% APY by securing the network.</p>
+                  </div>
+                </li>
+                <li style={{ display: 'flex', gap: '10px' }}>
+                  <i className="fas fa-check-circle" style={{ color: '#ff4d4d', marginTop: '4px' }}></i>
+                  <div>
+                    <strong style={{ color: '#fff' }}>Security Verification</strong>
+                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Access premium audit reports and security tools.</p>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
+        </section>
 
-          {/* Utility List */}
-          <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
-            <h3 style={{ margin: '0 0 1.5rem', fontSize: '1.2rem' }}>Core Utility</h3>
-            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-              <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
-                <i className="fas fa-check-circle" style={{ color: 'var(--primary-color)', marginTop: '4px' }}></i>
-                <div>
-                  <strong style={{ color: '#fff' }}>Governance</strong>
-                  <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Vote on protocol upgrades and treasury usage.</p>
-                </div>
-              </li>
-              <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
-                <i className="fas fa-check-circle" style={{ color: 'var(--accent-color)', marginTop: '4px' }}></i>
-                <div>
-                  <strong style={{ color: '#fff' }}>Staking Rewards</strong>
-                  <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Earn up to 18.5% APY by securing the network.</p>
-                </div>
-              </li>
-              <li style={{ display: 'flex', gap: '10px' }}>
-                <i className="fas fa-check-circle" style={{ color: '#ff4d4d', marginTop: '4px' }}></i>
-                <div>
-                  <strong style={{ color: '#fff' }}>Security Verification</strong>
-                  <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>Access premium audit reports and security tools.</p>
-                </div>
-              </li>
-            </ul>
+        {/* Footer Stats Mini */}
+        <div className="global-stats-footer fade-in">
+          <div className="mini-stat-item">
+            <label>全網註冊總發行量</label>
+            <div>1,000,000,000</div>
+          </div>
+          <div className="mini-stat-item">
+            <label>協議識別代碼</label>
+            <div>AEG</div>
           </div>
         </div>
-      </section>
 
-      {/* Footer Stats Mini */}
-      <div className="global-stats-footer fade-in">
-        <div className="mini-stat-item">
-          <label>全網註冊總發行量</label>
-          <div>1,000,000,000</div>
-        </div>
-        <div className="mini-stat-item">
-          <label>協議識別代碼</label>
-          <div>AEG</div>
-        </div>
-      </div>
-
-      {/* Transaction History - Simplified for Demo */}
-      <section className="transaction-history-section fade-in">
-        <h4>近期協議交互紀錄</h4>
-        <div className="history-list">
-          {hash && (
-            <div className="history-item fade-in">
-              <div className="history-info">
-                <span className="history-type-pill type-claim">BUY</span>
-                <span className="history-amount">{ethAmount} ETH</span>
+        {/* Transaction History - Simplified for Demo */}
+        <section className="transaction-history-section fade-in">
+          <h4>近期協議交互紀錄</h4>
+          <div className="history-list">
+            {hash && (
+              <div className="history-item fade-in">
+                <div className="history-info">
+                  <span className="history-type-pill type-claim">BUY</span>
+                  <span className="history-amount">{ethAmount} ETH</span>
+                </div>
+                <a href={`https://basescan.org/tx/${hash}`} target="_blank" rel="noreferrer" className="history-hash">
+                  View on Explorer
+                </a>
               </div>
-              <a href={`https://basescan.org/tx/${hash}`} target="_blank" rel="noreferrer" className="history-hash">
-                View on Explorer
-              </a>
-            </div>
-          )}
-          <div className="history-placeholder">尚無其他近期鏈上紀錄</div>
-        </div>
-      </section>
-    </main >
+            )}
+            <div className="history-placeholder">尚無其他近期鏈上紀錄</div>
+          </div>
+        </section>
+      </main >
 
       <footer className="footer">
         <div className="footer-links">
