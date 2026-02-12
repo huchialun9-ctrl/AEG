@@ -16,37 +16,178 @@ const TOKEN_ABI = [
 ];
 
 // --- Components ---
-import CommunityHub from './components/CommunityHub';
+// ... (imports remain)
 
-const Roadmap = () => {
-  const { t } = useTranslation();
-  const steps = [
-    { phase: t('roadmap.phase1'), title: t('roadmap.phase1_title'), status: "current", icon: "fa-rocket", items: [t('roadmap.phase1_item1'), t('roadmap.phase1_item2'), t('roadmap.phase1_item3')] },
-    { phase: t('roadmap.phase2'), title: t('roadmap.phase2_title'), status: "upcoming", icon: "fa-exchange-alt", items: [t('roadmap.phase2_item1'), t('roadmap.phase2_item2'), t('roadmap.phase2_item3')] },
-    { phase: t('roadmap.phase3'), title: t('roadmap.phase3_title'), status: "future", icon: "fa-layer-group", items: [t('roadmap.phase3_item1'), t('roadmap.phase3_item2'), t('roadmap.phase3_item3')] },
-    { phase: t('roadmap.phase4'), title: t('roadmap.phase4_title'), status: "future", icon: "fa-globe", items: [t('roadmap.phase4_item1'), t('roadmap.phase4_item2'), t('roadmap.phase4_item3')] },
-  ];
+// Remove CommunityHub import
+// import CommunityHub from './components/CommunityHub';
+
+// ... (Roadmap, FAQ, WhitepaperModal components remain)
+
+function App() {
+  const { t, i18n } = useTranslation();
+  const { address, isConnected } = useAccount();
+  const { sendTransaction, data: hash, isPending: isTxPending } = useSendTransaction();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
+
+  const [ethAmount, setEthAmount] = useState('');
+  const [refLink, setRefLink] = useState('');
+  const [showDevModal, setShowDevModal] = useState(false);
+  const [showWhitepaperModal, setShowWhitepaperModal] = useState(false);
+  // Removed currentView state
+
+  // ... (hooks remain)
+
+  // ... (handleBuy remains)
 
   return (
-    <section className="roadmap-section fade-in">
-      <h2 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '3rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-        {t('roadmap.title')}
-      </h2>
-      <div className="roadmap-grid">
-        {steps.map((step, index) => (
-          <div key={index} className={`roadmap-item ${step.status === 'done' ? 'completed' : step.status === 'current' ? 'active' : ''}`}>
-            <span className={`phase-tag ${step.status}`}>{step.phase} {step.status === 'current' && '🔥'}</span>
-            <h3><i className={`fas ${step.icon}`} style={{ marginRight: '10px', color: 'var(--mm-primary)' }}></i> {step.title}</h3>
-            <ul className="roadmap-list">
-              {step.items.map((item, i) => (
-                <li key={i}><i className="fas fa-check" style={{ color: step.status === 'done' ? 'var(--mm-accent)' : '#333', fontSize: '0.8rem' }}></i> {item}</li>
-              ))}
-            </ul>
+    <>
+      <Toaster position="top-center" toastOptions={{
+        style: {
+          background: '#333',
+          color: '#fff',
+          border: '1px solid #444',
+        },
+      }} />
+
+      {/* Developer Modal */}
+      {
+        showDevModal && (
+          <div className="modal-overlay" onClick={() => setShowDevModal(false)}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              {/* ... content remains ... */}
+            </div>
           </div>
-        ))}
+        )
+      }
+
+      <div className="bg-decoration">
+        <div className="grid-overlay"></div>
       </div>
-    </section>
+
+      {/* Top Announcement Bar */}
+      <div className="top-announcement-bar">
+        <p>🔥 <strong>SEED ROUND IS LIVE!</strong> &nbsp; <span className="blink-text">EARLY BIRD PRICE: 1 ETH = 23,176 AEG</span> &nbsp; (Limited Time) 🔥</p>
+      </div>
+
+      <nav className="navbar">
+        <div className="nav-content">
+          <div className="brand">
+            <img src="/aegis_logo.png" alt="Aegis Logo" className="brand-logo-main" />
+            <span className="brand-name-main" style={{ cursor: 'pointer' }}>AEGIS</span>
+          </div>
+          <div className="nav-actions">
+            <button className="btn-nav-text" onClick={() => setShowWhitepaperModal(true)}>
+              <i className="fas fa-book"></i> {t('nav.whitepaper')}
+            </button>
+            <button className="btn-nav-text" onClick={() => setShowDevModal(true)}>
+              <i className="fas fa-code"></i> {t('nav.developers')}
+            </button>
+            {/* Removed Community Button */}
+            <button className="btn-nav-text" onClick={() => i18n.changeLanguage(i18n.language.startsWith('zh') ? 'en' : 'zh')} style={{ marginLeft: '10px' }}>
+              <i className="fas fa-globe"></i> {i18n.language.startsWith('zh') ? 'EN' : '中文'}
+            </button>
+
+            <div className="rainbow-connect-wrapper">
+              <ConnectButton showBalance={false} />
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main className="portfolio-container">
+        {/* Removed currentView check */}
+
+        {/* Elite Header Section */}
+        <section className="portfolio-hero fade-in">
+          <div className="user-header">
+            <div className="status-badge">
+              <span className="pulse-dot"></span>
+              <span>{t('hero.status')}</span>
+            </div>
+            <h1>{t('hero.title')}</h1>
+            <p className="hero-subtitle">{t('hero.subtitle')}</p>
+          </div>
+        </section>
+
+        {/* Main Balance Visualizer */}
+        <section className="main-stats-section fade-in">
+          {/* ... content remains ... */}
+        </section>
+
+        {/* Instruction Banner */}
+        <section className="instruction-banner fade-in">
+          {/* ... content remains ... */}
+        </section>
+
+        {/* Presale Benefits & Comparison */}
+        <section className="benefits-section fade-in" style={{ maxWidth: '1000px', margin: '0 auto 4rem', padding: '0 20px' }}>
+          {/* ... content remains ... */}
+        </section>
+
+        {/* Service Component Grid */}
+        <section className="action-services-grid fade-in" style={{ display: 'flex', justifyContent: 'center' }}>
+          {/* ... content remains ... */}
+        </section>
+
+        {/* Tokenomics & Utility Section */}
+        <section className="tokenomics-section fade-in" style={{ maxWidth: '1000px', margin: '4rem auto', padding: '0 20px', textAlign: 'center' }}>
+          {/* ... content remains ... */}
+        </section>
+
+        <Roadmap />
+        <FAQ />
+
+        {/* Footer Stats Mini */}
+        <div className="global-stats-footer fade-in">
+          {/* ... content remains ... */}
+        </div>
+
+        {/* Transaction History */}
+        <section className="transaction-history-section fade-in">
+          {/* ... content remains ... */}
+        </section>
+
+        {/* Removed CommunityHub rendering */}
+
+      </main>
+
+      <footer className="footer">
+        {/* ... content remains ... */}
+      </footer>
+
+      {/* Whitepaper Modal */}
+      {showWhitepaperModal && <WhitepaperModal onClose={() => setShowWhitepaperModal(false)} />}
+    </>
   );
+}
+const { t } = useTranslation();
+const steps = [
+  { phase: t('roadmap.phase1'), title: t('roadmap.phase1_title'), status: "current", icon: "fa-rocket", items: [t('roadmap.phase1_item1'), t('roadmap.phase1_item2'), t('roadmap.phase1_item3')] },
+  { phase: t('roadmap.phase2'), title: t('roadmap.phase2_title'), status: "upcoming", icon: "fa-exchange-alt", items: [t('roadmap.phase2_item1'), t('roadmap.phase2_item2'), t('roadmap.phase2_item3')] },
+  { phase: t('roadmap.phase3'), title: t('roadmap.phase3_title'), status: "future", icon: "fa-layer-group", items: [t('roadmap.phase3_item1'), t('roadmap.phase3_item2'), t('roadmap.phase3_item3')] },
+  { phase: t('roadmap.phase4'), title: t('roadmap.phase4_title'), status: "future", icon: "fa-globe", items: [t('roadmap.phase4_item1'), t('roadmap.phase4_item2'), t('roadmap.phase4_item3')] },
+];
+
+return (
+  <section className="roadmap-section fade-in">
+    <h2 style={{ textAlign: 'center', fontSize: '2rem', marginBottom: '3rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+      {t('roadmap.title')}
+    </h2>
+    <div className="roadmap-grid">
+      {steps.map((step, index) => (
+        <div key={index} className={`roadmap-item ${step.status === 'done' ? 'completed' : step.status === 'current' ? 'active' : ''}`}>
+          <span className={`phase-tag ${step.status}`}>{step.phase} {step.status === 'current' && '🔥'}</span>
+          <h3><i className={`fas ${step.icon}`} style={{ marginRight: '10px', color: 'var(--mm-primary)' }}></i> {step.title}</h3>
+          <ul className="roadmap-list">
+            {step.items.map((item, i) => (
+              <li key={i}><i className="fas fa-check" style={{ color: step.status === 'done' ? 'var(--mm-accent)' : '#333', fontSize: '0.8rem' }}></i> {item}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+);
 };
 
 const FAQ = () => {
