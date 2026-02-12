@@ -72,13 +72,12 @@
                 </div>
             </div>
 
-            <!-- Referral Center (New) -->
             <div id="referral-center" class="portfolio-main-card fade-in" style="margin-top: 20px; display: none;">
-                <div style="text-align: left; padding: 10px;">
+                <div style="text-align: center; padding: 10px;">
                     <h4 data-i18n="referral_title" style="margin-bottom: 5px;">推薦計畫</h4>
-                    <p data-i18n="referral_link" style="font-size: 11px; opacity: 0.7;">您的專屬推薦連結：</p>
-                    <div class="input-group-elite" style="margin-top: 5px;">
-                        <input type="text" id="ref-link-input" readonly style="font-size: 11px;">
+                    <p data-i18n="referral_link" style="font-size: 11px; opacity: 0.7;">您的專屬推薦連結</p>
+                    <div class="input-group-elite" style="margin-top: 5px; justify-content: center;">
+                        <input type="text" id="ref-link-input" readonly style="font-size: 11px; text-align: center;">
                         <button id="copy-ref-link" class="btn-elite btn-accent"
                             style="padding: 5px 15px; min-width: auto; font-size: 11px;"
                             data-i18n="referral_copy">複製連結</button>
@@ -92,26 +91,40 @@
         <section class="action-services-grid fade-in" style="display: flex; justify-content: center;">
             <!-- Presale Buy (New) -->
             <div class="service-card presale-service fade-in"
-                style="border: 1px solid var(--accent-color); max-width: 500px; width: 100%;">
+                style="border: 1px solid var(--accent-color); max-width: 500px; width: 100%; position: relative; overflow: hidden;">
+                <!-- Promo Ribbon -->
+                <div
+                    style="position: absolute; top: 15px; right: -30px; background: var(--accent-color); color: #000; padding: 5px 40px; transform: rotate(45deg); font-size: 10px; font-weight: 800; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                    EARLY BIRD
+                </div>
+
                 <div class="service-header">
                     <div class="service-icon-svg" style="background: var(--accent-color);">
                         <i class="fas fa-rocket"></i>
                     </div>
                     <div class="service-info">
-                        <h3 data-i18n="presale_title">種子輪預售</h3>
-                        <p data-i18n="presale_desc">直接使用 ETH 兌換 AEG (固定匯率)</p>
+                        <h3 data-i18n="presale_title">種子輪預售 (Stage 1)</h3>
+                        <p data-i18n="presale_desc" style="color: var(--accent-color); font-weight: bold;">限時優惠：1 ETH =
+                            23,176 AEG</p>
+                        <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 5px;">
+                            上市目標價 Target: $0.10 (+1800%)
+                        </p>
                     </div>
                 </div>
                 <div class="service-action">
-                    <div class="input-group-elite">
+                    <div class="input-group-elite" style="border-color: var(--accent-color);">
                         <i class="fab fa-ethereum"></i>
                         <input type="number" id="buy-eth-amount" placeholder="輸入 ETH 數量">
                         <span class="unit-tag">ETH</span>
                     </div>
-                    <button id="buy-tokens-btn" class="btn-elite btn-primary" style="width: 100%; margin-top: 15px;">
-                        <span data-i18n="presale_btn">立即購買</span>
+                    <button id="buy-tokens-btn" class="btn-elite btn-primary"
+                        style="width: 100%; margin-top: 15px; background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); border: none;">
+                        <span data-i18n="presale_btn">立即搶購 (Buy Now)</span>
                     </button>
-                    <p class="service-footer-hint" data-i18n="presale_hint">資金將全數用於開啟 Aerodrome 流動性池。</p>
+
+                    <p class="service-footer-hint" style="margin-top: 15px; text-align: center; opacity: 0.8;">
+                        <span data-i18n="presale_hint">資金將全數用於開啟流動性池。</span>
+                    </p>
                 </div>
             </div>
 
