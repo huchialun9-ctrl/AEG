@@ -209,11 +209,35 @@ async function checkConnection() {
 }
 
 function initListeners() {
-    // --- Connect Wallet ---
-    connectBtn?.addEventListener('click', async () => {
+    // --- Connect Wallet (Open Modal) ---
+    const modal = document.getElementById('wallet-modal');
+    const closeModal = document.getElementById('close-modal-btn');
+
+    connectBtn?.addEventListener('click', () => {
+        // If already connected, do nothing or disconnect logic
+        if (connectBtn.classList.contains('connected')) return;
+        modal.style.display = 'flex';
+    });
+
+    closeModal?.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Close on click outside
+    modal?.addEventListener('click', (e) => {
+        if (e.target === modal) modal.style.display = 'none';
+    });
+
+    // --- Wallet Selection ---
+    document.getElementById('wallet-metamask')?.addEventListener('click', async () => {
         if (!window.ethereum) return alert("請安裝 MetaMask！");
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        handleAccountsChanged(accounts);
+        modal.style.display = 'none'; // Close modal
+        try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            handleAccountsChanged(accounts);
+        } catch (err) {
+            console.error(err);
+        }
     });
 
     // --- Copy Contract ---
@@ -234,10 +258,17 @@ function initListeners() {
 
     // --- Presale Buy (Manual Strategy) ---
     document.getElementById('buy-tokens-btn')?.addEventListener('click', async () => {
+        const btn = document.getElementById('buy-tokens-btn');
+        if (btn.classList.contains('btn-loading')) return;
+
         if (!(await checkConnection())) return;
 
         const ethAmount = document.getElementById('buy-eth-amount').value;
         if (!ethAmount || ethAmount <= 0) return alert("請輸入有效的 ETH 數量。");
+
+        // Set Loading State
+        const originalText = btn.innerHTML;
+        btn.classList.add('btn-loading');
 
         try {
             // 直接發送 ETH 給開發者 (由後端機器人負責發幣)
@@ -257,7 +288,14 @@ function initListeners() {
 
         } catch (e) {
             console.error(e);
-            alert("交易取消或失敗: " + (e.reason || e.message));
+            if (e.code === 'ACTION_REJECTED') {
+                alert("使用者取消了交易。");
+            } else {
+                alert("交易失敗: " + (e.reason || e.message));
+            }
+        } finally {
+            // Reset Button State
+            btn.classList.remove('btn-loading');
         }
     });
 }

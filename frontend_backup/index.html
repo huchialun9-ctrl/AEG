@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis (AEG) | 數位權益資產看板 V1.1.0</title>
+    <link rel="stylesheet" href="style.css?v=1.1.0">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="Aegis Protocol (AEG) | Seed Round Live">
+    <meta property="og:description"
+        content="Secure your allocation in the Aegis Protocol seed round. Decentralized security and yield on Base. Early bird offer available now.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aegis-protocol.io/">
+    <meta property="og:image" content="https://aegis-protocol.io/logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body>
+    <!-- Top Announcement Bar -->
+    <div class="top-announcement-bar">
+        <p>🔥 <strong>SEED ROUND IS LIVE!</strong> &nbsp; <span class="blink-text">EARLY BIRD PRICE: 1 ETH = 23,176
+                AEG</span> &nbsp; (Limited Time) 🔥</p>
+    </div>
+
+    <!-- Background Decoration Grid -->
+    <div class="bg-decoration">
+        <div class="grid-overlay"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="brand">
+                <img src="logo.png" alt="Aegis Logo" class="brand-logo-main">
+                <span class="brand-name-main">AEGIS</span>
+            </div>
+            <div class="nav-actions">
+                <button id="copy-contract" class="btn-copy-nav">
+                    <i class="far fa-copy"></i>
+                    <span data-i18n="nav_copy">複製合約</span>
+                </button>
+                <select id="lang-select" class="lang-switcher">
+                    <option value="zh-TW">繁體中文</option>
+                    <option value="en">English</option>
+                </select>
+                <button id="connect-wallet" class="btn-connect">
+                    <span class="btn-text" data-i18n="nav_connect">連接錢包</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="portfolio-container">
+        <!-- Elite Header Section -->
+        <section class="portfolio-hero fade-in">
+            <div class="user-header">
+                <div class="status-badge">
+                    <span class="pulse-dot"></span>
+                    <span>LIVE ON BASE MAINNET</span>
+                </div>
+                <h1>AEGIS GLOBAL</h1>
+                <p class="hero-subtitle">精英級去中心化安全與收益協議，致力於構建透明、精簡、高效的資產管理生態。</p>
+            </div>
+        </section>
+
+        <!-- Main Balance Visualizer -->
+        <section class="main-stats-section fade-in">
+            <div class="portfolio-main-card">
+                <div class="balance-info" style="text-align: center;">
+                    <span class="balance-label" data-i18n="portfolio_balance">預估資產價值 (AEG)</span>
+                    <div class="balance-main">
+                        <span class="currency-symbol">AEG</span>
+                        <span id="user-balance" class="value-text">0.00</span>
+                    </div>
+                    <div class="usd-value-container">
+                        <span class="usd-symbol">≈ $</span>
+                        <span id="user-usd-balance">0.00</span>
+                    </div>
+                    <div class="usd-value-container" style="margin-top: 5px;">
+                        <span class="indicator-up">APY 18.5% 已激活</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="referral-center" class="portfolio-main-card fade-in" style="margin-top: 20px; display: none;">
+                <div style="text-align: center; padding: 10px;">
+                    <h4 data-i18n="referral_title" style="margin-bottom: 5px;">推薦計畫</h4>
+                    <p data-i18n="referral_link" style="font-size: 11px; opacity: 0.7;">您的專屬推薦連結</p>
+                    <div class="input-group-elite" style="margin-top: 5px; justify-content: center;">
+                        <input type="text" id="ref-link-input" readonly style="font-size: 11px; text-align: center;">
+                        <button id="copy-ref-link" class="btn-elite btn-accent"
+                            style="padding: 5px 15px; min-width: auto; font-size: 11px;"
+                            data-i18n="referral_copy">複製連結</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Instruction Banner -->
+        <section class="instruction-banner fade-in">
+            <div class="banner-content">
+                <h2>🚀 如何參與預售 (How to Buy)</h2>
+                <div class="steps-grid">
+                    <div class="step-item">
+                        <div class="step-icon">1</div>
+                        <p>連接錢包<br>Connect Wallet (Base)</p>
+                    </div>
+                    <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
+                    <div class="step-item">
+                        <div class="step-icon">2</div>
+                        <p>輸入 ETH 數量<br>Enter Amount</p>
+                    </div>
+                    <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
+                    <div class="step-item">
+                        <div class="step-icon">3</div>
+                        <p>點擊搶購 & 等待空投<br>Buy & Wait Airdrop</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service Component Grid -->
+        <section class="action-services-grid fade-in" style="display: flex; justify-content: center;">
+            <!-- Presale Buy (New) -->
+            <div class="service-card presale-service fade-in"
+                style="border: 1px solid var(--accent-color); max-width: 500px; width: 100%; position: relative; overflow: hidden;">
+                <!-- Promo Ribbon -->
+                <div
+                    style="position: absolute; top: 15px; right: -30px; background: var(--accent-color); color: #000; padding: 5px 40px; transform: rotate(45deg); font-size: 10px; font-weight: 800; box-shadow: 0 2px 10px rgba(0,0,0,0.5);">
+                    EARLY BIRD
+                </div>
+
+                <div class="service-header">
+                    <div class="service-icon-svg" style="background: var(--accent-color);">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <div class="service-info">
+                        <h3 data-i18n="presale_title">種子輪預售 (Stage 1)</h3>
+                        <p data-i18n="presale_desc" style="color: var(--accent-color); font-weight: bold;">限時優惠：1 ETH =
+                            23,176 AEG</p>
+                        <p style="font-size: 0.75rem; color: rgba(255,255,255,0.6); margin-top: 5px;">
+                            上市目標價 Target: $0.10 (+1800%)
+                        </p>
+                    </div>
+                </div>
+                <div class="service-action">
+                    <div class="input-group-elite" style="border-color: var(--accent-color);">
+                        <i class="fab fa-ethereum"></i>
+                        <input type="number" id="buy-eth-amount" placeholder="輸入 ETH 數量">
+                        <span class="unit-tag">ETH</span>
+                    </div>
+                    <button id="buy-tokens-btn" class="btn-elite btn-primary"
+                        style="width: 100%; margin-top: 15px; background: linear-gradient(45deg, var(--primary-color), var(--accent-color)); border: none;">
+                        <span data-i18n="presale_btn">立即搶購 (Buy Now)</span>
+                    </button>
+
+                    <p class="service-footer-hint" style="margin-top: 15px; text-align: center; opacity: 0.8;">
+                        <span data-i18n="presale_hint">資金將全數用於開啟流動性池。</span>
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Footer Stats Mini -->
+        <div class="global-stats-footer fade-in">
+            <div class="mini-stat-item">
+                <label data-i18n="stat_total">全網註冊總發行量</label>
+                <div id="total-supply">1,000,000,000</div>
+            </div>
+            <div class="mini-stat-item">
+                <label data-i18n="stat_symbol">協議識別代碼</label>
+                <div id="token-symbol">AEG</div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <section class="transaction-history-section fade-in">
+            <h4 data-i18n="history_title">近期協議交互紀錄</h4>
+            <div id="tx-history-list" class="history-list">
+                <div class="history-placeholder" data-i18n="history_empty">尚無近期鏈上紀錄</div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <!-- RainbowKit-style Connect Modal -->
+    <div id="wallet-modal" class="modal-backdrop" style="display: none;">
+        <div class="modal-container fade-in-up">
+            <div class="modal-header">
+                <h3>Connect a Wallet</h3>
+                <button id="close-modal-btn" class="btn-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="wallet-list">
+                    <div class="wallet-item" id="wallet-metamask">
+                        <div class="wallet-icon">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"
+                                alt="MetaMask">
+                        </div>
+                        <span>MetaMask</span>
+                        <div class="badge-tag">Popular</div>
+                    </div>
+                    <div class="wallet-item disabled">
+                        <div class="wallet-icon" style="background: #0052FF;">
+                            <i class="fas fa-circle" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <span>Coinbase Wallet</span>
+                    </div>
+                    <div class="wallet-item disabled">
+                        <div class="wallet-icon" style="background: #3498db;">
+                            <i class="fas fa-shield-alt" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <span>Trust Wallet</span>
+                    </div>
+                    <div class="wallet-item disabled">
+                        <div class="wallet-icon" style="background: #3B99FC;">
+                            <i class="fas fa-wallet" style="color: white; font-size: 1.2rem;"></i>
+                        </div>
+                        <span>Rainbow</span>
+                    </div>
+                </div>
+                <div class="wallet-info-side">
+                    <h4>What is a Wallet?</h4>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-layer-group"></i></div>
+                        <div>
+                            <h5>A Home for your Digital Assets</h5>
+                            <p>Wallets are used to send, receive, store, and display digital assets like Ethereum and
+                                NFTs.</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-key"></i></div>
+                        <div>
+                            <h5>A New Way to Log In</h5>
+                            <p>Instead of creating new accounts and passwords on every website, just connect your
+                                wallet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://github.com/huchialun9-ctrl/AEG.git" target="_blank">技術源碼</a>
+            <a href="../docs/whitepaper.html" target="_blank">技術白皮書</a>
+        </div>
+        <p class="footer-copyright">© 2026 Aegis 全球安全計畫。Base 主網技術開發。</p>
+        <p class="footer-disclaimer"
+            style="font-size: 0.7rem; opacity: 0.4; max-width: 600px; margin: 10px auto 0; text-align: center;">
+            Disclaimer: Cryptocurrency investments involve high risk. The simplified visuals (e.g., APY, price targets)
+            are for illustrative purposes only.
+            AEG is a utility token for the Aegis ecosystem. Please do your own research (DYOR) before participating.
+        </p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.11.1/ethers.umd.min.js"></script>
+    <script type="module" src="app.js?v=0.1.0"></script>
+</body>
+
+</html>

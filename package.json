@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm install && npm run build"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
