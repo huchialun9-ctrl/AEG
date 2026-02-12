@@ -40,6 +40,27 @@ export const updateLeaderboardScore = (address, scoreDelta) => {
         // and let the client sort them.
         getLeaderboard().set(userNode);
     });
+});
+};
+
+// Helper to record a referral
+export const recordReferral = (newUserAddress, referrerAddress) => {
+    if (!newUserAddress || !referrerAddress || newUserAddress.toLowerCase() === referrerAddress.toLowerCase()) return;
+
+    const userNode = getUserData(newUserAddress);
+
+    // Check if user already has a referrer
+    userNode.get('referredBy').once((existingReferrer) => {
+        if (!existingReferrer) {
+            // Set the referrer
+            userNode.get('referredBy').put(referrerAddress);
+
+            // Increment referrer's score (1 invite = 1 point for now)
+            updateLeaderboardScore(referrerAddress, 1);
+
+            console.log(`Referral recorded: ${newUserAddress} invited by ${referrerAddress}`);
+        }
+    });
 };
 
 export default gun;
