@@ -31,7 +31,9 @@
   -webkit-font-smoothing: antialiased;
 }
 
+/* --- Custom Cursor (Pencil) --- */
 body {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24"><path fill="%232c3e50" d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg>') 0 24, auto;
   font-family: var(--font-hand);
   background-color: var(--paper-bg);
   color: var(--ink-color);
@@ -43,6 +45,12 @@ body {
     linear-gradient(transparent 95%, #e1e8ed 95%);
   background-size: 20px 20px;
   /* Grid paper */
+}
+
+button,
+a,
+.clickable {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24"><path fill="%23e74c3c" d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z" /></svg>') 0 24, pointer;
 }
 
 /* Scrollbar */
@@ -81,35 +89,50 @@ h6 {
   line-height: 1.2;
 }
 
-/* --- Top Bar --- */
+/* --- Top Bar (Rubber Stamp) --- */
 .top-announcement-bar {
-  background: var(--ink-color);
-  color: #fff;
+  background: transparent;
+  /* Remove solid background */
+  color: var(--marker-red);
   text-align: center;
-  padding: 8px;
+  padding: 10px;
   font-size: 0.9rem;
-  letter-spacing: 1px;
-  position: sticky;
-  top: 0;
+  letter-spacing: 2px;
+  position: absolute;
+  /* Changed to absolute to float like a stamp */
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-2deg);
   z-index: 1001;
-  border-bottom: 2px solid #000;
+  border: 3px double var(--marker-red);
+  border-radius: 5px;
+  box-shadow: 0 0 0 2px transparent;
+  font-weight: 900;
+  text-transform: uppercase;
+  opacity: 0.9;
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='50'><filter id='noise'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/></svg>");
+  /* Fallback for mask */
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255, 255, 255, 0.2) 3px);
 }
 
 .blink-text {
-  color: var(--marker-yellow);
-  font-weight: bold;
-  text-decoration: underline;
-  text-decoration-style: wavy;
+  color: var(--ink-color);
+  /* Contrast inside the stamp */
+  text-decoration: none;
+  background: rgba(255, 215, 0, 0.3);
+  /* Highlighter highlight */
 }
 
 /* --- Navbar --- */
+/* Fix Navbar overlap due to absolute top bar */
 .navbar {
   display: flex;
   justify-content: center;
   padding: 1.5rem 2rem;
   position: sticky;
-  top: 36px;
-  /* Below announcement bar */
+  top: 0;
+  margin-top: 60px;
+  /* Push down to make room for the stamp */
   z-index: 1000;
   transition: all 0.3s ease;
   background: rgba(253, 251, 247, 0.9);
@@ -152,6 +175,34 @@ h6 {
   gap: 1.5rem;
 }
 
+/* --- Scribble Animations (Hover) --- */
+@keyframes scribble {
+  0% {
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    transform: rotate(0deg);
+  }
+
+  25% {
+    border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+    transform: rotate(1deg);
+  }
+
+  50% {
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    transform: rotate(-1deg);
+  }
+
+  75% {
+    border-radius: 15px 225px 15px 255px / 255px 15px 225px 15px;
+    transform: rotate(0.5deg);
+  }
+
+  100% {
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    transform: rotate(0deg);
+  }
+}
+
 .btn-nav-text {
   background: none;
   border: none;
@@ -167,6 +218,28 @@ h6 {
 .btn-nav-text:hover {
   transform: rotate(-2deg) scale(1.1);
   color: var(--marker-blue);
+  text-decoration: none;
+}
+
+.btn-nav-text::after,
+.footer-links a::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--marker-blue);
+  border-radius: 50%;
+  opacity: 0;
+  transform: scaleX(0);
+  transition: all 0.2s ease;
+}
+
+.btn-nav-text:hover::after,
+.footer-links a:hover::after {
+  opacity: 1;
+  transform: scaleX(1) rotate(-1deg);
+  box-shadow: 0 2px 0 var(--marker-blue);
+  /* Double underline effect */
 }
 
 .btn-nav-text.active {
