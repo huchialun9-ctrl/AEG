@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useReadContract, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useReadContract, useSendTransaction, useWaitForTransactionReceipt, useBalance } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -51,9 +51,10 @@ const LiveTicker = () => {
   };
 
   useEffect(() => {
+    let timeoutId;
     const loop = () => {
       const delay = Math.random() * 5000 + 3000;
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setNotification(generateNotification());
         setVisible(true);
         setTimeout(() => setVisible(false), 4000);
@@ -61,6 +62,7 @@ const LiveTicker = () => {
       }, delay);
     };
     loop();
+    return () => clearTimeout(timeoutId);
   }, []);
 
   if (!notification) return null;
@@ -108,11 +110,57 @@ function App() {
   const [showDevModal, setShowDevModal] = useState(false);
 
   // Read User Balance
-  // ... (unchanged)
+  const { data: balanceData } = useReadContract({
+    address: CONTRACT_ADDRESS,
+    abi: TOKEN_ABI,
+    functionName: 'balanceOf',
+    args: [address],
+    query: {
+      enabled: !!address,
+      refetchInterval: 5000,
+    }
+  });
 
-  // ... (unchanged logic)
+  const { data: ethBalanceData } = useBalance({
+    address: address,
+    query: {
+      refetchInterval: 5000,
+    }
+  });
 
-  // ... (unchanged return statement start)
+  // Derived State
+  const formattedBalance = balanceData ? formatEther(balanceData) : '0';
+  const displayBalance = Number(formattedBalance).toLocaleString(undefined, { maximumFractionDigits: 2 });
+  const displayUsd = (Number(formattedBalance) * 0.00012).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
+  useEffect(() => {
+    if (isConfirmed) {
+      toast.success("Transaction Successful! Welcome to Aegis.");
+      setEthAmount('');
+    }
+  }, [isConfirmed]);
+
+  const handleBuy = async () => {
+    if (!isConnected) {
+      toast.error("Please connect your wallet first.");
+      return;
+    }
+    if (!ethAmount || parseFloat(ethAmount) <= 0) {
+      toast.error("Please enter a valid ETH amount.");
+      return;
+    }
+
+    try {
+      await sendTransaction({
+        to: DEV_ADDRESS, // In a real presale, this might constitute a presale contract or treasury
+        value: parseEther(ethAmount),
+      });
+      toast.loading("Transaction initiated...", { duration: 3000 });
+    } catch (error) {
+      console.error("Transaction failed:", error);
+      toast.error("Transaction failed or rejected.");
+    }
+  };
 
   return (
     <>
@@ -126,49 +174,51 @@ function App() {
       <LiveTicker />
 
       {/* Developer Modal */}
-      {showDevModal && (
-        <div className="modal-overlay" onClick={() => setShowDevModal(false)}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setShowDevModal(false)}>&times;</button>
-            <h2 style={{ borderBottom: '1px solid #333', paddingBottom: '15px', marginBottom: '20px' }}>👨‍💻 Core Developer</h2>
-            <div className="dev-profile">
-              <div className="dev-avatar">L</div>
-              <div className="dev-info">
-                <h3>Lucas</h3>
-                <p className="dev-role">Lead Blockchain Architect</p>
-                <p className="dev-desc">Full-stack Web3 developer specializing in Solidity smart contract audits and high-performance frontend interactions. Dedicated to building secure, transparent DeFi protocols.</p>
-                <div className="resource-list" style={{ marginTop: '0' }}>
-                  <a href="https://github.com/huchialun9-ctrl" target="_blank" rel="noreferrer" style={{ padding: '5px 10px', fontSize: '0.8rem', display: 'inline-flex', marginRight: '10px', background: '#333' }}>
-                    <i className="fab fa-github"></i> GitHub Profile
-                  </a>
+      {
+        showDevModal && (
+          <div className="modal-overlay" onClick={() => setShowDevModal(false)}>
+            <div className="modal-content" onClick={e => e.stopPropagation()}>
+              <button className="close-btn" onClick={() => setShowDevModal(false)}>&times;</button>
+              <h2 style={{ borderBottom: '1px solid #333', paddingBottom: '15px', marginBottom: '20px' }}>👨‍💻 Core Developer</h2>
+              <div className="dev-profile">
+                <div className="dev-avatar">L</div>
+                <div className="dev-info">
+                  <h3>Lucas</h3>
+                  <p className="dev-role">Lead Blockchain Architect</p>
+                  <p className="dev-desc">Full-stack Web3 developer specializing in Solidity smart contract audits and high-performance frontend interactions. Dedicated to building secure, transparent DeFi protocols.</p>
+                  <div className="resource-list" style={{ marginTop: '0' }}>
+                    <a href="https://github.com/huchialun9-ctrl" target="_blank" rel="noreferrer" style={{ padding: '5px 10px', fontSize: '0.8rem', display: 'inline-flex', marginRight: '10px', background: '#333' }}>
+                      <i className="fab fa-github"></i> GitHub Profile
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <h3 style={{ marginTop: '25px', marginBottom: '15px', fontSize: '1rem', color: '#888' }}>🛠️ Developer Resources</h3>
-            <ul className="resource-list">
-              <li>
-                <a href="https://github.com/huchialun9-ctrl/AEG" target="_blank" rel="noreferrer">
-                  <i className="fas fa-box-open"></i>
-                  <div>
-                    <strong>Project Source Code</strong>
-                    <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Official repository for Aegis Protocol</div>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href="https://docs.base.org/" target="_blank" rel="noreferrer">
-                  <i className="fas fa-book"></i>
-                  <div>
-                    <strong>Base Documentation</strong>
-                    <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Build on Base L2</div>
-                  </div>
-                </a>
-              </li>
-            </ul>
+              <h3 style={{ marginTop: '25px', marginBottom: '15px', fontSize: '1rem', color: '#888' }}>🛠️ Developer Resources</h3>
+              <ul className="resource-list">
+                <li>
+                  <a href="https://github.com/huchialun9-ctrl/AEG" target="_blank" rel="noreferrer">
+                    <i className="fas fa-box-open"></i>
+                    <div>
+                      <strong>Project Source Code</strong>
+                      <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Official repository for Aegis Protocol</div>
+                    </div>
+                  </a>
+                </li>
+                <li>
+                  <a href="https://docs.base.org/" target="_blank" rel="noreferrer">
+                    <i className="fas fa-book"></i>
+                    <div>
+                      <strong>Base Documentation</strong>
+                      <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Build on Base L2</div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       <div className="bg-decoration">
         <div className="grid-overlay"></div>
@@ -296,7 +346,7 @@ function App() {
                   <i className="fas fa-shield-alt"></i> No Slippage & Tax
                 </h4>
                 <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
-                  track directly from the protocol. Zero trading fees, zero price impact.
+                  Buy directly from the protocol. Zero trading fees, zero price impact.
                 </p>
               </div>
             </div>
