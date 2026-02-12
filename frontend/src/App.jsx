@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useReadContract, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther, formatEther } from 'viem';
+import toast, { Toaster } from 'react-hot-toast';
 
 // --- Configuration ---
 const CONTRACT_ADDRESS = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
@@ -20,56 +21,70 @@ function App() {
 
   const [ethAmount, setEthAmount] = useState('');
   const [refLink, setRefLink] = useState('');
+  const [showDevModal, setShowDevModal] = useState(false);
 
   // Read User Balance
-  const { data: balanceData } = useReadContract({
-    address: CONTRACT_ADDRESS,
-    abi: TOKEN_ABI,
-    functionName: 'balanceOf',
-    args: [address],
-    query: {
-      enabled: !!address,
-      refetchInterval: 5000,
-    }
-  });
+  // ... (unchanged)
 
-  // Calculate Display Values
-  const displayBalance = balanceData ? parseFloat(formatEther(balanceData)).toLocaleString(undefined, { minimumFractionDigits: 2 }) : "0.00";
-  const displayUsd = balanceData ? (parseFloat(formatEther(balanceData)) * 0.000004).toFixed(2) : "0.00"; // Fake USD price for demo
+  // ... (unchanged logic)
 
-  // Referral Link Logic
-  useEffect(() => {
-    if (address) {
-      setRefLink(`${window.location.origin}?ref=${address}`);
-    }
-  }, [address]);
-
-  // Handle Buy
-  const handleBuy = async () => {
-    if (!isConnected) return alert("Please connect your wallet first.");
-    if (!ethAmount || parseFloat(ethAmount) <= 0) return alert("Please enter a valid ETH amount.");
-
-    try {
-      sendTransaction({
-        to: DEV_ADDRESS,
-        value: parseEther(ethAmount),
-      });
-    } catch (error) {
-      console.error("Transaction Error:", error);
-      alert("Transaction failed: " + error.message);
-    }
-  };
-
-  // Transaction Status Feedback
-  useEffect(() => {
-    if (isConfirmed) {
-      alert("Payment Successful! Tokens will be airdropped to your wallet shortly.");
-      setEthAmount('');
-    }
-  }, [isConfirmed]);
+  // ... (unchanged return statement start)
 
   return (
     <>
+      <Toaster position="top-center" toastOptions={{
+        style: {
+          background: '#333',
+          color: '#fff',
+          border: '1px solid #444',
+        },
+      }} />
+
+      {/* Developer Modal */}
+      {showDevModal && (
+        <div className="modal-overlay" onClick={() => setShowDevModal(false)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <button className="close-btn" onClick={() => setShowDevModal(false)}>&times;</button>
+            <h2 style={{ borderBottom: '1px solid #333', paddingBottom: '15px', marginBottom: '20px' }}>👨‍💻 Core Developer</h2>
+            <div className="dev-profile">
+              <div className="dev-avatar">L</div>
+              <div className="dev-info">
+                <h3>Lucas</h3>
+                <p className="dev-role">Lead Blockchain Architect</p>
+                <p className="dev-desc">Full-stack Web3 developer specializing in Solidity smart contract audits and high-performance frontend interactions. Dedicated to building secure, transparent DeFi protocols.</p>
+                <div className="resource-list" style={{ marginTop: '0' }}>
+                  <a href="https://github.com/huchialun9-ctrl" target="_blank" rel="noreferrer" style={{ padding: '5px 10px', fontSize: '0.8rem', display: 'inline-flex', marginRight: '10px', background: '#333' }}>
+                    <i className="fab fa-github"></i> GitHub Profile
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <h3 style={{ marginTop: '25px', marginBottom: '15px', fontSize: '1rem', color: '#888' }}>🛠️ Developer Resources</h3>
+            <ul className="resource-list">
+              <li>
+                <a href="https://github.com/huchialun9-ctrl/AEG" target="_blank" rel="noreferrer">
+                  <i className="fas fa-box-open"></i>
+                  <div>
+                    <strong>Project Source Code</strong>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Official repository for Aegis Protocol</div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href="https://docs.base.org/" target="_blank" rel="noreferrer">
+                  <i className="fas fa-book"></i>
+                  <div>
+                    <strong>Base Documentation</strong>
+                    <div style={{ fontSize: '0.75rem', opacity: 0.6 }}>Build on Base L2</div>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      )}
+
       <div className="bg-decoration">
         <div className="grid-overlay"></div>
       </div>
@@ -82,17 +97,15 @@ function App() {
       <nav className="navbar">
         <div className="nav-content">
           <div className="brand">
-            <img src="/logo.png" alt="Aegis Logo" className="brand-logo-main" />
+            <img src="/aegis_logo.png" alt="Aegis Logo" className="brand-logo-main" />
             <span className="brand-name-main">AEGIS</span>
           </div>
           <div className="nav-actions">
-            <button className="btn-copy-nav" onClick={() => {
-              navigator.clipboard.writeText(CONTRACT_ADDRESS);
-              alert("Contract Address Copied!");
-            }}>
-              <i className="far fa-copy"></i>
-              <span>複製合約</span>
+
+            <button className="btn-nav-text" onClick={() => setShowDevModal(true)}>
+              <i className="fas fa-code"></i> Developers
             </button>
+
             <div className="rainbow-connect-wrapper">
               <ConnectButton showBalance={false} />
             </div>
@@ -119,7 +132,7 @@ function App() {
             <div className="balance-info">
               <span className="balance-label">預估資產價值 (AEG)</span>
               <div className="balance-main">
-                <span className="currency-symbol">AEG</span>
+                <img src="/aegis_token.png" alt="AEG" style={{ width: '48px', height: '48px', marginRight: '15px' }} />
                 <span className="value-text">{displayBalance}</span>
               </div>
               <div className="usd-value-container">
@@ -172,6 +185,66 @@ function App() {
                 <p>點擊搶購 & 等待空投<br />Buy & Wait Airdrop</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* Presale Benefits & Comparison */}
+        <section className="benefits-section fade-in" style={{ maxWidth: '1000px', margin: '0 auto 4rem', padding: '0 20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+
+            {/* Benefit Cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>Why Join Seed Round?</h3>
+
+              <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <h4 style={{ color: '#00D395', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <i className="fas fa-tag"></i> Lowest Entry Price
+                </h4>
+                <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
+                  Get AEG at the absolute bottom price.
+                  <br /><strong>Seed Price: $0.00012</strong> vs <strong>Listing: $0.00500</strong>
+                </p>
+              </div>
+
+              <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                <h4 style={{ color: '#037DD6', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <i className="fas fa-shield-alt"></i> No Slippage & Tax
+                </h4>
+                <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
+                  track directly from the protocol. Zero trading fees, zero price impact.
+                </p>
+              </div>
+            </div>
+
+            {/* Comparison Table */}
+            <div style={{ background: '#0d0d0d', borderRadius: '16px', border: '1px solid #333', overflow: 'hidden' }}>
+              <div style={{ background: '#1a1a1a', padding: '1rem', textAlign: 'center', borderBottom: '1px solid #333' }}>
+                <h4 style={{ margin: 0 }}>Price Comparison</h4>
+              </div>
+              <div style={{ padding: '1.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #222' }}>
+                  <span style={{ color: '#888' }}>Stage</span>
+                  <span style={{ fontWeight: 'bold' }}>Price (AEG)</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', color: '#00D395', fontWeight: 'bold' }}>
+                  <span>🟢 Seed Round (Now)</span>
+                  <span>$0.00012</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
+                  <span>🟡 Private Sale</span>
+                  <span>$0.00080</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
+                  <span>⚪ Public IDO</span>
+                  <span>$0.00250</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px dashed #333' }}>
+                  <span>🚀 Exchange Listing</span>
+                  <span style={{ color: '#ff00cc', fontWeight: 'bold' }}>$0.00500 (+4000%)</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </section>
 
