@@ -139,7 +139,9 @@
     "community": {
         "title": "社区中心",
         "subtitle": "加入 Base 上增长最快的社区。",
+        "tab_chat": "全球聊天室",
         "tab_social": "社交频道",
+        "chat_placeholder": "输入消息...",
         "tab_signals": "Alpha 信号",
         "join_telegram": "加入我们的官方 Telegram 群组进行实时讨论。",
         "join_twitter": "关注我们的 X (Twitter) 获取最新动态和公告。",

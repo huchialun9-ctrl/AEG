@@ -139,7 +139,9 @@
     "community": {
         "title": "Community Hub",
         "subtitle": "Join the fastest growing community on Base.",
+        "tab_chat": "Global Chat",
         "tab_social": "Social Channels",
+        "chat_placeholder": "Type a message...",
         "tab_signals": "Alpha Signals",
         "join_telegram": "Join our official Telegram group for live discussions.",
         "join_twitter": "Follow us on X for the latest updates and announcements.",

@@ -1,13 +1,66 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import Gun from 'gun';
+
+// Initialize Gun (using public relay peers for demo, can be self-hosted)
+const gun = Gun({
+    peers: [
+        'https://gun-manhattan.herokuapp.com/gun' // Public relay for reliability
+    ]
+});
 
 const CommunityHub = () => {
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState('social');
+    const [activeTab, setActiveTab] = useState('chat');
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
+    const dummyScroll = useRef();
 
-    // No simulation logic needed anymore
+    useEffect(() => {
+        const messagesRef = gun.get('aegis_global_chat_v1');
 
+        const listener = messagesRef.map().on((node, key) => {
+            if (node && node.text) {
+                setMessages(prev => {
+                    // Avoid duplicates
+                    if (prev.find(m => m.id === key)) return prev;
+
+                    const newMsg = {
+                        id: key,
+                        text: node.text,
+                        user: node.user,
+                        timestamp: node.timestamp,
+                        type: node.type || 'normal'
+                    };
+
+                    // Sort by timestamp
+                    return [...prev, newMsg].sort((a, b) => a.timestamp - b.timestamp).slice(-50); // Keep last 50
+                });
+            }
+        });
+
+        return () => {
+            messagesRef.off();
+        };
+    }, []);
+
+    const sendMessage = async (e) => {
+        e.preventDefault();
+        if (!newMessage.trim()) return;
+
+        const timestamp = Date.now();
+        const msgData = {
+            text: newMessage,
+            user: "Guest_" + Math.floor(Math.random() * 1000), // Randomized guest name for now
+            timestamp: timestamp,
+            type: "normal"
+        };
+
+        gun.get('aegis_global_chat_v1').set(msgData);
+
+        setNewMessage("");
+        dummyScroll.current?.scrollIntoView({ behavior: "smooth" });
+    };
 
     return (
         <section className="community-section fade-in">
@@ -17,6 +70,12 @@ const CommunityHub = () => {
                 </h2>
 
                 <div className="community-tabs">
+                    <button
+                        className={`tab-btn ${activeTab === 'chat' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('chat')}
+                    >
+                        <i className="fas fa-comments"></i> {t('community.tab_chat')}
+                    </button>
                     <button
                         className={`tab-btn ${activeTab === 'social' ? 'active' : ''}`}
                         onClick={() => setActiveTab('social')}
@@ -32,7 +91,30 @@ const CommunityHub = () => {
                 </div>
 
                 <div className="community-content">
-                    {activeTab === 'social' ? (
+                    {activeTab === 'chat' && (
+                        <div className="chat-interface">
+                            <div className="chat-window">
+                                {messages.map((msg) => (
+                                    <div key={msg.id} className={`chat-message ${msg.type || 'normal'}`}>
+                                        <span className="chat-user">{msg.user}:</span>
+                                        <span className="chat-text">{msg.text}</span>
+                                    </div>
+                                ))}
+                                <div ref={dummyScroll}></div>
+                            </div>
+                            <form onSubmit={sendMessage} className="chat-input-area">
+                                <input
+                                    type="text"
+                                    value={newMessage}
+                                    onChange={(e) => setNewMessage(e.target.value)}
+                                    placeholder={t('community.chat_placeholder')}
+                                />
+                                <button type="submit">Send</button>
+                            </form>
+                        </div>
+                    )}
+
+                    {activeTab === 'social' && (
                         <div className="social-links-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', padding: '2rem' }}>
                             <a href="#" className="social-card telegram" style={{ background: 'rgba(0, 136, 204, 0.1)', border: '1px solid #0088cc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', textDecoration: 'none', color: '#fff', transition: 'transform 0.2s' }}>
                                 <i className="fab fa-telegram" style={{ fontSize: '2.5rem', color: '#0088cc', marginBottom: '1rem' }}></i>
@@ -50,7 +132,9 @@ const CommunityHub = () => {
                                 <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.7 }}>{t('community.join_discord')}</p>
                             </a>
                         </div>
-                    ) : (
+                    )}
+
+                    {activeTab === 'signals' && (
                         <div className="signals-board">
                             <div className="signal-card buy">
                                 <div className="signal-header">
