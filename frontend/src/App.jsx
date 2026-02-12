@@ -8,6 +8,12 @@ import toast, { Toaster } from 'react-hot-toast';
 const CONTRACT_ADDRESS = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
 const DEV_ADDRESS = "0xBDC4566852B6B45148dBCb2119a4695dfd4e5d77";
 
+const TOKEN_ABI = [
+  { inputs: [], name: "name", outputs: [{ type: "string" }], stateMutability: "view", type: "function" },
+  { inputs: [], name: "symbol", outputs: [{ type: "string" }], stateMutability: "view", type: "function" },
+  { inputs: [{ name: "account", type: "address" }], name: "balanceOf", outputs: [{ type: "uint256" }], stateMutability: "view", type: "function" },
+];
+
 // --- Components ---
 const CountdownTimer = () => {
   const [time, setTime] = useState({ h: 23, m: 59, s: 59 });
