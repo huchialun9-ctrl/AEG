@@ -134,5 +134,22 @@
         "section3_title": "3. 安全機制與保護",
         "section3_text": "智能合約由獨立機構審計。流動性將鎖定 12 個月。多重簽名國庫管理確保資金嚴格用於協議開發。",
         "download_full": "下載完整 PDF"
+    },
+    "community": {
+        "title": "VIP 全球投資社群",
+        "tab_chat": "即時聊天",
+        "tab_signals": "Alpha 信號",
+        "chat_placeholder": "輸入訊息...",
+        "msg1": "剛又買了 2 ETH！這波絕對會飛 🚀",
+        "msg2": "開發團隊真的有在做事，路線圖很紮實。",
+        "msg3": "Base 鏈的交易量正在激增，發射時機完美。",
+        "msg4": "AEG 直奔月球！ 💎🙌",
+        "auto_msg1": "有人看到行銷時程表嗎？",
+        "auto_msg2": "大家拿穩了，交易所上市快了。",
+        "auto_msg3": "衝啊！！ 🚀🚀🚀",
+        "auto_msg4": "逢低加倉！",
+        "auto_msg5": "流動性鎖住了嗎？",
+        "signal_note1": "建議在此區間累積籌碼。第一次流動性鎖定後極高機率突破。",
+        "signal_analysis": "Base 生態系統的市場情緒極度看漲。資金從 L1 到 L2 的輪動正在加速。AEG 已準備好捕捉早期流動性。"
     }
 }

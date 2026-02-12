@@ -16,6 +16,8 @@ const TOKEN_ABI = [
 ];
 
 // --- Components ---
+import CommunityHub from './components/CommunityHub';
+
 const Roadmap = () => {
   const { t } = useTranslation();
   const steps = [
@@ -344,6 +346,8 @@ function App() {
             </div>
           </div>
         </section>
+
+        <CommunityHub />
 
         {/* Presale Benefits & Comparison */}
         <section className="benefits-section fade-in" style={{ maxWidth: '1000px', margin: '0 auto 4rem', padding: '0 20px' }}>

@@ -134,5 +134,22 @@
         "section3_title": "3. Security Mechanisms",
         "section3_text": "Smart contracts are audited by independent firms. Liquidity is locked for 12 months. Multi-sig treasury management ensures funds are used strictly for protocol development.",
         "download_full": "Download Full PDF"
+    },
+    "community": {
+        "title": "VIP Global Community",
+        "tab_chat": "Live Chat",
+        "tab_signals": "Alpha Signals",
+        "chat_placeholder": "Type your message...",
+        "msg1": "Just bought another 2 ETH worth! This is going to moon 🚀",
+        "msg2": "Devs are cooking properly. Road map looks solid.",
+        "msg3": "Base chain volume is spiking properly. Perfect timing for launch.",
+        "msg4": "AEG to the moon! 💎🙌",
+        "auto_msg1": "Anyone seen the marketing schedule?",
+        "auto_msg2": "Hold strong guys, listings coming soon.",
+        "auto_msg3": "LFG!! 🚀🚀🚀",
+        "auto_msg4": "Buying the dip!",
+        "auto_msg5": "Is liquidity locked?",
+        "signal_note1": "Accumulate in this zone. High probability of breakout upon T1 liquidity lock.",
+        "signal_analysis": "Market sentiment for Base ecosystem is extremely bullish. Capital rotation from L1s to L2s is accelerating. AEG is positioned to capture early liquidity flow."
     }
 }
