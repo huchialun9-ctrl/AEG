@@ -428,13 +428,12 @@ body {
     margin-top: 0.5rem;
 }
 
-/* Service Cards Grid */
+/* Service Cards Grid (Optimized for Single Presale Card) */
 .action-services-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
+    display: flex;
+    justify-content: center;
     margin-bottom: 4rem;
-    align-items: stretch;
+    width: 100%;
 }
 
 .service-card {
