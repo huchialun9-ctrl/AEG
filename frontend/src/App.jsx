@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import ReferralLeaderboard from './components/ReferralLeaderboard';
 import MysteryBox from './components/MysteryBox';
+import { recordReferral } from './services/gun';
 
 // --- Configuration ---
 const CONTRACT_ADDRESS = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
@@ -149,6 +150,38 @@ function App() {
   const formattedBalance = balanceData ? formatEther(balanceData) : '0';
   const displayBalance = Number(formattedBalance).toLocaleString(undefined, { maximumFractionDigits: 2 });
   const displayUsd = (Number(formattedBalance) * 0.00012).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 });
+
+  // Generate Referral Link
+  useEffect(() => {
+    if (address) {
+      const origin = typeof window !== 'undefined' ? window.location.origin : '';
+      setRefLink(`${origin}?ref=${address}`);
+    }
+  }, [address]);
+
+  // Capture Referral from URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const refParam = params.get('ref');
+    if (refParam) {
+      // Verify it looks like an address
+      if (refParam.startsWith('0x') && refParam.length === 42) {
+        localStorage.setItem('aegis_referrer', refParam);
+      }
+    }
+  }, []);
+
+  // Record Referral on Connect
+  useEffect(() => {
+    if (isConnected && address) {
+      const storedReferrer = localStorage.getItem('aegis_referrer');
+      if (storedReferrer) {
+        recordReferral(address, storedReferrer);
+        // Optional: Clear after recording to prevent double counting logic (though gun.js checks existence)
+        // localStorage.removeItem('aegis_referrer'); 
+      }
+    }
+  }, [isConnected, address]);
 
   useEffect(() => {
     if (isConfirmed) {

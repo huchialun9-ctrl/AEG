@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 import { getLeaderboard } from '../services/gun';
 
 const ReferralLeaderboard = () => {
@@ -39,7 +40,13 @@ const ReferralLeaderboard = () => {
     }, []);
 
     return (
-        <div className="leaderboard-card">
+        <motion.div
+            className="leaderboard-card"
+            initial={{ opacity: 0, rotate: -5, x: 50 }}
+            animate={{ opacity: 1, rotate: 1, x: 0 }}
+            transition={{ type: "spring", stiffness: 100 }}
+            whileHover={{ rotate: 0, scale: 1.02 }}
+        >
             <h3 className="handwritten-title">
                 <i className="fas fa-trophy" style={{ color: 'var(--marker-yellow)' }}></i> {t('leaderboard.title', 'Honor Roll')}
             </h3>
@@ -49,18 +56,27 @@ const ReferralLeaderboard = () => {
                 </div>
             ) : (
                 <ul className="leaderboard-list">
-                    {leaders.map((leader) => (
-                        <li key={leader.rank} className={`leader-item rank-${leader.rank}`}>
-                            <div className="leader-info">
-                                <span className="rank-num">#{leader.rank}</span>
-                                <span className="leader-name">{leader.name}</span>
-                            </div>
-                            <span className="invite-count">{leader.invites} {t('leaderboard.invites', 'Invites')}</span>
-                        </li>
-                    ))}
+                    <AnimatePresence>
+                        {leaders.map((leader) => (
+                            <motion.li
+                                key={leader.rank}
+                                className={`leader-item rank-${leader.rank}`}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                transition={{ delay: leader.rank * 0.1 }}
+                            >
+                                <div className="leader-info">
+                                    <span className="rank-num">#{leader.rank}</span>
+                                    <span className="leader-name">{leader.name}</span>
+                                </div>
+                                <span className="invite-count">{leader.invites} {t('leaderboard.invites', 'Invites')}</span>
+                            </motion.li>
+                        ))}
+                    </AnimatePresence>
                 </ul>
             )}
-        </div>
+        </motion.div>
     );
 };
 
