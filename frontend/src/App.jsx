@@ -5,6 +5,9 @@ import { useAccount, useReadContract, useSendTransaction, useWaitForTransactionR
 import { parseEther, formatEther } from 'viem';
 import toast, { Toaster } from 'react-hot-toast';
 
+import ReferralLeaderboard from './components/ReferralLeaderboard';
+import MysteryBox from './components/MysteryBox';
+
 // --- Configuration ---
 const CONTRACT_ADDRESS = "0xCFEF8Ee0197E846805Af515412256f24cCE3061d";
 const DEV_ADDRESS = "0xBDC4566852B6B45148dBCb2119a4695dfd4e5d77";
@@ -15,7 +18,7 @@ const TOKEN_ABI = [
   { inputs: [{ name: "account", type: "address" }], name: "balanceOf", outputs: [{ type: "uint256" }], stateMutability: "view", type: "function" },
 ];
 
-// --- Components ---
+// --- Helper Components ---
 
 const Roadmap = () => {
   const { t } = useTranslation();
@@ -180,9 +183,12 @@ function App() {
     <>
       <Toaster position="top-center" toastOptions={{
         style: {
-          background: '#333',
-          color: '#fff',
-          border: '1px solid #444',
+          background: '#fff',
+          color: '#2c3e50',
+          border: '2px solid #2c3e50',
+          borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px',
+          fontFamily: '"Patrick Hand", cursive',
+          boxShadow: '3px 3px 0px rgba(0,0,0,0.1)'
         },
       }} />
 
@@ -280,7 +286,7 @@ function App() {
           </div>
         </section>
 
-        {/* Main Balance Visualizer */}
+        {/* Main Balance Visualizer & Mystery Box */}
         <section className="main-stats-section fade-in">
           <div className="portfolio-main-card">
             <div className="balance-info">
@@ -299,22 +305,30 @@ function App() {
             </div>
           </div>
 
-          {/* Referral Center */}
+          <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
+            <MysteryBox />
+          </div>
+
+          {/* Referral Center & Leaderboard */}
           {isConnected && (
-            <div id="referral-center" className="portfolio-main-card fade-in" style={{ marginTop: '20px' }}>
-              <div style={{ textAlign: 'center', padding: '10px' }}>
-                <h4 style={{ marginBottom: '5px' }}>{t('referral.title')}</h4>
-                <p style={{ fontSize: '11px', opacity: 0.7 }}>{t('referral.subtitle')}</p>
-                <div className="input-group-elite" style={{ marginTop: '5px', justifyContent: 'center' }}>
-                  <input type="text" value={refLink} readOnly style={{ fontSize: '11px', textAlign: 'center' }} />
-                  <button className="btn-elite btn-accent" style={{ padding: '5px 15px', minWidth: 'auto', fontSize: '11px' }} onClick={() => {
-                    navigator.clipboard.writeText(refLink);
-                    alert(t('referral.copied'));
-                  }}>
-                    {t('referral.copy')}
-                  </button>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginTop: '2rem' }}>
+              <div id="referral-center" className="portfolio-main-card fade-in" style={{ marginTop: '0' }}>
+                <div style={{ textAlign: 'center', padding: '10px' }}>
+                  <h4 style={{ marginBottom: '5px' }}>{t('referral.title')}</h4>
+                  <p style={{ fontSize: '11px', opacity: 0.7 }}>{t('referral.subtitle')}</p>
+                  <div className="input-group-elite" style={{ marginTop: '5px', justifyContent: 'center' }}>
+                    <input type="text" value={refLink} readOnly style={{ fontSize: '11px', textAlign: 'center' }} />
+                    <button className="btn-elite btn-accent" style={{ padding: '5px 15px', minWidth: 'auto', fontSize: '11px' }} onClick={() => {
+                      navigator.clipboard.writeText(refLink);
+                      alert(t('referral.copied'));
+                    }}>
+                      {t('referral.copy')}
+                    </button>
+                  </div>
                 </div>
               </div>
+
+              <ReferralLeaderboard />
             </div>
           )}
         </section>

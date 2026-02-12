@@ -151,5 +151,14 @@
         "signal_time": "2 分钟前",
         "signal_note1": "建议在此区间积累筹码。第一次流动性锁定后极高概率突破。",
         "signal_analysis": "Base 生态系统的市场情绪极度看涨。资金从 L1 到 L2 的轮动正在加速。AEG 已准备好捕捉早期流动性。"
+    },
+    "leaderboard": {
+        "title": "光荣榜",
+        "invites": "邀请"
+    },
+    "mystery": {
+        "hint": "点此开启随机奖励！",
+        "congrats": "恭喜获得：",
+        "reset": "再试一次"
     }
 }

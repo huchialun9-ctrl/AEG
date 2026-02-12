@@ -151,5 +151,14 @@
         "signal_time": "2 mins ago",
         "signal_note1": "Accumulate in this zone. High probability of breakout upon T1 liquidity lock.",
         "signal_analysis": "Market sentiment for Base ecosystem is extremely bullish. Capital rotation from L1s to L2s is accelerating. AEG is positioned to capture early liquidity flow."
+    },
+    "leaderboard": {
+        "title": "Honor Roll",
+        "invites": "Invites"
+    },
+    "mystery": {
+        "hint": "Click to Open Your Bonus!",
+        "congrats": "You Found:",
+        "reset": "Try Again"
     }
 }

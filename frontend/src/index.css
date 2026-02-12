@@ -645,3 +645,175 @@ h6 {
 .error {
   color: var(--marker-red);
 }
+
+/* --- Leaderboard (Honor Roll) --- */
+.leaderboard-card {
+  background: #fff;
+  border: var(--border-sketch);
+  border-radius: 2px;
+  padding: 1.5rem;
+  position: relative;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
+  transform: rotate(1deg);
+  background-image: repeating-linear-gradient(transparent, transparent 29px, var(--paper-line) 30px);
+  background-size: 100% 30px;
+  line-height: 30px;
+}
+
+.leaderboard-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  width: 40px;
+  height: 100px;
+  background: rgba(231, 76, 60, 0.2);
+  /* Red Tape */
+  transform: rotate(-5deg);
+  z-index: 1;
+}
+
+.handwritten-title {
+  font-family: var(--font-hand);
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  text-decoration: underline;
+  text-decoration-style: wavy;
+  text-decoration-color: var(--marker-red);
+}
+
+.leaderboard-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.leader-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 10px;
+  border-bottom: 1px dashed var(--pencil-gray);
+  font-family: var(--font-hand);
+  font-size: 1.1rem;
+}
+
+.leader-item.rank-1 {
+  font-weight: bold;
+  color: var(--marker-red);
+  position: relative;
+}
+
+.leader-item.rank-1::after {
+  content: '👑';
+  position: absolute;
+  left: -25px;
+  top: 5px;
+}
+
+.leader-item.rank-2,
+.leader-item.rank-3 {
+  color: var(--ink-color);
+  font-weight: bold;
+}
+
+/* --- Mystery Box --- */
+.mystery-box-container {
+  text-align: center;
+  perspective: 1000px;
+  cursor: pointer;
+  padding: 20px;
+}
+
+.mystery-box {
+  width: 120px;
+  height: 100px;
+  background: var(--marker-yellow);
+  border: 3px solid var(--ink-color);
+  border-radius: 10px;
+  margin: 0 auto;
+  position: relative;
+  transition: transform 0.3s;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.mystery-box.shake {
+  animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
+}
+
+.mystery-box.open {
+  background: #fff;
+  height: 120px;
+  border-style: dashed;
+}
+
+.question-mark {
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--ink-color);
+  line-height: 100px;
+}
+
+.mystery-hint {
+  font-family: var(--font-hand);
+  margin-top: 15px;
+  font-weight: bold;
+  color: var(--marker-blue);
+  animation: bounce 2s infinite;
+}
+
+.reward-message {
+  margin-top: 10px;
+}
+
+.reward-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--marker-green);
+  transform: rotate(-3deg);
+  margin: 10px 0;
+  text-shadow: 1px 1px 0 #fff;
+}
+
+@keyframes shake {
+
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0) rotate(-1deg);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0) rotate(2deg);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0) rotate(-4deg);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0) rotate(4deg);
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-10px);
+  }
+
+  60% {
+    transform: translateY(-5px);
+  }
+}
