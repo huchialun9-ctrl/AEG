@@ -1,6 +1,7 @@
 {
     "nav": {
         "developers": "Developers",
+        "community": "Community",
         "whitepaper": "Whitepaper"
     },
     "dev_modal": {
@@ -136,19 +137,16 @@
         "download_full": "Download Full PDF"
     },
     "community": {
-        "title": "VIP Global Community",
-        "tab_chat": "Live Chat",
+        "title": "Community Hub",
+        "subtitle": "Join the fastest growing community on Base.",
+        "tab_social": "Social Channels",
         "tab_signals": "Alpha Signals",
-        "chat_placeholder": "Type your message...",
-        "msg1": "Just bought another 2 ETH worth! This is going to moon 🚀",
-        "msg2": "Devs are cooking properly. Road map looks solid.",
-        "msg3": "Base chain volume is spiking properly. Perfect timing for launch.",
-        "msg4": "AEG to the moon! 💎🙌",
-        "auto_msg1": "Anyone seen the marketing schedule?",
-        "auto_msg2": "Hold strong guys, listings coming soon.",
-        "auto_msg3": "LFG!! 🚀🚀🚀",
-        "auto_msg4": "Buying the dip!",
-        "auto_msg5": "Is liquidity locked?",
+        "join_telegram": "Join our official Telegram group for live discussions.",
+        "join_twitter": "Follow us on X for the latest updates and announcements.",
+        "join_discord": "Join our Discord server to connect with the team.",
+        "signal_title": "Whale Watch: 0x88... bought 50 ETH",
+        "signal_desc": "Smart money is accumulating. Sentiment is BULLISH.",
+        "signal_time": "2 mins ago",
         "signal_note1": "Accumulate in this zone. High probability of breakout upon T1 liquidity lock.",
         "signal_analysis": "Market sentiment for Base ecosystem is extremely bullish. Capital rotation from L1s to L2s is accelerating. AEG is positioned to capture early liquidity flow."
     }

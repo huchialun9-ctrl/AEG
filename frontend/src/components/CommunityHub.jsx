@@ -4,75 +4,10 @@ import { useTranslation } from 'react-i18next';
 
 const CommunityHub = () => {
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState('chat');
-    const [messages, setMessages] = useState([]);
-    const [inputValue, setInputValue] = useState('');
-    const chatBottomRef = useRef(null);
+    const [activeTab, setActiveTab] = useState('social');
 
-    // Simulated initial messages and auto-generated messages
-    useEffect(() => {
-        // Initial messages
-        const initialMessages = [
-            { id: 1, user: 'Whale_0x88', text: t('community.msg1'), type: 'hype', time: '10:42' },
-            { id: 2, user: 'CryptoNinja', text: t('community.msg2'), type: 'normal', time: '10:43' },
-            { id: 3, user: 'AlphaHunter', text: t('community.msg3'), type: 'alpha', time: '10:44' },
-            { id: 4, user: 'MoonBoi', text: t('community.msg4'), type: 'hype', time: '10:45' },
-        ];
-        setMessages(initialMessages);
+    // No simulation logic needed anymore
 
-        // Auto-scroll to bottom
-        const scrollToBottom = () => {
-            chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-        }
-        scrollToBottom();
-
-        // Random message generator
-        const interval = setInterval(() => {
-            const randomUsers = ['DegenDave', 'BaseGod', 'EthMaxi', 'PepeLover', 'GemFinder'];
-            const randomTexts = [
-                t('community.auto_msg1'),
-                t('community.auto_msg2'),
-                t('community.auto_msg3'),
-                t('community.auto_msg4'),
-                t('community.auto_msg5'),
-            ];
-
-            const randomUser = randomUsers[Math.floor(Math.random() * randomUsers.length)];
-            const randomText = randomTexts[Math.floor(Math.random() * randomTexts.length)];
-
-            const newMessage = {
-                id: Date.now(),
-                user: randomUser,
-                text: randomText,
-                type: 'normal',
-                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-            };
-
-            setMessages(prev => [...prev.slice(-50), newMessage]); // Keep last 50 messages
-        }, 8000 + Math.random() * 5000); // Random interval between 8-13s
-
-        return () => clearInterval(interval);
-    }, [t]);
-
-    useEffect(() => {
-        chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, [messages]);
-
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        if (!inputValue.trim()) return;
-
-        const newMessage = {
-            id: Date.now(),
-            user: 'You',
-            text: inputValue,
-            type: 'self',
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-        };
-
-        setMessages(prev => [...prev, newMessage]);
-        setInputValue('');
-    };
 
     return (
         <section className="community-section fade-in">
@@ -83,10 +18,10 @@ const CommunityHub = () => {
 
                 <div className="community-tabs">
                     <button
-                        className={`tab-btn ${activeTab === 'chat' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('chat')}
+                        className={`tab-btn ${activeTab === 'social' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('social')}
                     >
-                        <i className="fas fa-comments"></i> {t('community.tab_chat')}
+                        <i className="fas fa-users"></i> {t('community.tab_social')}
                     </button>
                     <button
                         className={`tab-btn ${activeTab === 'signals' ? 'active' : ''}`}
@@ -97,32 +32,23 @@ const CommunityHub = () => {
                 </div>
 
                 <div className="community-content">
-                    {activeTab === 'chat' ? (
-                        <div className="chat-interface">
-                            <div className="chat-window">
-                                {messages.map((msg) => (
-                                    <div key={msg.id} className={`chat-message ${msg.type}`}>
-                                        <div className="msg-header">
-                                            <span className="msg-user">{msg.user}</span>
-                                            <span className="msg-time">{msg.time}</span>
-                                        </div>
-                                        <div className="msg-text">{msg.text}</div>
-                                    </div>
-                                ))}
-                                <div ref={chatBottomRef} />
-                            </div>
-                            <form className="chat-input-area" onSubmit={handleSendMessage}>
-                                <input
-                                    type="text"
-                                    value={inputValue}
-                                    onChange={(e) => setInputValue(e.target.value)}
-                                    placeholder={t('community.chat_placeholder')}
-                                    className="chat-input"
-                                />
-                                <button type="submit" className="chat-send-btn">
-                                    <i className="fas fa-paper-plane"></i>
-                                </button>
-                            </form>
+                    {activeTab === 'social' ? (
+                        <div className="social-links-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', padding: '2rem' }}>
+                            <a href="#" className="social-card telegram" style={{ background: 'rgba(0, 136, 204, 0.1)', border: '1px solid #0088cc', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', textDecoration: 'none', color: '#fff', transition: 'transform 0.2s' }}>
+                                <i className="fab fa-telegram" style={{ fontSize: '2.5rem', color: '#0088cc', marginBottom: '1rem' }}></i>
+                                <h3 style={{ margin: '0 0 5px' }}>Telegram</h3>
+                                <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.7 }}>{t('community.join_telegram')}</p>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" rel="noreferrer" className="social-card twitter" style={{ background: 'rgba(29, 161, 242, 0.1)', border: '1px solid #1da1f2', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', textDecoration: 'none', color: '#fff', transition: 'transform 0.2s' }}>
+                                <i className="fab fa-twitter" style={{ fontSize: '2.5rem', color: '#1da1f2', marginBottom: '1rem' }}></i>
+                                <h3 style={{ margin: '0 0 5px' }}>Twitter / X</h3>
+                                <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.7 }}>{t('community.join_twitter')}</p>
+                            </a>
+                            <a href="#" className="social-card discord" style={{ background: 'rgba(114, 137, 218, 0.1)', border: '1px solid #7289da', padding: '1.5rem', borderRadius: '12px', textAlign: 'center', textDecoration: 'none', color: '#fff', transition: 'transform 0.2s' }}>
+                                <i className="fab fa-discord" style={{ fontSize: '2.5rem', color: '#7289da', marginBottom: '1rem' }}></i>
+                                <h3 style={{ margin: '0 0 5px' }}>Discord</h3>
+                                <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.7 }}>{t('community.join_discord')}</p>
+                            </a>
                         </div>
                     ) : (
                         <div className="signals-board">

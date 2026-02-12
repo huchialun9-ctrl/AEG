@@ -127,6 +127,7 @@ function App() {
   const [refLink, setRefLink] = useState('');
   const [showDevModal, setShowDevModal] = useState(false);
   const [showWhitepaperModal, setShowWhitepaperModal] = useState(false);
+  const [currentView, setCurrentView] = useState('home'); // 'home' or 'community'
 
   // Read User Balance
   const { data: balanceData } = useReadContract({
@@ -252,7 +253,7 @@ function App() {
         <div className="nav-content">
           <div className="brand">
             <img src="/aegis_logo.png" alt="Aegis Logo" className="brand-logo-main" />
-            <span className="brand-name-main">AEGIS</span>
+            <span className="brand-name-main" onClick={() => setCurrentView('home')} style={{ cursor: 'pointer' }}>AEGIS</span>
           </div>
           <div className="nav-actions">
             <button className="btn-nav-text" onClick={() => setShowWhitepaperModal(true)}>
@@ -260,6 +261,9 @@ function App() {
             </button>
             <button className="btn-nav-text" onClick={() => setShowDevModal(true)}>
               <i className="fas fa-code"></i> {t('nav.developers')}
+            </button>
+            <button className={`btn-nav-text ${currentView === 'community' ? 'active' : ''}`} onClick={() => setCurrentView('community')}>
+              <i className="fas fa-users"></i> {t('nav.community')}
             </button>
             <button className="btn-nav-text" onClick={() => i18n.changeLanguage(i18n.language.startsWith('zh') ? 'en' : 'zh')} style={{ marginLeft: '10px' }}>
               <i className="fas fa-globe"></i> {i18n.language.startsWith('zh') ? 'EN' : '中文'}
@@ -273,290 +277,300 @@ function App() {
       </nav>
 
       <main className="portfolio-container">
-        {/* Elite Header Section */}
-        <section className="portfolio-hero fade-in">
-          <div className="user-header">
-            <div className="status-badge">
-              <span className="pulse-dot"></span>
-              <span>{t('hero.status')}</span>
-            </div>
-            <h1>{t('hero.title')}</h1>
-            <p className="hero-subtitle">{t('hero.subtitle')}</p>
-          </div>
-        </section>
 
-        {/* Main Balance Visualizer */}
-        <section className="main-stats-section fade-in">
-          <div className="portfolio-main-card">
-            <div className="balance-info">
-              <span className="balance-label">{t('balance.label')}</span>
-              <div className="balance-main">
-                <img src="/aegis_token.png" alt="AEG" style={{ width: '48px', height: '48px', marginRight: '15px' }} />
-                <span className="value-text">{displayBalance}</span>
+        {currentView === 'home' && (
+          <>
+            {/* Elite Header Section */}
+            <section className="portfolio-hero fade-in">
+              <div className="user-header">
+                <div className="status-badge">
+                  <span className="pulse-dot"></span>
+                  <span>{t('hero.status')}</span>
+                </div>
+                <h1>{t('hero.title')}</h1>
+                <p className="hero-subtitle">{t('hero.subtitle')}</p>
               </div>
-              <div className="usd-value-container">
-                <span className="usd-symbol">≈ $</span>
-                <span>{displayUsd}</span>
-              </div>
-              <div className="usd-value-container" style={{ marginTop: '5px' }}>
-                <span className="indicator-up" style={{ color: '#00D395', fontSize: '0.9rem' }}>{t('balance.apy_active')}</span>
-              </div>
-            </div>
-          </div>
+            </section>
 
-          {/* Referral Center */}
-          {isConnected && (
-            <div id="referral-center" className="portfolio-main-card fade-in" style={{ marginTop: '20px' }}>
-              <div style={{ textAlign: 'center', padding: '10px' }}>
-                <h4 style={{ marginBottom: '5px' }}>{t('referral.title')}</h4>
-                <p style={{ fontSize: '11px', opacity: 0.7 }}>{t('referral.subtitle')}</p>
-                <div className="input-group-elite" style={{ marginTop: '5px', justifyContent: 'center' }}>
-                  <input type="text" value={refLink} readOnly style={{ fontSize: '11px', textAlign: 'center' }} />
-                  <button className="btn-elite btn-accent" style={{ padding: '5px 15px', minWidth: 'auto', fontSize: '11px' }} onClick={() => {
-                    navigator.clipboard.writeText(refLink);
-                    alert(t('referral.copied'));
-                  }}>
-                    {t('referral.copy')}
+            {/* Main Balance Visualizer */}
+            <section className="main-stats-section fade-in">
+              <div className="portfolio-main-card">
+                <div className="balance-info">
+                  <span className="balance-label">{t('balance.label')}</span>
+                  <div className="balance-main">
+                    <img src="/aegis_token.png" alt="AEG" style={{ width: '48px', height: '48px', marginRight: '15px' }} />
+                    <span className="value-text">{displayBalance}</span>
+                  </div>
+                  <div className="usd-value-container">
+                    <span className="usd-symbol">≈ $</span>
+                    <span>{displayUsd}</span>
+                  </div>
+                  <div className="usd-value-container" style={{ marginTop: '5px' }}>
+                    <span className="indicator-up" style={{ color: '#00D395', fontSize: '0.9rem' }}>{t('balance.apy_active')}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Referral Center */}
+              {isConnected && (
+                <div id="referral-center" className="portfolio-main-card fade-in" style={{ marginTop: '20px' }}>
+                  <div style={{ textAlign: 'center', padding: '10px' }}>
+                    <h4 style={{ marginBottom: '5px' }}>{t('referral.title')}</h4>
+                    <p style={{ fontSize: '11px', opacity: 0.7 }}>{t('referral.subtitle')}</p>
+                    <div className="input-group-elite" style={{ marginTop: '5px', justifyContent: 'center' }}>
+                      <input type="text" value={refLink} readOnly style={{ fontSize: '11px', textAlign: 'center' }} />
+                      <button className="btn-elite btn-accent" style={{ padding: '5px 15px', minWidth: 'auto', fontSize: '11px' }} onClick={() => {
+                        navigator.clipboard.writeText(refLink);
+                        alert(t('referral.copied'));
+                      }}>
+                        {t('referral.copy')}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </section>
+
+            {/* Instruction Banner */}
+            <section className="instruction-banner fade-in">
+              <div className="banner-content">
+                <h2>{t('instruction.title')}</h2>
+                <div className="steps-grid">
+                  <div className="step-item">
+                    <div className="step-icon">1</div>
+                    <p>{t('instruction.step1')}</p>
+                  </div>
+                  <div className="step-arrow"><i className="fas fa-chevron-right"></i></div>
+                  <div className="step-item">
+                    <div className="step-icon">2</div>
+                    <p>{t('instruction.step2')}</p>
+                  </div>
+                  <div className="step-arrow"><i className="fas fa-chevron-right"></i></div>
+                  <div className="step-item">
+                    <div className="step-icon">3</div>
+                    <p>{t('instruction.step3')}</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            {/* Presale Benefits & Comparison */}
+            <section className="benefits-section fade-in" style={{ maxWidth: '1000px', margin: '0 auto 4rem', padding: '0 20px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
+
+                {/* Benefit Cards */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                  <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{t('benefits.title')}</h3>
+
+                  <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <h4 style={{ color: '#00D395', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <i className="fas fa-tag"></i> {t('benefits.card1_title')}
+                    </h4>
+                    <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
+                      {t('benefits.card1_desc')}
+                    </p>
+                  </div>
+
+                  <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <h4 style={{ color: '#037DD6', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <i className="fas fa-shield-alt"></i> {t('benefits.card2_title')}
+                    </h4>
+                    <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
+                      {t('benefits.card2_desc')}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Comparison Table */}
+                <div style={{ background: '#0d0d0d', borderRadius: '16px', border: '1px solid #333', overflow: 'hidden' }}>
+                  <div style={{ background: '#1a1a1a', padding: '1rem', textAlign: 'center', borderBottom: '1px solid #333' }}>
+                    <h4 style={{ margin: 0 }}>{t('price_comparison.title')}</h4>
+                  </div>
+                  <div style={{ padding: '1.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #222' }}>
+                      <span style={{ color: '#888' }}>{t('price_comparison.col_stage')}</span>
+                      <span style={{ fontWeight: 'bold' }}>{t('price_comparison.col_price')}</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', color: '#00D395', fontWeight: 'bold' }}>
+                      <span>{t('price_comparison.row_seed')}</span>
+                      <span>$0.00012</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
+                      <span>{t('price_comparison.row_private')}</span>
+                      <span>$0.00080</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
+                      <span>{t('price_comparison.row_public')}</span>
+                      <span>$0.00250</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px dashed #333' }}>
+                      <span>{t('price_comparison.row_listing')}</span>
+                      <span style={{ color: '#ff00cc', fontWeight: 'bold' }}>$0.00500 (+4000%)</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            {/* Service Component Grid */}
+            <section className="action-services-grid fade-in" style={{ display: 'flex', justifyContent: 'center' }}>
+              <div className="service-card presale-service fade-in" style={{ border: '1px solid var(--accent-color)', maxWidth: '500px', width: '100%', position: 'relative', overflow: 'hidden' }}>
+                {/* Promo Ribbon */}
+                <div style={{ position: 'absolute', top: '15px', right: '-30px', background: 'var(--accent-color)', color: '#000', padding: '5px 40px', transform: 'rotate(45deg)', fontSize: '10px', fontWeight: '800', boxShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+                  {t('presale_card.ribbon')}
+                </div>
+
+
+
+                <div className="service-header">
+                  <div className="service-icon-svg" style={{ background: 'var(--accent-color)' }}>
+                    <i className="fas fa-rocket"></i>
+                  </div>
+                  <div className="service-info">
+                    <h3>{t('presale_card.title')}</h3>
+                    <p style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>{t('presale_card.subtitle')}</p>
+                    <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
+                      {t('presale_card.target')}
+                    </p>
+                  </div>
+                </div>
+                <div className="service-action">
+                  <div className="input-group-elite" style={{ borderColor: 'var(--accent-color)' }}>
+                    <i className="fab fa-ethereum"></i>
+                    <input type="number" placeholder={t('presale_card.input_placeholder')} value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} />
+                    <span className="unit-tag">ETH</span>
+                  </div>
+
+                  <button
+                    className={`btn-elite btn-primary ${isTxPending || isConfirming ? 'btn-loading' : ''}`}
+                    onClick={handleBuy}
+                    disabled={isTxPending || isConfirming}
+                    style={{ width: '100%', marginTop: '15px', background: 'linearGradient(45deg, var(--primary-color), var(--accent-color))', border: 'none' }}
+                  >
+                    {isTxPending ? t('presale_card.btn_pending') : isConfirming ? t('presale_card.btn_confirming') : t('presale_card.btn_buy')}
                   </button>
+
+                  <p className="service-footer-hint" style={{ marginTop: '15px', textAlign: 'center', opacity: 0.8 }}>
+                    {t('presale_card.footer')}
+                  </p>
                 </div>
               </div>
-            </div>
-          )}
-        </section>
-
-        {/* Instruction Banner */}
-        <section className="instruction-banner fade-in">
-          <div className="banner-content">
-            <h2>{t('instruction.title')}</h2>
-            <div className="steps-grid">
-              <div className="step-item">
-                <div className="step-icon">1</div>
-                <p>{t('instruction.step1')}</p>
-              </div>
-              <div className="step-arrow"><i className="fas fa-chevron-right"></i></div>
-              <div className="step-item">
-                <div className="step-icon">2</div>
-                <p>{t('instruction.step2')}</p>
-              </div>
-              <div className="step-arrow"><i className="fas fa-chevron-right"></i></div>
-              <div className="step-item">
-                <div className="step-icon">3</div>
-                <p>{t('instruction.step3')}</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <CommunityHub />
-
-        {/* Presale Benefits & Comparison */}
-        <section className="benefits-section fade-in" style={{ maxWidth: '1000px', margin: '0 auto 4rem', padding: '0 20px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
-
-            {/* Benefit Cards */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{t('benefits.title')}</h3>
-
-              <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <h4 style={{ color: '#00D395', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <i className="fas fa-tag"></i> {t('benefits.card1_title')}
-                </h4>
-                <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
-                  {t('benefits.card1_desc')}
-                </p>
-              </div>
-
-              <div className="benefit-card" style={{ background: 'rgba(255,255,255,0.05)', padding: '1.5rem', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                <h4 style={{ color: '#037DD6', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <i className="fas fa-shield-alt"></i> {t('benefits.card2_title')}
-                </h4>
-                <p style={{ fontSize: '0.9rem', color: '#ccc', marginTop: '5px' }}>
-                  {t('benefits.card2_desc')}
-                </p>
-              </div>
-            </div>
-
-            {/* Comparison Table */}
-            <div style={{ background: '#0d0d0d', borderRadius: '16px', border: '1px solid #333', overflow: 'hidden' }}>
-              <div style={{ background: '#1a1a1a', padding: '1rem', textAlign: 'center', borderBottom: '1px solid #333' }}>
-                <h4 style={{ margin: 0 }}>{t('price_comparison.title')}</h4>
-              </div>
-              <div style={{ padding: '1.5rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', paddingBottom: '1rem', borderBottom: '1px solid #222' }}>
-                  <span style={{ color: '#888' }}>{t('price_comparison.col_stage')}</span>
-                  <span style={{ fontWeight: 'bold' }}>{t('price_comparison.col_price')}</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', color: '#00D395', fontWeight: 'bold' }}>
-                  <span>{t('price_comparison.row_seed')}</span>
-                  <span>$0.00012</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
-                  <span>{t('price_comparison.row_private')}</span>
-                  <span>$0.00080</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem', opacity: '0.7' }}>
-                  <span>{t('price_comparison.row_public')}</span>
-                  <span>$0.00250</span>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px dashed #333' }}>
-                  <span>{t('price_comparison.row_listing')}</span>
-                  <span style={{ color: '#ff00cc', fontWeight: 'bold' }}>$0.00500 (+4000%)</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        {/* Service Component Grid */}
-        <section className="action-services-grid fade-in" style={{ display: 'flex', justifyContent: 'center' }}>
-          <div className="service-card presale-service fade-in" style={{ border: '1px solid var(--accent-color)', maxWidth: '500px', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            {/* Promo Ribbon */}
-            <div style={{ position: 'absolute', top: '15px', right: '-30px', background: 'var(--accent-color)', color: '#000', padding: '5px 40px', transform: 'rotate(45deg)', fontSize: '10px', fontWeight: '800', boxShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
-              {t('presale_card.ribbon')}
-            </div>
+            </section>
 
 
 
-            <div className="service-header">
-              <div className="service-icon-svg" style={{ background: 'var(--accent-color)' }}>
-                <i className="fas fa-rocket"></i>
-              </div>
-              <div className="service-info">
-                <h3>{t('presale_card.title')}</h3>
-                <p style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>{t('presale_card.subtitle')}</p>
-                <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
-                  {t('presale_card.target')}
-                </p>
-              </div>
-            </div>
-            <div className="service-action">
-              <div className="input-group-elite" style={{ borderColor: 'var(--accent-color)' }}>
-                <i className="fab fa-ethereum"></i>
-                <input type="number" placeholder={t('presale_card.input_placeholder')} value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} />
-                <span className="unit-tag">ETH</span>
-              </div>
-
-              <button
-                className={`btn-elite btn-primary ${isTxPending || isConfirming ? 'btn-loading' : ''}`}
-                onClick={handleBuy}
-                disabled={isTxPending || isConfirming}
-                style={{ width: '100%', marginTop: '15px', background: 'linearGradient(45deg, var(--primary-color), var(--accent-color))', border: 'none' }}
-              >
-                {isTxPending ? t('presale_card.btn_pending') : isConfirming ? t('presale_card.btn_confirming') : t('presale_card.btn_buy')}
-              </button>
-
-              <p className="service-footer-hint" style={{ marginTop: '15px', textAlign: 'center', opacity: 0.8 }}>
-                {t('presale_card.footer')}
+            {/* Tokenomics & Utility Section */}
+            <section className="tokenomics-section fade-in" style={{ maxWidth: '1000px', margin: '4rem auto', padding: '0 20px', textAlign: 'center' }}>
+              <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                {t('tokenomics.title')}
+              </h2>
+              <p style={{ maxWidth: '700px', margin: '0 auto 3rem', color: '#ccc', lineHeight: '1.6' }}>
+                {t('tokenomics.desc')}
               </p>
-            </div>
-          </div>
-        </section>
 
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
+                {/* Token Stats */}
+                <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <img src="/aegis_token.png" alt="AEG" style={{ width: '50px', height: '50px', marginRight: '15px' }} />
+                    <div>
+                      <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{t('tokenomics.specs_title')}</h3>
+                      <span style={{ fontSize: '0.8rem', color: '#888' }}>{t('tokenomics.specs_network')}</span>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
+                    <span style={{ color: '#888' }}>{t('tokenomics.specs_symbol')}</span>
+                    <span style={{ fontWeight: 'bold', color: '#fff' }}>AEG</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
+                    <span style={{ color: '#888' }}>{t('tokenomics.specs_supply')}</span>
+                    <span style={{ fontWeight: 'bold', color: '#fff' }}>1,000,000,000</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                    <span style={{ color: '#888' }}>{t('tokenomics.specs_contract')}</span>
+                    <button onClick={() => {
+                      navigator.clipboard.writeText(CONTRACT_ADDRESS);
+                      toast.success("Address Copied!");
+                    }} style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', fontSize: '0.9rem', padding: 0 }}>
+                      {CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)} <i className="far fa-copy"></i>
+                    </button>
+                  </div>
+                </div>
 
-
-        {/* Tokenomics & Utility Section */}
-        <section className="tokenomics-section fade-in" style={{ maxWidth: '1000px', margin: '4rem auto', padding: '0 20px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '2rem', marginBottom: '1.5rem', background: 'linear-gradient(90deg, #fff, #888)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-            {t('tokenomics.title')}
-          </h2>
-          <p style={{ maxWidth: '700px', margin: '0 auto 3rem', color: '#ccc', lineHeight: '1.6' }}>
-            {t('tokenomics.desc')}
-          </p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
-            {/* Token Stats */}
-            <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
-              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem' }}>
-                <img src="/aegis_token.png" alt="AEG" style={{ width: '50px', height: '50px', marginRight: '15px' }} />
-                <div>
-                  <h3 style={{ margin: 0, fontSize: '1.2rem' }}>{t('tokenomics.specs_title')}</h3>
-                  <span style={{ fontSize: '0.8rem', color: '#888' }}>{t('tokenomics.specs_network')}</span>
+                {/* Utility List */}
+                <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
+                  <h3 style={{ margin: '0 0 1.5rem', fontSize: '1.2rem' }}>{t('tokenomics.utility_title')}</h3>
+                  <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                    <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
+                      <i className="fas fa-check-circle" style={{ color: 'var(--primary-color)', marginTop: '4px' }}></i>
+                      <div>
+                        <strong style={{ color: '#fff' }}>{t('tokenomics.utility_gov')}</strong>
+                        <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_gov_desc')}</p>
+                      </div>
+                    </li>
+                    <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
+                      <i className="fas fa-check-circle" style={{ color: 'var(--accent-color)', marginTop: '4px' }}></i>
+                      <div>
+                        <strong style={{ color: '#fff' }}>{t('tokenomics.utility_staking')}</strong>
+                        <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_staking_desc')}</p>
+                      </div>
+                    </li>
+                    <li style={{ display: 'flex', gap: '10px' }}>
+                      <i className="fas fa-check-circle" style={{ color: '#ff4d4d', marginTop: '4px' }}></i>
+                      <div>
+                        <strong style={{ color: '#fff' }}>{t('tokenomics.utility_security')}</strong>
+                        <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_security_desc')}</p>
+                      </div>
+                    </li>
+                  </ul>
                 </div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
-                <span style={{ color: '#888' }}>{t('tokenomics.specs_symbol')}</span>
-                <span style={{ fontWeight: 'bold', color: '#fff' }}>AEG</span>
+            </section>
+
+            <Roadmap />
+            <FAQ />
+
+            {/* Footer Stats Mini */}
+            <div className="global-stats-footer fade-in">
+              <div className="mini-stat-item">
+                <label>{t('footer.supply_label')}</label>
+                <div>1,000,000,000</div>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px', borderBottom: '1px solid #222', paddingBottom: '10px' }}>
-                <span style={{ color: '#888' }}>{t('tokenomics.specs_supply')}</span>
-                <span style={{ fontWeight: 'bold', color: '#fff' }}>1,000,000,000</span>
-              </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                <span style={{ color: '#888' }}>{t('tokenomics.specs_contract')}</span>
-                <button onClick={() => {
-                  navigator.clipboard.writeText(CONTRACT_ADDRESS);
-                  toast.success("Address Copied!");
-                }} style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', fontSize: '0.9rem', padding: 0 }}>
-                  {CONTRACT_ADDRESS.slice(0, 6)}...{CONTRACT_ADDRESS.slice(-4)} <i className="far fa-copy"></i>
-                </button>
+              <div className="mini-stat-item">
+                <label>{t('footer.code_label')}</label>
+                <div>AEG</div>
               </div>
             </div>
 
-            {/* Utility List */}
-            <div style={{ background: '#0d0d0d', border: '1px solid #333', borderRadius: '16px', padding: '2rem', textAlign: 'left' }}>
-              <h3 style={{ margin: '0 0 1.5rem', fontSize: '1.2rem' }}>{t('tokenomics.utility_title')}</h3>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
-                  <i className="fas fa-check-circle" style={{ color: 'var(--primary-color)', marginTop: '4px' }}></i>
-                  <div>
-                    <strong style={{ color: '#fff' }}>{t('tokenomics.utility_gov')}</strong>
-                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_gov_desc')}</p>
+            {/* Transaction History - Simplified for Demo */}
+            <section className="transaction-history-section fade-in">
+              <h4>{t('footer.history_title')}</h4>
+              <div className="history-list">
+                {hash && (
+                  <div className="history-item fade-in">
+                    <div className="history-info">
+                      <span className="history-type-pill type-claim">{t('footer.history_buy')}</span>
+                      <span className="history-amount">{ethAmount} ETH</span>
+                    </div>
+                    <a href={`https://basescan.org/tx/${hash}`} target="_blank" rel="noreferrer" className="history-hash">
+                      View on Explorer
+                    </a>
                   </div>
-                </li>
-                <li style={{ marginBottom: '15px', display: 'flex', gap: '10px' }}>
-                  <i className="fas fa-check-circle" style={{ color: 'var(--accent-color)', marginTop: '4px' }}></i>
-                  <div>
-                    <strong style={{ color: '#fff' }}>{t('tokenomics.utility_staking')}</strong>
-                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_staking_desc')}</p>
-                  </div>
-                </li>
-                <li style={{ display: 'flex', gap: '10px' }}>
-                  <i className="fas fa-check-circle" style={{ color: '#ff4d4d', marginTop: '4px' }}></i>
-                  <div>
-                    <strong style={{ color: '#fff' }}>{t('tokenomics.utility_security')}</strong>
-                    <p style={{ margin: '3px 0 0', fontSize: '0.85rem', color: '#888' }}>{t('tokenomics.utility_security_desc')}</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <Roadmap />
-        <FAQ />
-
-        {/* Footer Stats Mini */}
-        <div className="global-stats-footer fade-in">
-          <div className="mini-stat-item">
-            <label>{t('footer.supply_label')}</label>
-            <div>1,000,000,000</div>
-          </div>
-          <div className="mini-stat-item">
-            <label>{t('footer.code_label')}</label>
-            <div>AEG</div>
-          </div>
-        </div>
-
-        {/* Transaction History - Simplified for Demo */}
-        <section className="transaction-history-section fade-in">
-          <h4>{t('footer.history_title')}</h4>
-          <div className="history-list">
-            {hash && (
-              <div className="history-item fade-in">
-                <div className="history-info">
-                  <span className="history-type-pill type-claim">{t('footer.history_buy')}</span>
-                  <span className="history-amount">{ethAmount} ETH</span>
-                </div>
-                <a href={`https://basescan.org/tx/${hash}`} target="_blank" rel="noreferrer" className="history-hash">
-                  View on Explorer
-                </a>
+                )}
+                <div className="history-placeholder">{t('footer.history_empty')}</div>
               </div>
-            )}
-            <div className="history-placeholder">{t('footer.history_empty')}</div>
+            </section>
+          </>
+        )}
+
+        {currentView === 'community' && (
+          <div style={{ marginTop: '2rem' }}>
+            <CommunityHub />
           </div>
-        </section>
-      </main >
+        )}
+
+      </main>
 
       <footer className="footer">
         <div className="footer-links">

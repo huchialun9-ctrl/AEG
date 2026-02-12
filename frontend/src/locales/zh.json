@@ -1,6 +1,7 @@
 {
     "nav": {
         "developers": "開發者資訊",
+        "community": "社区",
         "whitepaper": "技術白皮書"
     },
     "dev_modal": {
@@ -136,20 +137,17 @@
         "download_full": "下載完整 PDF"
     },
     "community": {
-        "title": "VIP 全球投資社群",
-        "tab_chat": "即時聊天",
-        "tab_signals": "Alpha 信號",
-        "chat_placeholder": "輸入訊息...",
-        "msg1": "剛又買了 2 ETH！這波絕對會飛 🚀",
-        "msg2": "開發團隊真的有在做事，路線圖很紮實。",
-        "msg3": "Base 鏈的交易量正在激增，發射時機完美。",
-        "msg4": "AEG 直奔月球！ 💎🙌",
-        "auto_msg1": "有人看到行銷時程表嗎？",
-        "auto_msg2": "大家拿穩了，交易所上市快了。",
-        "auto_msg3": "衝啊！！ 🚀🚀🚀",
-        "auto_msg4": "逢低加倉！",
-        "auto_msg5": "流動性鎖住了嗎？",
-        "signal_note1": "建議在此區間累積籌碼。第一次流動性鎖定後極高機率突破。",
-        "signal_analysis": "Base 生態系統的市場情緒極度看漲。資金從 L1 到 L2 的輪動正在加速。AEG 已準備好捕捉早期流動性。"
+        "title": "社区中心",
+        "subtitle": "加入 Base 上增长最快的社区。",
+        "tab_social": "社交频道",
+        "tab_signals": "Alpha 信号",
+        "join_telegram": "加入我们的官方 Telegram 群组进行实时讨论。",
+        "join_twitter": "关注我们的 X (Twitter) 获取最新动态和公告。",
+        "join_discord": "加入我们的 Discord 服务器与团队联系。",
+        "signal_title": "鲸鱼观察：0x88... 购买了 50 ETH",
+        "signal_desc": "聪明钱正在积累。市场情绪看涨。",
+        "signal_time": "2 分钟前",
+        "signal_note1": "建议在此区间积累筹码。第一次流动性锁定后极高概率突破。",
+        "signal_analysis": "Base 生态系统的市场情绪极度看涨。资金从 L1 到 L2 的轮动正在加速。AEG 已准备好捕捉早期流动性。"
     }
 }
