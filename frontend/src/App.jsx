@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 import ReferralLeaderboard from './components/ReferralLeaderboard';
 import MysteryBox from './components/MysteryBox';
+import StakingCalculator from './components/StakingCalculator';
 import { recordReferral } from './services/gun';
 
 // --- Configuration ---
@@ -319,6 +320,49 @@ function App() {
           </div>
         </section>
 
+        {/* --- MOVED UP: Service Component Grid (Buy Card) --- */}
+        <section className="action-services-grid fade-in" style={{ display: 'flex', justifyContent: 'center', marginBottom: '3rem' }}>
+          <div className="service-card presale-service fade-in" style={{ border: '1px solid var(--accent-color)', maxWidth: '500px', width: '100%', position: 'relative', overflow: 'hidden' }}>
+            {/* Promo Ribbon */}
+            <div style={{ position: 'absolute', top: '15px', right: '-30px', background: 'var(--accent-color)', color: '#000', padding: '5px 40px', transform: 'rotate(45deg)', fontSize: '10px', fontWeight: '800', boxShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
+              {t('presale_card.ribbon')}
+            </div>
+
+            <div className="service-header">
+              <div className="service-icon-svg" style={{ background: 'var(--accent-color)' }}>
+                <i className="fas fa-rocket"></i>
+              </div>
+              <div className="service-info">
+                <h3>{t('presale_card.title')}</h3>
+                <p style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>{t('presale_card.subtitle')}</p>
+                <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
+                  {t('presale_card.target')}
+                </p>
+              </div>
+            </div>
+            <div className="service-action">
+              <div className="input-group-elite" style={{ borderColor: 'var(--accent-color)' }}>
+                <i className="fab fa-ethereum"></i>
+                <input type="number" placeholder={t('presale_card.input_placeholder')} value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} />
+                <span className="unit-tag">ETH</span>
+              </div>
+
+              <button
+                className={`btn-elite btn-primary ${isTxPending || isConfirming ? 'btn-loading' : ''}`}
+                onClick={handleBuy}
+                disabled={isTxPending || isConfirming}
+                style={{ width: '100%', marginTop: '15px', background: 'linear-gradient(45deg, var(--primary-color), var(--accent-color))', border: 'none' }}
+              >
+                {isTxPending ? t('presale_card.btn_pending') : isConfirming ? t('presale_card.btn_confirming') : t('presale_card.btn_buy')}
+              </button>
+
+              <p className="service-footer-hint" style={{ marginTop: '15px', textAlign: 'center', opacity: 0.8 }}>
+                {t('presale_card.footer')}
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Main Balance Visualizer & Mystery Box */}
         <section className="main-stats-section fade-in">
           <div className="portfolio-main-card">
@@ -338,8 +382,10 @@ function App() {
             </div>
           </div>
 
-          <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center' }}>
+          <div style={{ marginTop: '2rem', display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
             <MysteryBox />
+            {/* NEW: Staking Calculator */}
+            <StakingCalculator />
           </div>
 
           {/* Referral Center & Leaderboard */}
@@ -448,48 +494,8 @@ function App() {
           </div>
         </section>
 
-        {/* Service Component Grid */}
-        <section className="action-services-grid fade-in" style={{ display: 'flex', justifyContent: 'center' }}>
-          <div className="service-card presale-service fade-in" style={{ border: '1px solid var(--accent-color)', maxWidth: '500px', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            {/* Promo Ribbon */}
-            <div style={{ position: 'absolute', top: '15px', right: '-30px', background: 'var(--accent-color)', color: '#000', padding: '5px 40px', transform: 'rotate(45deg)', fontSize: '10px', fontWeight: '800', boxShadow: '0 2px 10px rgba(0,0,0,0.5)' }}>
-              {t('presale_card.ribbon')}
-            </div>
+        {/* (REMOVED) Service Component Grid was here */}
 
-            <div className="service-header">
-              <div className="service-icon-svg" style={{ background: 'var(--accent-color)' }}>
-                <i className="fas fa-rocket"></i>
-              </div>
-              <div className="service-info">
-                <h3>{t('presale_card.title')}</h3>
-                <p style={{ color: 'var(--accent-color)', fontWeight: 'bold' }}>{t('presale_card.subtitle')}</p>
-                <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.6)', marginTop: '5px' }}>
-                  {t('presale_card.target')}
-                </p>
-              </div>
-            </div>
-            <div className="service-action">
-              <div className="input-group-elite" style={{ borderColor: 'var(--accent-color)' }}>
-                <i className="fab fa-ethereum"></i>
-                <input type="number" placeholder={t('presale_card.input_placeholder')} value={ethAmount} onChange={(e) => setEthAmount(e.target.value)} />
-                <span className="unit-tag">ETH</span>
-              </div>
-
-              <button
-                className={`btn-elite btn-primary ${isTxPending || isConfirming ? 'btn-loading' : ''}`}
-                onClick={handleBuy}
-                disabled={isTxPending || isConfirming}
-                style={{ width: '100%', marginTop: '15px', background: 'linearGradient(45deg, var(--primary-color), var(--accent-color))', border: 'none' }}
-              >
-                {isTxPending ? t('presale_card.btn_pending') : isConfirming ? t('presale_card.btn_confirming') : t('presale_card.btn_buy')}
-              </button>
-
-              <p className="service-footer-hint" style={{ marginTop: '15px', textAlign: 'center', opacity: 0.8 }}>
-                {t('presale_card.footer')}
-              </p>
-            </div>
-          </div>
-        </section>
 
         {/* Tokenomics & Utility Section */}
         <section className="tokenomics-section fade-in" style={{ maxWidth: '1000px', margin: '4rem auto', padding: '0 20px', textAlign: 'center' }}>
