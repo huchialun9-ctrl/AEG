@@ -15,87 +15,9 @@ const TOKEN_ABI = [
 ];
 
 // --- Components ---
-const CountdownTimer = () => {
-  const [time, setTime] = useState({ h: 23, m: 59, s: 59 });
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTime(prev => {
-        if (prev.s > 0) return { ...prev, s: prev.s - 1 };
-        if (prev.m > 0) return { ...prev, m: prev.m - 1, s: 59 };
-        if (prev.h > 0) return { ...prev, h: prev.h - 1, m: 59, s: 59 };
-        return prev;
-      });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
-  return (
-    <div style={{ textAlign: 'center', margin: '20px 0', padding: '15px', background: 'rgba(255, 77, 77, 0.1)', border: '1px solid #ff4d4d', borderRadius: '12px', animation: 'pulse 2s infinite' }}>
-      <div style={{ fontSize: '0.9rem', color: '#ff4d4d', marginBottom: '5px', fontWeight: 'bold' }}>⚡ PRICE INCREASE IN</div>
-      <div style={{ fontSize: '1.5rem', fontFamily: 'monospace', fontWeight: 'bold', color: '#fff' }}>
-        {String(time.h).padStart(2, '0')}h : {String(time.m).padStart(2, '0')}m : {String(time.s).padStart(2, '0')}s
-      </div>
-    </div>
-  );
-};
 
-const LiveTicker = () => {
-  const [notification, setNotification] = useState(null);
-  const [visible, setVisible] = useState(false);
-
-  const generateNotification = () => {
-    const addr = "0x" + Array(4).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join("") + "..." + Array(4).fill(0).map(() => Math.floor(Math.random() * 16).toString(16)).join("");
-    const amount = (Math.random() * 2 + 0.1).toFixed(2);
-    return { addr, amount };
-  };
-
-  useEffect(() => {
-    let timeoutId;
-    const loop = () => {
-      const delay = Math.random() * 5000 + 3000;
-      timeoutId = setTimeout(() => {
-        setNotification(generateNotification());
-        setVisible(true);
-        setTimeout(() => setVisible(false), 4000);
-        loop();
-      }, delay);
-    };
-    loop();
-    return () => clearTimeout(timeoutId);
-  }, []);
-
-  if (!notification) return null;
-
-  return (
-    <div style={{
-      position: 'fixed',
-      bottom: '20px',
-      left: '20px',
-      background: 'rgba(13, 13, 13, 0.9)',
-      border: '1px solid var(--accent-color)',
-      borderRadius: '8px',
-      padding: '12px 20px',
-      display: 'flex',
-      alignItems: 'center',
-      gap: '12px',
-      zIndex: 9999,
-      transform: visible ? 'translateY(0)' : 'translateY(100px)',
-      opacity: visible ? 1 : 0,
-      transition: 'all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-    }}>
-      <div style={{ background: 'rgba(0, 211, 149, 0.2)', color: 'var(--accent-color)', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <i className="fas fa-bolt"></i>
-      </div>
-      <div>
-        <div style={{ fontSize: '0.8rem', color: '#888' }}>Someone just bought</div>
-        <div style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#fff' }}>
-          {notification.amount} ETH <span style={{ color: 'var(--accent-color)' }}>(${(notification.amount * 3200).toFixed(0)})</span>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // ... (existing App component)
 
@@ -171,7 +93,7 @@ function App() {
           border: '1px solid #444',
         },
       }} />
-      <LiveTicker />
+
 
       {/* Developer Modal */}
       {
@@ -391,9 +313,7 @@ function App() {
               EARLY BIRD
             </div>
 
-            <div style={{ padding: '0 20px' }}>
-              <CountdownTimer />
-            </div>
+
 
             <div className="service-header">
               <div className="service-icon-svg" style={{ background: 'var(--accent-color)' }}>
